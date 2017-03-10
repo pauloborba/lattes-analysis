@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -15,21 +16,28 @@ public class Curriculo {
 	@Id
 	private Long id;
 	
+	@Column
 	private String name;
 	
+	@Column
 	private int countConcludedOrientations;
 	
+	@Column
 	private int countOnGoingOrientations;
 	
 	@OneToMany(cascade=CascadeType.ALL)
 	private Set<Publication> publications;
 	
+	@Column
 	private ArrayList<Orientation> concludedOriantations;
 	
+	@Column
 	private ArrayList<Orientation> onGoingOriantations;
 	
+	@Column
 	private ArrayList<TechinicalProduction> techinicalProduction;
 	
+	@Column
 	private Date lastUpdate;
 	
 	public Curriculo() {}

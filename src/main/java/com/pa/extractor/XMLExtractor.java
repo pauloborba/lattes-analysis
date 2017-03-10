@@ -131,7 +131,7 @@ public class XMLExtractor {
 			Node node = nodeList.item(i);
 
 			if (node instanceof Element) {
-				//System.out.println(node.getNodeName());
+				// System.out.println(node.getNodeName());
 				if (node.getNodeName().equals("SOFTWARE")) {
 					NodeList events = node.getChildNodes();
 
@@ -164,13 +164,13 @@ public class XMLExtractor {
 		NodeList nodeList = dataNode.getChildNodes();
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Node node = nodeList.item(i);
-			//System.out.println(node.getNodeName());
+			// System.out.println(node.getNodeName());
 			NodeList filhosDeIde2 = node.getChildNodes();
 			for (int j = 0; j < filhosDeIde2.getLength(); j++) {
 				Node node2 = filhosDeIde2.item(j);
 				Node basicDataEvent = node2.getChildNodes().item(0);
 				if (basicDataEvent != null) {
-					//System.out.println(basicDataEvent.getNodeName());
+					// System.out.println(basicDataEvent.getNodeName());
 					if (basicDataEvent.getNodeName().equals("DADOS-BASICOS-DE-ORIENTACOES-CONCLUIDAS-PARA-MESTRADO")) {
 						extractBasicDataOrientations("TITULO", orientations, basicDataEvent,
 								OrientationType.ORIENTACOES_CONCLUIDAS_PARA_MESTRADO);
@@ -223,22 +223,26 @@ public class XMLExtractor {
 						// Evento (Conferência)
 						Node event = events.item(j);
 						Node basicDataEvent = event.getChildNodes().item(0);
+						if (basicDataEvent != null) {
+							if (basicDataEvent.getNodeName().equals("DADOS-BASICOS-DO-TRABALHO")) {
+								Node eventTitle = basicDataEvent.getAttributes().getNamedItem("TITULO-DO-TRABALHO");
+								Node eventYear = basicDataEvent.getAttributes().getNamedItem("ANO-DO-TRABALHO");
+								Node eventLanguage = basicDataEvent.getAttributes().getNamedItem("IDIOMA");
 
-						if (basicDataEvent.getNodeName().equals("DADOS-BASICOS-DO-TRABALHO")) {
-							Node eventTitle = basicDataEvent.getAttributes().getNamedItem("TITULO-DO-TRABALHO");
-							Node eventYear = basicDataEvent.getAttributes().getNamedItem("ANO-DO-TRABALHO");
-							Node eventLanguage = basicDataEvent.getAttributes().getNamedItem("IDIOMA");
+								if (eventTitle != null && eventYear != null) {
+									PublicationType type = getPublicationType(event,
+											EnumPublicationLocalType.CONFERENCE);
+									Publication publication = new Publication(eventTitle.getNodeValue(),
+											Integer.valueOf(eventYear.getNodeValue()), type);
 
-							if (eventTitle != null && eventYear != null) {
-								PublicationType type = getPublicationType(event, EnumPublicationLocalType.CONFERENCE);
-								Publication publication = new Publication(eventTitle.getNodeValue(),
-										Integer.valueOf(eventYear.getNodeValue()), type);
+									// Update objects if the publication already
+									// exists
+									publication = getRealPublication(publication);
 
-								// Update objects if the publication already
-								// exists
-								publication = getRealPublication(publication);
-
-								publications.add(publication);
+									if (publication.getId() == null) {
+										publications.add(publication);
+									}
+								}
 							}
 						}
 					}
@@ -249,21 +253,26 @@ public class XMLExtractor {
 						// Artigo (Periodico ou Revista)
 						Node article = articles.item(j);
 						Node basicDataArticle = article.getChildNodes().item(0);
+						if (basicDataArticle != null) {
+							if (basicDataArticle.getNodeName().equals("DADOS-BASICOS-DO-ARTIGO")) {
+								Node articleTitle = basicDataArticle.getAttributes().getNamedItem("TITULO-DO-ARTIGO");
+								Node articleYear = basicDataArticle.getAttributes().getNamedItem("ANO-DO-ARTIGO");
+								Node eventLanguage = basicDataArticle.getAttributes().getNamedItem("IDIOMA");
 
-						if (basicDataArticle.getNodeName().equals("DADOS-BASICOS-DO-ARTIGO")) {
-							Node articleTitle = basicDataArticle.getAttributes().getNamedItem("TITULO-DO-ARTIGO");
-							Node articleYear = basicDataArticle.getAttributes().getNamedItem("ANO-DO-ARTIGO");
-							Node eventLanguage = basicDataArticle.getAttributes().getNamedItem("IDIOMA");
+								if (articleTitle != null && articleYear != null) {
+									PublicationType type = getPublicationType(article,
+											EnumPublicationLocalType.PERIODIC);
+									Publication publication = new Publication(articleTitle.getNodeValue(),
+											Integer.valueOf(articleYear.getNodeValue()), type);
 
-							if (articleTitle != null && articleYear != null) {
-								PublicationType type = getPublicationType(article, EnumPublicationLocalType.PERIODIC);
-								Publication publication = new Publication(articleTitle.getNodeValue(),
-										Integer.valueOf(articleYear.getNodeValue()), type);
-
-								// Update objects if the publication already exists
-								publication = getRealPublication(publication);
-
-								publications.add(publication);
+									// Update objects if the publication already
+									// exists
+									publication = getRealPublication(publication);
+									
+									if (publication.getId() == null) {
+										publications.add(publication);
+									}
+								}
 							}
 						}
 					}
@@ -275,7 +284,7 @@ public class XMLExtractor {
 						Node node1 = nodeList1.item(i1);
 
 						if (node1 instanceof Element) {
-							//System.out.println(node1.getNodeName());
+							// System.out.println(node1.getNodeName());
 							if (node1.getNodeName().equals("LIVROS-PUBLICADOS-OU-ORGANIZADOS")) {
 								NodeList events = node1.getChildNodes();
 
@@ -287,7 +296,7 @@ public class XMLExtractor {
 										Node node2 = nodeList2.item(i2);
 
 										if (node2 instanceof Element) {
-											//System.out.println(node2.getNodeName());
+											// System.out.println(node2.getNodeName());
 											if (node2 != null) {
 												if (node2.getNodeName().equals("DADOS-BASICOS-DO-LIVRO")) {
 													Node softwareTitle = node2.getAttributes()
@@ -297,18 +306,18 @@ public class XMLExtractor {
 															.getNamedItem("IDIOMA");
 
 													if (softwareTitle != null) {
-														Publication publication = new Publication(softwareTitle.getNodeValue(),
+														Publication publication = new Publication(
+																softwareTitle.getNodeValue(),
 																Integer.valueOf(softwareYear.getNodeValue()), null);
-														// publication = getRealPublication(publication);
-														
+														// publication =
+														// getRealPublication(publication);
+
 														publications.add(publication);
 													}
 												}
 											}
-
 										}
 									}
-
 								}
 							}
 						}
@@ -321,8 +330,15 @@ public class XMLExtractor {
 	}
 
 	private Publication getRealPublication(Publication publication) {
-		
-
+		List<Publication> databasePublications = DatabaseFacade.getInstance().listAllPublications(publication);
+		if (!databasePublications.isEmpty()) {
+			for (Publication basePublication : databasePublications) {
+				if (basePublication.getPublicationType().equals(publication.getPublicationType())
+						&& basePublication.getTitle().equals(publication.getTitle())) {
+					publication = basePublication;
+				}
+			}
+		}
 		return publication;
 	}
 
@@ -370,7 +386,7 @@ public class XMLExtractor {
 		NodeList nodeList = mainNode.getChildNodes();
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Node node = nodeList.item(i);
-			
+
 			NodeList filhosDeIde2 = node.getChildNodes();
 			for (int j = 0; j < filhosDeIde2.getLength(); j++) {
 				Node node2 = filhosDeIde2.item(j);
