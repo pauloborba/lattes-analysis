@@ -32,8 +32,8 @@ public class PersistTest {
 		
 		Curriculo lattes = new Curriculo();
 		lattes.setLastUpdate(new Date());
-		lattes.setConcludedOrientations(5);
-		lattes.setOnGoingOrientations(5);
+		lattes.setCountConcludedOrientations(5);
+		lattes.setCountOnGoingOrientations(5);
 		lattes.setName("ABC xxxxx");
 		lattes.setId(27l);
 		

@@ -28,31 +28,10 @@ public class TechinicalProduction {
 	private String ano;
 	
 	@Column
-	private String paisDoEvento;
-	
-	@Column
 	private String idioma;
 	
 	@Column
-	private String meioDeDivulgavao;
-	
-	@Column
-	private String homePage;
-	
-	@Column
 	private String nivel;
-	
-	@Column
-	private String flagRelevancia;
-	
-	@Column
-	private String doi;
-	
-	@Column
-	private String tituloIngles;
-	
-	@Column
-	private String flagDivulgacaoCientifica;
 	
 	@Column
 	private String finalidade;
@@ -66,33 +45,6 @@ public class TechinicalProduction {
 	@Column
 	private String disponibilidade;
 	
-	@Column
-	private String instituicaoFinanaciadora;
-	
-	@Column
-	private String finalidadeIngles;
-	
-	@Column
-	private String participacaoDoAutores;
-	
-	@Column
-	private String instituicaoPromotora;
-	
-	@Column
-	private String local;
-	
-	@Column
-	private String cidade;
-	
-	@Column
-	private String duracao;
-	
-	@Column
-	private String unidade;
-	
-	@Column
-	private String unidadeIngles;
-	
 	@OneToMany(cascade=CascadeType.ALL)
 	private ArrayList<Author> autores;
 	
@@ -105,69 +57,19 @@ public class TechinicalProduction {
 	@OneToMany(cascade=CascadeType.ALL)
 	private ArrayList<ActivitySectors> setoresDeAtividade;
 
-	
+	public TechinicalProduction(String titulo, String ano, String idioma) {
+		super();
+		this.titulo = titulo;
+		this.ano = ano;
+		this.idioma = idioma;
+	}
+
 	public String getTipo() {
 		return tipo;
 	}
 
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
-	}
-
-	public String getParticipacaoDoAutores() {
-		return participacaoDoAutores;
-	}
-
-	public void setParticipacaoDoAutores(String participacaoDoAutores) {
-		this.participacaoDoAutores = participacaoDoAutores;
-	}
-
-	public String getInstituicaoPromotora() {
-		return instituicaoPromotora;
-	}
-
-	public void setInstituicaoPromotora(String instituicaoPromotora) {
-		this.instituicaoPromotora = instituicaoPromotora;
-	}
-
-	public String getLocal() {
-		return local;
-	}
-
-	public void setLocal(String local) {
-		this.local = local;
-	}
-
-	public String getCidade() {
-		return cidade;
-	}
-
-	public void setCidade(String cidade) {
-		this.cidade = cidade;
-	}
-
-	public String getDuracao() {
-		return duracao;
-	}
-
-	public void setDuracao(String duracao) {
-		this.duracao = duracao;
-	}
-
-	public String getUnidade() {
-		return unidade;
-	}
-
-	public void setUnidade(String unidade) {
-		this.unidade = unidade;
-	}
-
-	public String getUnidadeIngles() {
-		return unidadeIngles;
-	}
-
-	public void setUnidadeIngles(String unidadeIngles) {
-		this.unidadeIngles = unidadeIngles;
 	}
 
 	public void setId(Long id) {
@@ -198,13 +100,6 @@ public class TechinicalProduction {
 		this.ano = ano;
 	}
 
-	public String getPaisDoEvento() {
-		return paisDoEvento;
-	}
-
-	public void setPaisDoEvento(String paisDoEvento) {
-		this.paisDoEvento = paisDoEvento;
-	}
 
 	public String getIdioma() {
 		return idioma;
@@ -212,54 +107,6 @@ public class TechinicalProduction {
 
 	public void setIdioma(String idioma) {
 		this.idioma = idioma;
-	}
-
-	public String getMeioDeDivulgavao() {
-		return meioDeDivulgavao;
-	}
-
-	public void setMeioDeDivulgavao(String meioDeDivulgavao) {
-		this.meioDeDivulgavao = meioDeDivulgavao;
-	}
-
-	public String getHomePage() {
-		return homePage;
-	}
-
-	public void setHomePage(String homePage) {
-		this.homePage = homePage;
-	}
-
-	public String getFlagRelevancia() {
-		return flagRelevancia;
-	}
-
-	public void setFlagRelevancia(String flagRelevancia) {
-		this.flagRelevancia = flagRelevancia;
-	}
-
-	public String getDoi() {
-		return doi;
-	}
-
-	public void setDoi(String doi) {
-		this.doi = doi;
-	}
-
-	public String getTituloIngles() {
-		return tituloIngles;
-	}
-
-	public void setTituloIngles(String tituloIngles) {
-		this.tituloIngles = tituloIngles;
-	}
-
-	public String getFlagDivulgacaoCientifica() {
-		return flagDivulgacaoCientifica;
-	}
-
-	public void setFlagDivulgacaoCientifica(String flagDivulgacaoCientifica) {
-		this.flagDivulgacaoCientifica = flagDivulgacaoCientifica;
 	}
 
 	public String getFinalidade() {
@@ -294,21 +141,6 @@ public class TechinicalProduction {
 		this.disponibilidade = disponibilidade;
 	}
 
-	public String getInstituicaoFinanaciadora() {
-		return instituicaoFinanaciadora;
-	}
-
-	public void setInstituicaoFinanaciadora(String instituicaoFinanaciadora) {
-		this.instituicaoFinanaciadora = instituicaoFinanaciadora;
-	}
-
-	public String getFinalidadeIngles() {
-		return finalidadeIngles;
-	}
-
-	public void setFinalidadeIngles(String finalidadeIngles) {
-		this.finalidadeIngles = finalidadeIngles;
-	}
 
 	public ArrayList<Author> getAutores() {
 		return autores;

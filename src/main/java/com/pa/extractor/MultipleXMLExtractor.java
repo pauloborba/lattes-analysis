@@ -35,8 +35,8 @@ public class MultipleXMLExtractor {
 				if (overwrite) {
 					databaseCurriculo.setName(curriculo.getName());
 					databaseCurriculo.setLastUpdate(curriculo.getLastUpdate());
-					databaseCurriculo.setConcludedOrientations(curriculo.getConcludedOrientations());
-					databaseCurriculo.setOnGoingOrientations(curriculo.getOnGoingOrientations());
+					databaseCurriculo.setCountConcludedOrientations(curriculo.getCountConcludedOrientations());
+					databaseCurriculo.setCountOnGoingOrientations(curriculo.getCountOnGoingOrientations());
 
 					databaseCurriculo.getPublications().clear();
 					databaseCurriculo.getPublications().addAll(curriculo.getPublications());

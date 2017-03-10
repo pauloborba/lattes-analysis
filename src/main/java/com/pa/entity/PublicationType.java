@@ -15,6 +15,7 @@ public class PublicationType {
 	private Long identifier;
 	
 	private String name;
+	
 	private EnumPublicationLocalType type;
 	
 	public PublicationType() {}

@@ -105,12 +105,12 @@ public class XMLExtractorTest {
 	
 	@Test
 	public void whenExtractXMLThenConcludedCurriculoOrientationShouldBeCorrect() {
-		assertEquals(42, curriculo.getConcludedOrientations());
+		assertEquals(42, curriculo.getCountConcludedOrientations());
 	}
 	
 	@Test
 	public void whenExtractXMLThenOnGoingCurriculoOrientationShouldBeCorrect() {
-		assertEquals(9, curriculo.getOnGoingOrientations());
+		assertEquals(9, curriculo.getCountOnGoingOrientations());
 	}
 	
 	/*

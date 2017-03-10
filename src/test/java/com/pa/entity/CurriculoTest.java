@@ -36,7 +36,7 @@ public class CurriculoTest {
 	
 	@Test
 	public void whenCreateCurriculoThenOrientationsShouldBeZero() {
-		assertEquals(0, curriculo.getConcludedOrientations());
+		assertEquals(0, curriculo.getCountConcludedOrientations());
 	}
 	
 	@Test

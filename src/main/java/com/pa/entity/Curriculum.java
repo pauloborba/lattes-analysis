@@ -1,14 +1,17 @@
 package com.pa.entity;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+//@Entity
 public class Curriculum {
 	
 	@Id
@@ -45,6 +48,9 @@ public class Curriculum {
 	@Column
 	private String paisDeNacionalidade;
 	
+	@Column
+	private Date lastUpdate;
+	
 	@OneToMany(cascade=CascadeType.ALL)
 	private ArrayList<Orientation> orientations;
 	
@@ -61,6 +67,18 @@ public class Curriculum {
 	private ArrayList<TechinicalProduction> techinicalProductions;
 	
 	
+	public Date getLastUpdate() {
+		return lastUpdate;
+	}
+
+	public void setLastUpdate(Date lastUpdate) {
+		this.lastUpdate = lastUpdate;
+	}
+
+	public void setBooksAndChaptersBibliographicProduction(ArrayList<BookChapter> booksAndChaptersBibliographicProduction) {
+		this.booksAndChaptersBibliographicProduction = booksAndChaptersBibliographicProduction;
+	}
+
 	public ArrayList<TechinicalProduction> getTechinicalProductions() {
 		return techinicalProductions;
 	}

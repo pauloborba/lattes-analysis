@@ -63,7 +63,7 @@ public class CurriculoAnalyzerTest {
 	@Test
 	public void analyseCurriculoConcludedOrientationsTest() {
 		Curriculo c = new Curriculo("Nome", new Date());
-		c.setConcludedOrientations(3);
+		c.setCountConcludedOrientations(3);
 		
 		CurriculoResult cR = CurriculoAnalyzer.getInstance().analyzerCurriculo(c, qualisDataMap);
 		int concludedOrientation = cR.getConcludedOrientations();
@@ -74,7 +74,7 @@ public class CurriculoAnalyzerTest {
 	@Test
 	public void analyseCurriculoOnGoingOrientationsTest() {
 		Curriculo c = new Curriculo("Nome", new Date());
-		c.setOnGoingOrientations(2);
+		c.setCountOnGoingOrientations(2);
 		
 		CurriculoResult cR = CurriculoAnalyzer.getInstance().analyzerCurriculo(c, qualisDataMap);
 		int onGoingOrientations = cR.getOnGoingOrientations();

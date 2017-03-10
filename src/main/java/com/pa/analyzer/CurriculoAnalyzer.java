@@ -32,8 +32,8 @@ public class CurriculoAnalyzer {
 
 			associateAllPublicationWithQualis(curriculo, cR, qualisDataMap);
 
-			cR.setConcludedOrientations(curriculo.getConcludedOrientations());
-			cR.setOnGoingOrientations(curriculo.getOnGoingOrientations());
+			cR.setConcludedOrientations(curriculo.getCountConcludedOrientations());
+			cR.setOnGoingOrientations(curriculo.getCountOnGoingOrientations());
 		}
 		
 		return cR;

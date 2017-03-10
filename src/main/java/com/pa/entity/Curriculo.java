@@ -1,5 +1,6 @@
 package com.pa.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -15,11 +16,19 @@ public class Curriculo {
 	private Long id;
 	
 	private String name;
-	private int concludedOrientations;
-	private int onGoingOrientations;
+	
+	private int countConcludedOrientations;
+	
+	private int countOnGoingOrientations;
 	
 	@OneToMany(cascade=CascadeType.ALL)
 	private Set<Publication> publications;
+	
+	private ArrayList<Orientation> concludedOriantations;
+	
+	private ArrayList<Orientation> onGoingOriantations;
+	
+	private ArrayList<TechinicalProduction> techinicalProduction;
 	
 	private Date lastUpdate;
 	
@@ -28,10 +37,41 @@ public class Curriculo {
 	public Curriculo(String name, Date lastUpdate) {
 		this.name = name;
 		this.lastUpdate = lastUpdate;
-		
 		this.publications = new HashSet<Publication>();
 	}
 	
+	public Integer getCountTechinicalProduction(){
+		return this.techinicalProduction.size();
+	}
+	
+	public Integer getCountPublications(){
+		return this.publications.size();
+	}
+	
+	public ArrayList<TechinicalProduction> getTechinicalProduction() {
+		return techinicalProduction;
+	}
+
+	public void setTechinicalProduction(ArrayList<TechinicalProduction> techinicalProduction) {
+		this.techinicalProduction = techinicalProduction;
+	}
+
+	public ArrayList<Orientation> getConcludedOriantations() {
+		return concludedOriantations;
+	}
+
+	public void setConcludedOriantations(ArrayList<Orientation> concludedOriantations) {
+		this.concludedOriantations = concludedOriantations;
+	}
+
+	public ArrayList<Orientation> getOnGoingOriantations() {
+		return onGoingOriantations;
+	}
+
+	public void setOnGoingOriantations(ArrayList<Orientation> onGoingOriantations) {
+		this.onGoingOriantations = onGoingOriantations;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -40,20 +80,21 @@ public class Curriculo {
 		this.name = name;
 	}
 	
-	public int getConcludedOrientations() {
-		return concludedOrientations;
-	}
 	
-	public void setConcludedOrientations(int orientations) {
-		this.concludedOrientations = orientations;
-	}
-	
-	public int getOnGoingOrientations() {
-		return onGoingOrientations;
+	public int getCountConcludedOrientations() {
+		return countConcludedOrientations;
 	}
 
-	public void setOnGoingOrientations(int onGoingOrientations) {
-		this.onGoingOrientations = onGoingOrientations;
+	public void setCountConcludedOrientations(int countConcludedOrientations) {
+		this.countConcludedOrientations = countConcludedOrientations;
+	}
+
+	public int getCountOnGoingOrientations() {
+		return countOnGoingOrientations;
+	}
+
+	public void setCountOnGoingOrientations(int countOnGoingOrientations) {
+		this.countOnGoingOrientations = countOnGoingOrientations;
 	}
 
 	public Set<Publication> getPublications() {

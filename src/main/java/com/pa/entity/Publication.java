@@ -1,6 +1,7 @@
 package com.pa.entity;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -15,12 +16,17 @@ public class Publication {
 	@Id @GeneratedValue
 	private Long id;
 	
+	@Column
 	private String title;
 	
 	@Transient
 	private EnumQualisClassification qualis;
 	
+	@Column
 	private int year;
+	
+	@Column
+	private String idioma;
 	
 	@OneToOne(cascade=CascadeType.PERSIST)
 	private PublicationType publicationType;
@@ -31,6 +37,7 @@ public class Publication {
 		this.title = title;
 		this.year = year;
 		this.publicationType = typePublication;
+		//this.idioma = idioma;
 	}
 	
 	public String getTitle() {
@@ -72,4 +79,13 @@ public class Publication {
 	public void setId(Long id) {
 		this.id = id;
 	}
+
+	public String getIdioma() {
+		return idioma;
+	}
+
+	public void setIdioma(String idioma) {
+		this.idioma = idioma;
+	}
+	
 }
