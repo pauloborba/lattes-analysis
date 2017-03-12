@@ -235,8 +235,6 @@ public class XMLExtractor {
 									Publication publication = new Publication(eventTitle.getNodeValue(),
 											Integer.valueOf(eventYear.getNodeValue()), type);
 
-									// Update objects if the publication already
-									// exists
 									publication = getRealPublication(publication);
 
 									if (publication.getId() == null) {
@@ -265,8 +263,6 @@ public class XMLExtractor {
 									Publication publication = new Publication(articleTitle.getNodeValue(),
 											Integer.valueOf(articleYear.getNodeValue()), type);
 
-									// Update objects if the publication already
-									// exists
 									publication = getRealPublication(publication);
 									
 									if (publication.getId() == null) {
@@ -284,7 +280,6 @@ public class XMLExtractor {
 						Node node1 = nodeList1.item(i1);
 
 						if (node1 instanceof Element) {
-							// System.out.println(node1.getNodeName());
 							if (node1.getNodeName().equals("LIVROS-PUBLICADOS-OU-ORGANIZADOS")) {
 								NodeList events = node1.getChildNodes();
 
@@ -296,7 +291,6 @@ public class XMLExtractor {
 										Node node2 = nodeList2.item(i2);
 
 										if (node2 instanceof Element) {
-											// System.out.println(node2.getNodeName());
 											if (node2 != null) {
 												if (node2.getNodeName().equals("DADOS-BASICOS-DO-LIVRO")) {
 													Node softwareTitle = node2.getAttributes()

@@ -35,6 +35,8 @@ public class LoadQualisBean {
     @PostConstruct
     public void init() {
     	qualisYears = new ArrayList<String>();
+    	qualisYears.add("2017");
+    	qualisYears.add("2016");
     	qualisYears.add("2015");
     	qualisYears.add("2014");
     	qualisYears.add("2013");
