@@ -114,7 +114,7 @@ public class XMLExtractor {
 						int orientations = this.extractQtdOrientations(node, "ORIENTACAO-EM-ANDAMENTO-DE-MESTRADO");
 						orientations += this.extractQtdOrientations(node, "ORIENTACAO-EM-ANDAMENTO-DE-DOUTORADO");
 						curriculo.setCountOnGoingOrientations(orientations);
-						curriculo.setOnGoingOriantations(this.extractOrientations(node));
+						//curriculo.setOnGoingOriantations(this.extractOrientations(node));
 					}
 				}
 			}

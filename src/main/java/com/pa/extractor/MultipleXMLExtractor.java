@@ -7,6 +7,7 @@ import java.util.List;
 import com.pa.database.impl.DatabaseFacade;
 import com.pa.entity.Curriculo;
 import com.pa.entity.Group;
+import com.pa.entity.TechinicalProduction;
 import com.pa.exception.InvalidPatternFileException;
 
 public class MultipleXMLExtractor {
@@ -37,7 +38,9 @@ public class MultipleXMLExtractor {
 					databaseCurriculo.setLastUpdate(curriculo.getLastUpdate());
 					databaseCurriculo.setCountConcludedOrientations(curriculo.getCountConcludedOrientations());
 					databaseCurriculo.setCountOnGoingOrientations(curriculo.getCountOnGoingOrientations());
-
+					databaseCurriculo.setTechinicalProduction((ArrayList<TechinicalProduction>) curriculo.getTechinicalProduction());
+					databaseCurriculo.setConcludedOriantations(curriculo.getConcludedOriantations());
+					
 					databaseCurriculo.getPublications().clear();
 					databaseCurriculo.getPublications().addAll(curriculo.getPublications());
 					

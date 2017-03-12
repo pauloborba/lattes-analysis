@@ -3,13 +3,18 @@ package com.pa.entity;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 public class Curriculo {
@@ -28,14 +33,14 @@ public class Curriculo {
 	@OneToMany(cascade=CascadeType.ALL)
 	private Set<Publication> publications;
 	
-	@Column
-	private ArrayList<Orientation> concludedOriantations;
+	@OneToMany(cascade=CascadeType.ALL)
+	private List<Orientation> concludedOriantations;
 	
 	@Column
 	private ArrayList<Orientation> onGoingOriantations;
 	
-	@Column
-	private ArrayList<TechinicalProduction> techinicalProduction;
+	@OneToMany(cascade=CascadeType.ALL)
+	private List<TechinicalProduction> techinicalProduction;
 	
 	@Column
 	private Date lastUpdate;
@@ -56,7 +61,7 @@ public class Curriculo {
 		return this.publications.size();
 	}
 	
-	public ArrayList<TechinicalProduction> getTechinicalProduction() {
+	public List<TechinicalProduction> getTechinicalProduction() {
 		return techinicalProduction;
 	}
 
@@ -64,15 +69,15 @@ public class Curriculo {
 		this.techinicalProduction = techinicalProduction;
 	}
 
-	public ArrayList<Orientation> getConcludedOriantations() {
+	public List<Orientation> getConcludedOriantations() {
 		return concludedOriantations;
 	}
 
-	public void setConcludedOriantations(ArrayList<Orientation> concludedOriantations) {
+	public void setConcludedOriantations(List<Orientation> concludedOriantations) {
 		this.concludedOriantations = concludedOriantations;
 	}
 
-	public ArrayList<Orientation> getOnGoingOriantations() {
+	public List<Orientation> getOnGoingOriantations() {
 		return onGoingOriantations;
 	}
 

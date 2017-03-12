@@ -22,6 +22,7 @@ import com.pa.database.impl.DatabaseFacade;
 import com.pa.entity.Group;
 import com.pa.entity.Publication;
 import com.pa.entity.QualisData;
+import com.pa.entity.TechinicalProduction;
 import com.pa.util.EnumPublicationLocalType;
 import com.pa.util.EnumQualisClassification;
 
@@ -121,11 +122,48 @@ public class RelatorioBean {
 		if (checkOrientations) {
 			putValuesFromOrientations(mapTypeByNode, gR);
 		}
+		if (checkTechinicalProduction) {
+			putValuesFromTechinicalProduction(mapTypeByNode, groupResult);
+		}
 		
 	}
 	
-	
+	private void putValuesFromTechinicalProduction(Map<String, TreeNode> mapTypeByNode, GroupResult gR) {
+		TreeNode techinicalProduction = null;
 
+		if (!mapTypeByNode.containsKey("techinicalProductions")) {
+			techinicalProduction = new DefaultTreeNode("techinicalProductions", new ComparationVO("Produção tecnica", "-"), root);
+			mapTypeByNode.put("techinicalProductions", techinicalProduction);
+		} else {
+			techinicalProduction = mapTypeByNode.get("techinicalProductions");
+			ComparationVO valueObject = (ComparationVO) techinicalProduction.getData();
+
+			List<String> valueConference = valueObject.getValues();
+			valueConference.add("-");
+		}
+		
+		List<TechinicalProduction> conferencesByQualis = gR.getTechinicalProductions();
+		
+		for (int j = 0; j < conferencesByQualis.size(); j++) {
+			TechinicalProduction tP = conferencesByQualis.get(j);
+			if (tP != null) {
+				String value = tP.toString();
+				if (!mapTypeByNode.containsKey("techinicalProductions")) {
+						TreeNode conferencesQualis = new DefaultTreeNode(
+								"techinicalProductions", new ComparationVO("  -  ",	tP.getTitulo()), techinicalProduction);
+
+						mapTypeByNode.put("techinicalProductions", conferencesQualis);
+				} else {
+					TreeNode periodicsQualis = mapTypeByNode.get("techinicalProductions");
+					ComparationVO valueObject = (ComparationVO) periodicsQualis.getData();
+
+					List<String> valueConference = valueObject.getValues();
+					valueConference.add(value);
+				}
+			}
+		}
+	}
+	
 	private void putPublicationsFromPeriodics(Map<String, TreeNode> mapTypeByNode, GroupResult gR) {
 		TreeNode periodics = null;
 

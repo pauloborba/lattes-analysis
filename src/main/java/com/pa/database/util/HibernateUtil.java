@@ -9,10 +9,12 @@ import org.hibernate.service.ServiceRegistry;
 
 import com.pa.entity.Curriculo;
 import com.pa.entity.Group;
+import com.pa.entity.Orientation;
 import com.pa.entity.Publication;
 import com.pa.entity.PublicationType;
 import com.pa.entity.Qualis;
 import com.pa.entity.QualisData;
+import com.pa.entity.TechinicalProduction;
 
 public class HibernateUtil {
 
@@ -31,6 +33,8 @@ public class HibernateUtil {
 	    metadataSources.addAnnotatedClass(Publication.class);
 	    metadataSources.addAnnotatedClass(Curriculo.class);
 	    metadataSources.addAnnotatedClass(PublicationType.class);
+	    metadataSources.addAnnotatedClass(TechinicalProduction.class);
+	    metadataSources.addAnnotatedClass(Orientation.class);
 	    Metadata metadata = metadataSources.buildMetadata();
 	    
 	    sessionFactory =  metadata.buildSessionFactory();

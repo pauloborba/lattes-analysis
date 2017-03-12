@@ -1,23 +1,36 @@
 package com.pa.analyzer;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.pa.entity.Publication;
+import com.pa.entity.TechinicalProduction;
 import com.pa.util.EnumQualisClassification;
 
 public class CurriculoResult {
 	private Map<EnumQualisClassification, List<Publication>> periodicsByQualis;
 	private Map<EnumQualisClassification, List<Publication>> conferencesByQualis;
+	private List<TechinicalProduction> techinicalProductions;
 	private int concludedOrientations;
 	private int onGoingOrientations;
 	
 	public CurriculoResult() {
 		periodicsByQualis = new HashMap<EnumQualisClassification, List<Publication>>();
 		conferencesByQualis = new HashMap<EnumQualisClassification, List<Publication>>();
+		techinicalProductions = new ArrayList<TechinicalProduction>();
 		concludedOrientations = 0;
 		onGoingOrientations = 0;
+	}
+	
+
+	public List<TechinicalProduction> getTechinicalProductions() {
+		return techinicalProductions;
+	}
+
+	public void setTechinicalProductions(List<TechinicalProduction> techinicalProductions) {
+		this.techinicalProductions = techinicalProductions;
 	}
 
 	public Map<EnumQualisClassification, List<Publication>> getPeriodicsByQualis() {

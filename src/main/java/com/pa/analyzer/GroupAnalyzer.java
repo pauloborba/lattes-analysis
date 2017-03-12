@@ -1,17 +1,13 @@
 package com.pa.analyzer;
 
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 
 import com.pa.comparator.SetCurriculoMetrics;
 import com.pa.comparator.SetCurriculoResult;
 import com.pa.entity.Curriculo;
 import com.pa.entity.Group;
-import com.pa.entity.Publication;
 import com.pa.entity.QualisData;
 import com.pa.util.EnumPublicationLocalType;
-import com.pa.util.EnumQualisClassification;
 
 public class GroupAnalyzer {
 	private static GroupAnalyzer instance = null;

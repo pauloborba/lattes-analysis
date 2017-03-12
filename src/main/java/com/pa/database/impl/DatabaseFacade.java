@@ -10,6 +10,7 @@ import com.pa.entity.Publication;
 import com.pa.entity.PublicationType;
 import com.pa.entity.Qualis;
 import com.pa.entity.QualisData;
+import com.pa.entity.TechinicalProduction;
 import com.pa.util.EnumPublicationLocalType;
 
 
@@ -23,6 +24,7 @@ public class DatabaseFacade {
 	private PublicationTypeDAO pTDAO = new PublicationTypeDAO(PublicationType.class);
 	private QualisDAO qDAO = new QualisDAO(Qualis.class);
 	private QualisDataDAO qdDAO = new QualisDataDAO(QualisData.class);
+	private TechinicalProductionDAO tPDAO = new TechinicalProductionDAO(TechinicalProduction.class);
 	
 	private DatabaseFacade() {}
 	
@@ -32,6 +34,14 @@ public class DatabaseFacade {
 		}
 		
 		return _instance;
+	}
+	
+	public TechinicalProduction saveTechinicalProduction(TechinicalProduction t){
+		return tPDAO.save(t);
+	}
+	
+	public void updateTechinicalProduction(TechinicalProduction t) {
+		tPDAO.update(t);
 	}
 	
 	public Curriculo saveCurriculo(Curriculo c) {
