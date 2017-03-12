@@ -3,6 +3,7 @@ package com.pa.associator;
 import java.util.Map;
 
 import com.pa.entity.Publication;
+import com.pa.entity.PublicationType;
 import com.pa.entity.Qualis;
 import com.pa.entity.QualisData;
 import com.pa.util.EnumPublicationLocalType;
@@ -31,16 +32,20 @@ public class QualisAssociatorService {
 	private EnumQualisClassification getQualisForPublication(Publication publication, Map<EnumPublicationLocalType, QualisData> qualisDataMap) {
 		EnumQualisClassification qualisClassification = EnumQualisClassification.NONE;
 		
-		EnumPublicationLocalType publicationLocalType = publication.getPublicationType().getType();
+		PublicationType publicationType = publication.getPublicationType();
 		
-		if(qualisDataMap != null && qualisDataMap.containsKey(publicationLocalType)) {
-			QualisData qualisData = qualisDataMap.get(publicationLocalType);
+		if (publicationType != null) {
+			EnumPublicationLocalType publicationLocalType = publicationType.getType();
 			
-			if(qualisData != null && qualisData.getQualis() != null && !qualisData.getQualis().isEmpty()) {
-				for (Qualis qualis : qualisData.getQualis()) {
-					if(qualis.getName().equals(publication.getPublicationType().getName())) {
-						qualisClassification = qualis.getClassification();
-						break;
+			if(qualisDataMap != null && qualisDataMap.containsKey(publicationLocalType)) {
+				QualisData qualisData = qualisDataMap.get(publicationLocalType);
+				
+				if(qualisData != null && qualisData.getQualis() != null && !qualisData.getQualis().isEmpty()) {
+					for (Qualis qualis : qualisData.getQualis()) {
+						if(qualis.getName().equals(publication.getPublicationType().getName())) {
+							qualisClassification = qualis.getClassification();
+							break;
+						}
 					}
 				}
 			}

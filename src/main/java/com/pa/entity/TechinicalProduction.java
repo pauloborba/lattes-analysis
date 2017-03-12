@@ -55,10 +55,6 @@ public class TechinicalProduction implements Serializable{
 	@Column
 	private String disponibilidade;
 	
-	@ManyToOne
-	@JoinColumn(name="id_curriculo", referencedColumnName="id")
-	private Curriculo curriculo;
-	
 //	@OneToMany(cascade=CascadeType.ALL)
 //	private ArrayList<Author> autores;
 	

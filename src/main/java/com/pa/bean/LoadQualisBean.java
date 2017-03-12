@@ -56,7 +56,6 @@ public class LoadQualisBean {
     public void uploadQualisFile(FileUploadEvent event) throws IOException {    	
     	QualisExtractor extractor = new QualisExtractor();
     	FacesContext context = FacesContext.getCurrentInstance();
-    	
     	try {
 	    	if(qualisType.equals(EnumPublicationLocalType.PERIODIC.toString())){
 				qualisData = extractor.publicationExtractor(qualisYear, event.getFile().getInputstream(), event.getFile().getFileName());
@@ -67,6 +66,7 @@ public class LoadQualisBean {
 	    	// reset interface values.
 	    	qualisYear = null;
 	    	qualisType = null;
+	    	context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Arquivo carregado com sucesso!", null) );
     	} catch (InvalidPatternFileException e) {
     		context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "O arquivo selecionado é inválido.", null) );
     	}

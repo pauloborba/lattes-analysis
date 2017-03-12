@@ -7,6 +7,7 @@ import com.pa.comparator.SetCurriculoResult;
 import com.pa.entity.Curriculo;
 import com.pa.entity.Group;
 import com.pa.entity.QualisData;
+import com.pa.entity.TechinicalProduction;
 import com.pa.util.EnumPublicationLocalType;
 
 public class GroupAnalyzer {
@@ -31,6 +32,7 @@ public class GroupAnalyzer {
 				
 				groupResult.getConferencesByQualis().putAll(curriculoResult.getConferencesByQualis());
 				groupResult.getPeriodicsByQualis().putAll(curriculoResult.getPeriodicsByQualis());
+				groupResult.setTechinicalProductions(curriculoResult.getTechinicalProductions());
 			}
 		}
 		return groupResult;

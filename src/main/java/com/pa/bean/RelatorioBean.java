@@ -132,7 +132,7 @@ public class RelatorioBean {
 		TreeNode techinicalProduction = null;
 
 		if (!mapTypeByNode.containsKey("techinicalProductions")) {
-			techinicalProduction = new DefaultTreeNode("techinicalProductions", new ComparationVO("Produção tecnica", "-"), root);
+			techinicalProduction = new DefaultTreeNode("techinicalProductions", new ComparationVO("Produção técnica", "-"), root);
 			mapTypeByNode.put("techinicalProductions", techinicalProduction);
 		} else {
 			techinicalProduction = mapTypeByNode.get("techinicalProductions");
@@ -148,9 +148,9 @@ public class RelatorioBean {
 			TechinicalProduction tP = conferencesByQualis.get(j);
 			if (tP != null) {
 				String value = tP.toString();
-				if (!mapTypeByNode.containsKey("techinicalProductions")) {
+				if (mapTypeByNode.containsKey("techinicalProductions")) {
 						TreeNode conferencesQualis = new DefaultTreeNode(
-								"techinicalProductions", new ComparationVO("  -  ",	tP.getTitulo()), techinicalProduction);
+								"techinicalProductions", new ComparationVO("  -  " + tP.getAno(),	tP.getTitulo()), techinicalProduction);
 
 						mapTypeByNode.put("techinicalProductions", conferencesQualis);
 				} else {
