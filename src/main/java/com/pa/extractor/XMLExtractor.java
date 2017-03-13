@@ -22,7 +22,8 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.pa.database.impl.DatabaseFacade;
-import com.pa.entity.BookChapter;
+import com.pa.entity.Book;
+import com.pa.entity.Chapter;
 import com.pa.entity.Curriculo;
 import com.pa.entity.Orientation;
 import com.pa.entity.OrientationType;
@@ -102,6 +103,8 @@ public class XMLExtractor {
 					} else if (node.getNodeName().equals("PRODUCAO-BIBLIOGRAFICA")) {
 						// Publicações
 						curriculo.setPublications(this.extractPublications(node));
+						curriculo.setBooks(this.extractBookPublications(node));
+						curriculo.setChapters(this.extractChapterPublications(node));
 					} else if (node.getNodeName().equals("PRODUCAO-TECNICA")) {
 						// Software
 						curriculo.setTechinicalProduction(this.extractTechinicalProduction(node));
@@ -125,6 +128,52 @@ public class XMLExtractor {
 		return curriculo;
 	}
 
+	private List<Chapter> extractChapterPublications(Node nodeChapter) {
+		ArrayList<Chapter> chapters = new ArrayList<Chapter>();
+
+		NodeList nodeList = nodeChapter.getChildNodes();
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			Node node = nodeList.item(i);
+
+			if (node instanceof Element) {
+				if (node.getNodeName().equals("LIVROS-E-CAPITULOS")) {
+					NodeList events = node.getChildNodes();
+					Node basicDataEvent = events.item(1);
+					if (basicDataEvent != null) {
+						if (basicDataEvent.getNodeName().equals("CAPITULOS-DE-LIVROS-PUBLICADOS")) {
+							extractChapterPublished(chapters, basicDataEvent);
+						}
+					}
+				}
+			}
+		}
+
+		return chapters;
+	}
+
+	private List<Book> extractBookPublications(Node nodeBook) {
+		ArrayList<Book> books = new ArrayList<Book>();
+
+		NodeList nodeList = nodeBook.getChildNodes();
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			Node node = nodeList.item(i);
+
+			if (node instanceof Element) {
+				if (node.getNodeName().equals("LIVROS-E-CAPITULOS")) {
+					NodeList events = node.getChildNodes();
+					Node basicDataEvent = events.item(0);
+					if (basicDataEvent != null) {
+						if (basicDataEvent.getNodeName().equals("LIVROS-PUBLICADOS-OU-ORGANIZADOS")) {
+							extractBookPublished(books, basicDataEvent);
+						}
+					}
+				}
+			}
+		}
+
+		return books;
+	}
+
 	private ArrayList<TechnicalProduction> extractTechinicalProduction(Node nodeProduction) {
 		ArrayList<TechnicalProduction> techinicalProductions = new ArrayList<TechnicalProduction>();
 
@@ -141,7 +190,7 @@ public class XMLExtractor {
 						if (basicDataEvent.getNodeName().equals("DADOS-BASICOS-DO-SOFTWARE")) {
 							Node softwareTitle = basicDataEvent.getAttributes().getNamedItem("TITULO-DO-SOFTWARE");
 							Node softwareYear = basicDataEvent.getAttributes().getNamedItem("ANO");
-							
+
 							if (softwareTitle != null) {
 								TechnicalProduction techinicalProduction = new TechnicalProduction(
 										softwareTitle.getNodeValue(), softwareYear.getNodeValue(), "SOFTWARE");
@@ -214,96 +263,102 @@ public class XMLExtractor {
 
 			if (node instanceof Element) {
 				if (node.getNodeName().equals("TRABALHOS-EM-EVENTOS")) {
-					NodeList events = node.getChildNodes();
+					extractWorksInEvents(publications, node);
+				}
+			}
+		}
 
-					for (int j = 0; j < events.getLength(); j++) {
-						// Evento (Conferência)
-						Node event = events.item(j);
-						Node basicDataEvent = event.getChildNodes().item(0);
+		return publications;
+	}
+
+	private void extractWorksInEvents(Set<Publication> publications, Node node) {
+		NodeList events = node.getChildNodes();
+
+		for (int j = 0; j < events.getLength(); j++) {
+			// Evento (Conferência)
+			Node event = events.item(j);
+			Node basicDataEvent = event.getChildNodes().item(0);
+			if (basicDataEvent != null) {
+				if (basicDataEvent.getNodeName().equals("DADOS-BASICOS-DO-TRABALHO")) {
+					Node eventTitle = basicDataEvent.getAttributes().getNamedItem("TITULO-DO-TRABALHO");
+					Node eventYear = basicDataEvent.getAttributes().getNamedItem("ANO-DO-TRABALHO");
+					Node eventLanguage = basicDataEvent.getAttributes().getNamedItem("IDIOMA");
+
+					if (eventTitle != null && eventYear != null) {
+						PublicationType type = getPublicationType(event, EnumPublicationLocalType.CONFERENCE);
+						Publication publication = new Publication(eventTitle.getNodeValue(),
+								Integer.valueOf(eventYear.getNodeValue()), type);
+
+						publication = getRealPublication(publication);
+
+						if (publication.getId() == null) {
+							publications.add(publication);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	private void extractChapterPublished(ArrayList<Chapter> chapters, Node node) {
+		NodeList nodeListBooks = node.getChildNodes();
+		for (int k = 0; k < nodeListBooks.getLength(); k++) {
+			Node nodeBook = nodeListBooks.item(k);
+
+			if (nodeBook.getNodeName().equals("CAPITULO-DE-LIVRO-PUBLICADO")) {
+				NodeList events = nodeBook.getChildNodes();
+				Node chapterTitle = null, chapterYear = null, chapterBookTitle = null;
+				Node basicDataEvent = events.item(0);
+				Node detailDataEvent = events.item(1);
+				if (basicDataEvent != null) {
+					if (basicDataEvent instanceof Element) {
 						if (basicDataEvent != null) {
-							if (basicDataEvent.getNodeName().equals("DADOS-BASICOS-DO-TRABALHO")) {
-								Node eventTitle = basicDataEvent.getAttributes().getNamedItem("TITULO-DO-TRABALHO");
-								Node eventYear = basicDataEvent.getAttributes().getNamedItem("ANO-DO-TRABALHO");
-								Node eventLanguage = basicDataEvent.getAttributes().getNamedItem("IDIOMA");
+							if (basicDataEvent.getNodeName().equals("DADOS-BASICOS-DO-CAPITULO")) {
+								chapterTitle = basicDataEvent.getAttributes()
+										.getNamedItem("TITULO-DO-CAPITULO-DO-LIVRO");
+								chapterYear = basicDataEvent.getAttributes().getNamedItem("ANO");
+							}
+							if (detailDataEvent.getNodeName().equals("DETALHAMENTO-DO-CAPITULO")) {
+								chapterBookTitle = detailDataEvent.getAttributes().getNamedItem("TITULO-DO-LIVRO");
+								if (chapterTitle != null) {
+									Chapter chapter = new Chapter(chapterTitle.getNodeValue(),
+											chapterYear.getNodeValue(), chapterBookTitle.getNodeValue(), null);
 
-								if (eventTitle != null && eventYear != null) {
-									PublicationType type = getPublicationType(event,
-											EnumPublicationLocalType.CONFERENCE);
-									Publication publication = new Publication(eventTitle.getNodeValue(),
-											Integer.valueOf(eventYear.getNodeValue()), type);
-
-									publication = getRealPublication(publication);
-
-									if (publication.getId() == null) {
-										publications.add(publication);
-									}
+									chapters.add(chapter);
 								}
 							}
 						}
 					}
-				} else if (node.getNodeName().equals("ARTIGOS-PUBLICADOS")) {
-					NodeList articles = node.getChildNodes();
+				}
+			}
+		}
+	}
 
-					for (int j = 0; j < articles.getLength(); j++) {
-						// Artigo (Periodico ou Revista)
-						Node article = articles.item(j);
-						Node basicDataArticle = article.getChildNodes().item(0);
-						if (basicDataArticle != null) {
-							if (basicDataArticle.getNodeName().equals("DADOS-BASICOS-DO-ARTIGO")) {
-								Node articleTitle = basicDataArticle.getAttributes().getNamedItem("TITULO-DO-ARTIGO");
-								Node articleYear = basicDataArticle.getAttributes().getNamedItem("ANO-DO-ARTIGO");
-								Node eventLanguage = basicDataArticle.getAttributes().getNamedItem("IDIOMA");
+	private void extractBookPublished(ArrayList<Book> books, Node node) {
+		NodeList nodeListBooks = node.getChildNodes();
+		for (int k = 0; k < nodeListBooks.getLength(); k++) {
+			Node nodeBook = nodeListBooks.item(k);
 
-								if (articleTitle != null && articleYear != null) {
-									PublicationType type = getPublicationType(article,
-											EnumPublicationLocalType.PERIODIC);
-									Publication publication = new Publication(articleTitle.getNodeValue(),
-											Integer.valueOf(articleYear.getNodeValue()), type);
-
-									publication = getRealPublication(publication);
-									
-									if (publication.getId() == null) {
-										publications.add(publication);
-									}
+			if (nodeBook instanceof Element) {
+				if (nodeBook.getNodeName().equals("LIVRO-PUBLICADO-OU-ORGANIZADO")) {
+					NodeList events = nodeBook.getChildNodes();
+					Node bookTitle = null, bookYear = null, bookPublishingCompany = null;
+					Node basicDataEvent = events.item(0);
+					Node detailDataEvent = events.item(1);
+					if (basicDataEvent != null) {
+						if (basicDataEvent instanceof Element) {
+							if (basicDataEvent != null) {
+								if (basicDataEvent.getNodeName().equals("DADOS-BASICOS-DO-LIVRO")) {
+									bookTitle = basicDataEvent.getAttributes().getNamedItem("TITULO-DO-LIVRO");
+									bookYear = basicDataEvent.getAttributes().getNamedItem("ANO");
 								}
-							}
-						}
-					}
-				} else if (node.getNodeName().equals("LIVROS-E-CAPITULOS")) {
-					ArrayList<BookChapter> books = new ArrayList<BookChapter>();
-
-					NodeList nodeListBooks = node.getChildNodes();
-					for (int k = 0; k < nodeListBooks.getLength(); k++) {
-						Node nodeBook = nodeListBooks.item(k);
-
-						if (nodeBook instanceof Element) {
-							if (nodeBook.getNodeName().equals("LIVROS-PUBLICADOS-OU-ORGANIZADOS")) {
-								NodeList events = nodeBook.getChildNodes();
-								Node basicDataEvent = events.item(0);
-								if (basicDataEvent != null) {
-									NodeList childNodesListBooks = basicDataEvent.getChildNodes();
-									for (int m = 0; m < childNodesListBooks.getLength(); m++) {
-										Node childNode = childNodesListBooks.item(m);
-										if (childNode instanceof Element) {
-											if (childNode != null) {
-												if (childNode.getNodeName().equals("DADOS-BASICOS-DO-LIVRO")) {
-													Node bookTitle = childNode.getAttributes()
-															.getNamedItem("TITULO-DO-LIVRO");
-													Node bookYear = childNode.getAttributes().getNamedItem("ANO");
-
-													if (bookTitle != null) {
-														PublicationType type = getPublicationType(basicDataEvent,
-																EnumPublicationLocalType.CONFERENCE);
-														
-														Publication publication = new Publication(
-																bookTitle.getNodeValue(),
-																Integer.valueOf(bookYear.getNodeValue()), type);
-
-														publications.add(publication);
-													}
-												}
-											}
-										}
+								if (detailDataEvent.getNodeName().equals("DETALHAMENTO-DO-LIVRO")) {
+									bookPublishingCompany = detailDataEvent.getAttributes()
+											.getNamedItem("NOME-DA-EDITORA");
+									if (bookTitle != null) {
+										Book book = new Book(bookTitle.getNodeValue(), bookYear.getNodeValue(),
+												bookPublishingCompany.getNodeValue(), null);
+										books.add(book);
 									}
 								}
 							}
@@ -312,8 +367,35 @@ public class XMLExtractor {
 				}
 			}
 		}
+	}
 
-		return publications;
+	private void extractPapersPublished(Set<Publication> publications, Node node) {
+		NodeList articles = node.getChildNodes();
+
+		for (int j = 0; j < articles.getLength(); j++) {
+			// Artigo (Periodico ou Revista)
+			Node article = articles.item(j);
+			Node basicDataArticle = article.getChildNodes().item(0);
+			if (basicDataArticle != null) {
+				if (basicDataArticle.getNodeName().equals("DADOS-BASICOS-DO-ARTIGO")) {
+					Node articleTitle = basicDataArticle.getAttributes().getNamedItem("TITULO-DO-ARTIGO");
+					Node articleYear = basicDataArticle.getAttributes().getNamedItem("ANO-DO-ARTIGO");
+					Node eventLanguage = basicDataArticle.getAttributes().getNamedItem("IDIOMA");
+
+					if (articleTitle != null && articleYear != null) {
+						PublicationType type = getPublicationType(article, EnumPublicationLocalType.PERIODIC);
+						Publication publication = new Publication(articleTitle.getNodeValue(),
+								Integer.valueOf(articleYear.getNodeValue()), type);
+
+						publication = getRealPublication(publication);
+
+						if (publication.getId() == null) {
+							publications.add(publication);
+						}
+					}
+				}
+			}
+		}
 	}
 
 	private Publication getRealPublication(Publication publication) {

@@ -9,6 +9,8 @@ import javax.faces.bean.ViewScoped;
 import org.hibernate.boot.model.relational.Database;
 
 import com.pa.database.impl.DatabaseFacade;
+import com.pa.entity.Book;
+import com.pa.entity.Chapter;
 import com.pa.entity.Curriculo;
 import com.pa.entity.Group;
 import com.pa.entity.Orientation;
@@ -25,6 +27,8 @@ public class IndexBean {
 	private Integer publicationsSize;
 	private Integer orientationsSize;
 	private Integer technicalProductionSize;
+	private Integer booksSize;
+	private Integer chapterSize;
 
 	@PostConstruct
 	public void init() {
@@ -35,6 +39,8 @@ public class IndexBean {
 		List<TechnicalProduction> technicalProductions = DatabaseFacade.getInstance().listAllTechnicalProductions();
 		List<Orientation> orientations = DatabaseFacade.getInstance().listAllOrientations();
 		List<Publication> publications = DatabaseFacade.getInstance().listAllPublications();
+		List<Book> books = DatabaseFacade.getInstance().listAllBooks();
+		List<Chapter> chapters = DatabaseFacade.getInstance().listAllChapters();
 
 		groupsSize = groups.size();
 		curriculosSize = curriculum.size();
@@ -42,9 +48,19 @@ public class IndexBean {
 		technicalProductionSize = technicalProductions.size();
 		orientationsSize = orientations.size();
 		publicationsSize = publications.size();
+		booksSize = books.size();
+		chapterSize = chapters.size();
 	}
 	
 	
+	public Integer getBooksSize() {
+		return booksSize;
+	}
+
+	public Integer getChapterSize() {
+		return chapterSize;
+	}
+
 	public Integer getPublicationsSize() {
 		return publicationsSize;
 	}

@@ -19,8 +19,9 @@
 						<p:panelGrid columns="1" layout="grid" styleClass="ui-noborder">
 							<p:row>
 								<p:column>
-									<p:selectBooleanCheckbox value="#{relatorioBean.checkQualisDataConference}" >
-										<p:ajax event="change" update="qualisConference"/>
+									<p:selectBooleanCheckbox
+										value="#{relatorioBean.checkQualisDataConference}">
+										<p:ajax event="change" update="qualisConference" />
 									</p:selectBooleanCheckbox>
 									<h:outputText value="Selecionar Qualis de Conferência " />
 									<p:selectOneMenu id="qualisConference"
@@ -35,8 +36,9 @@
 							</p:row>
 
 							<p:row>
-								<p:selectBooleanCheckbox value="#{relatorioBean.checkQualisDataPeriodic}" >
-									<p:ajax event="change" update="qualisPeriodic"/>
+								<p:selectBooleanCheckbox
+									value="#{relatorioBean.checkQualisDataPeriodic}">
+									<p:ajax event="change" update="qualisPeriodic" />
 								</p:selectBooleanCheckbox>
 								<h:outputText value="Selecionar Qualis para Periódicos " />
 								<p:selectOneMenu id="qualisPeriodic"
@@ -60,30 +62,39 @@
 						<p:row colspan="1" style="float:right">
 							<p:spacer />
 							<p:commandButton value="Comparar" type="submit"
-								actionListener="#{relatorioBean.compararDetalhado}" update="form2"
-								styleClass="ui-priority-primary" ajax="false" />
+								actionListener="#{relatorioBean.compararDetalhado}"
+								update="form2" styleClass="ui-priority-primary" ajax="false" />
 						</p:row>
 					</p:panelGrid>
 				</h:form>
 
 				<h:form id="form2" rendered="#{relatorioBean.root != null}">
-					<p:treeTable value="#{relatorioBean.root}" var="value">
+					<p:treeTable value="#{relatorioBean.root}" var="value"
+						selectionMode="single">
 						<f:facet name="header">
 				            Relatório
 				        </f:facet>
 						<p:column headerText="">
 							<h:outputText style="font-size:11px;" value="#{value.name}" />
 						</p:column>
-						
-						<p:columns style="font-size:11px;" var="column" value="#{relatorioBean.groups.target}"
-							columnIndexVar="colIndex">
+
+						<p:columns style="font-size:11px;" var="column"
+							value="#{relatorioBean.groups.target}" columnIndexVar="colIndex">
 							<f:facet name="header">
 								<h:outputText value="#{column.name}" />
 							</f:facet>
+
 							<h:outputText value="#{value.values[colIndex]}" />
+
+							<p:commandLink update="form2"
+								 title="Delete"
+								styleClass="ui-icon ui-icon-trash">
+<!-- 								<f:setPropertyActionListener value="#{document}" -->
+<!-- 									target="#{relatorioBean.root}" /> -->
+							</p:commandLink>
+
 						</p:columns>
-						
-						
+
 					</p:treeTable>
 				</h:form>
 			</b:well>

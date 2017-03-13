@@ -40,6 +40,8 @@ public class MultipleXMLExtractor {
 					databaseCurriculo.setCountOnGoingOrientations(curriculo.getCountOnGoingOrientations());
 					databaseCurriculo.setTechinicalProduction((ArrayList<TechnicalProduction>) curriculo.getTechnicalProduction());
 					databaseCurriculo.setOrientations(curriculo.getOrientations());
+					databaseCurriculo.setBooks(curriculo.getBooks());
+					databaseCurriculo.setChapters(curriculo.getChapters());
 					
 					databaseCurriculo.getPublications().clear();
 					databaseCurriculo.getPublications().addAll(curriculo.getPublications());

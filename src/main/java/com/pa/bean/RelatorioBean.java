@@ -43,7 +43,7 @@ public class RelatorioBean {
 	private QualisData selectedQualisDataPeriodic;
 
 	private TreeNode root = null;
-
+	
 	@PostConstruct
 	public void init() {
 		List<Group> groupsTarget = new ArrayList<Group>();

@@ -7,6 +7,9 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
+import com.pa.entity.Author;
+import com.pa.entity.Book;
+import com.pa.entity.Chapter;
 import com.pa.entity.Curriculo;
 import com.pa.entity.Group;
 import com.pa.entity.Orientation;
@@ -35,6 +38,9 @@ public class HibernateUtil {
 	    metadataSources.addAnnotatedClass(PublicationType.class);
 	    metadataSources.addAnnotatedClass(TechnicalProduction.class);
 	    metadataSources.addAnnotatedClass(Orientation.class);
+	    metadataSources.addAnnotatedClass(Chapter.class);
+	    metadataSources.addAnnotatedClass(Book.class);
+	    metadataSources.addAnnotatedClass(Author.class);
 	    Metadata metadata = metadataSources.buildMetadata();
 	    
 	    sessionFactory =  metadata.buildSessionFactory();

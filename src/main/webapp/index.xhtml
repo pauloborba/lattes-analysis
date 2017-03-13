@@ -84,7 +84,31 @@
 				<b:column span="2">
 					<b:badge value="#{indexBean.publicationsSize}" />
 				</b:column>
-			</b:row>					
+			</b:row>
+			<b:row>
+				<b:column span="2">
+					<h:outputText value="Total de Livros" />
+				</b:column>
+					<b:column span="1">
+					<b:label text="Carregado" severity="success" rendered="#{indexBean.booksSize gt 0}"/>
+					<b:label text="Não Carregado" severity="danger" rendered="#{indexBean.booksSize eq 0}"/>
+				</b:column>
+				<b:column span="2">
+					<b:badge value="#{indexBean.booksSize}" />
+				</b:column>
+			</b:row>
+			<b:row>
+				<b:column span="2">
+					<h:outputText value="Total de Capítulos" />
+				</b:column>
+					<b:column span="1">
+					<b:label text="Carregado" severity="success" rendered="#{indexBean.chapterSize gt 0}"/>
+					<b:label text="Não Carregado" severity="danger" rendered="#{indexBean.chapterSize eq 0}"/>
+				</b:column>
+				<b:column span="2">
+					<b:badge value="#{indexBean.chapterSize}" />
+				</b:column>
+			</b:row>							
 		</b:container>
 
 	</ui:define>

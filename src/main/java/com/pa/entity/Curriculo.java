@@ -29,6 +29,12 @@ public class Curriculo {
 	private Set<Publication> publications;
 	
 	@OneToMany(cascade=CascadeType.ALL)
+	private List<Book> books;
+	
+	@OneToMany(cascade=CascadeType.ALL)
+	private List<Chapter> chapters;
+	
+	@OneToMany(cascade=CascadeType.ALL)
 	private List<Orientation> orientations;
 	
 	@OneToMany(cascade=CascadeType.ALL)
@@ -45,6 +51,23 @@ public class Curriculo {
 		this.publications = new HashSet<Publication>();
 	}
 	
+	
+	public List<Book> getBooks() {
+		return books;
+	}
+
+	public void setBooks(List<Book> books) {
+		this.books = books;
+	}
+
+	public List<Chapter> getChapters() {
+		return chapters;
+	}
+
+	public void setChapters(List<Chapter> chapters) {
+		this.chapters = chapters;
+	}
+
 	public Integer getCountPublications(){
 		return this.publications.size();
 	}

@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 
+import com.pa.entity.Book;
+import com.pa.entity.Chapter;
 import com.pa.entity.Curriculo;
 import com.pa.entity.Group;
 import com.pa.entity.Orientation;
@@ -27,6 +29,8 @@ public class DatabaseFacade {
 	private QualisDataDAO qdDAO = new QualisDataDAO(QualisData.class);
 	private TechinicalProductionDAO tPDAO = new TechinicalProductionDAO(TechnicalProduction.class);
 	private OrientationDAO oDAO = new OrientationDAO(Orientation.class);
+	private BookDAO bDAO = new BookDAO(Book.class);
+	private ChapterDAO chDAO = new ChapterDAO(Chapter.class);
 	
 	private DatabaseFacade() {}
 	
@@ -52,6 +56,14 @@ public class DatabaseFacade {
 	
 	public List<Orientation> listAllOrientations() {
 		return oDAO.listAll();
+	}
+	
+	public List<Book> listAllBooks() {
+		return bDAO.listAll();
+	}
+	
+	public List<Chapter> listAllChapters() {
+		return chDAO.listAll();
 	}
 	
 	public Curriculo saveCurriculo(Curriculo c) {
