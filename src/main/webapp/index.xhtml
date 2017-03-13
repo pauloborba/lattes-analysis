@@ -48,7 +48,43 @@
 				<b:column span="2">
 					<b:badge value="#{indexBean.curriculosSize}" />
 				</b:column>
-			</b:row>			
+			</b:row>
+			<b:row>
+				<b:column span="2">
+					<h:outputText value="Total de Produção técnica" />
+				</b:column>
+					<b:column span="1">
+					<b:label text="Carregado" severity="success" rendered="#{indexBean.technicalProductionsSize gt 0}"/>
+					<b:label text="Não Carregado" severity="danger" rendered="#{indexBean.technicalProductionsSize eq 0}"/>
+				</b:column>
+				<b:column span="2">
+					<b:badge value="#{indexBean.technicalProductionsSize}" />
+				</b:column>
+			</b:row>
+			<b:row>
+				<b:column span="2">
+					<h:outputText value="Total de Orientações" />
+				</b:column>
+					<b:column span="1">
+					<b:label text="Carregado" severity="success" rendered="#{indexBean.orientationsSize gt 0}"/>
+					<b:label text="Não Carregado" severity="danger" rendered="#{indexBean.orientationsSize eq 0}"/>
+				</b:column>
+				<b:column span="2">
+					<b:badge value="#{indexBean.orientationsSize}" />
+				</b:column>
+			</b:row>
+			<b:row>
+				<b:column span="2">
+					<h:outputText value="Total de Publicações" />
+				</b:column>
+					<b:column span="1">
+					<b:label text="Carregado" severity="success" rendered="#{indexBean.publicationsSize gt 0}"/>
+					<b:label text="Não Carregado" severity="danger" rendered="#{indexBean.publicationsSize eq 0}"/>
+				</b:column>
+				<b:column span="2">
+					<b:badge value="#{indexBean.publicationsSize}" />
+				</b:column>
+			</b:row>					
 		</b:container>
 
 	</ui:define>

@@ -22,12 +22,13 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.pa.database.impl.DatabaseFacade;
+import com.pa.entity.BookChapter;
 import com.pa.entity.Curriculo;
 import com.pa.entity.Orientation;
 import com.pa.entity.OrientationType;
 import com.pa.entity.Publication;
 import com.pa.entity.PublicationType;
-import com.pa.entity.TechinicalProduction;
+import com.pa.entity.TechnicalProduction;
 import com.pa.exception.InvalidPatternFileException;
 import com.pa.util.EnumPublicationLocalType;
 
@@ -66,6 +67,7 @@ public class XMLExtractor {
 		String name;
 		Long id = null;
 		Date lastUpdate = null;
+		ArrayList<Orientation> orientationsCaptured = null;
 
 		if (document.getDocumentElement().getNodeName().equals("CURRICULO-VITAE")) {
 			// Get last update from xml
@@ -108,30 +110,29 @@ public class XMLExtractor {
 						int orientations = this.extractQtdOrientations(node, "ORIENTACOES-CONCLUIDAS-PARA-MESTRADO");
 						orientations += this.extractQtdOrientations(node, "ORIENTACOES-CONCLUIDAS-PARA-DOUTORADO");
 						curriculo.setCountConcludedOrientations(orientations);
-						curriculo.setConcludedOriantations(this.extractOrientations(node));
+						orientationsCaptured = this.extractOrientations(node);
+						curriculo.setOrientations(orientationsCaptured);
 					} else if (node.getNodeName().equals("DADOS-COMPLEMENTARES")) {
 						// Orientações não concluídas
 						int orientations = this.extractQtdOrientations(node, "ORIENTACAO-EM-ANDAMENTO-DE-MESTRADO");
 						orientations += this.extractQtdOrientations(node, "ORIENTACAO-EM-ANDAMENTO-DE-DOUTORADO");
 						curriculo.setCountOnGoingOrientations(orientations);
-						//curriculo.setOnGoingOriantations(this.extractOrientations(node));
+						orientationsCaptured.addAll(this.extractOrientations(node));
 					}
 				}
 			}
 		}
-
 		return curriculo;
 	}
 
-	private ArrayList<TechinicalProduction> extractTechinicalProduction(Node nodeProduction) {
-		ArrayList<TechinicalProduction> techinicalProductions = new ArrayList<TechinicalProduction>();
+	private ArrayList<TechnicalProduction> extractTechinicalProduction(Node nodeProduction) {
+		ArrayList<TechnicalProduction> techinicalProductions = new ArrayList<TechnicalProduction>();
 
 		NodeList nodeList = nodeProduction.getChildNodes();
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Node node = nodeList.item(i);
 
 			if (node instanceof Element) {
-				// System.out.println(node.getNodeName());
 				if (node.getNodeName().equals("SOFTWARE")) {
 					NodeList events = node.getChildNodes();
 
@@ -140,12 +141,10 @@ public class XMLExtractor {
 						if (basicDataEvent.getNodeName().equals("DADOS-BASICOS-DO-SOFTWARE")) {
 							Node softwareTitle = basicDataEvent.getAttributes().getNamedItem("TITULO-DO-SOFTWARE");
 							Node softwareYear = basicDataEvent.getAttributes().getNamedItem("ANO");
-							Node softwareLanguage = basicDataEvent.getAttributes().getNamedItem("IDIOMA");
-
+							
 							if (softwareTitle != null) {
-								TechinicalProduction techinicalProduction = new TechinicalProduction(
-										softwareTitle.getNodeValue(), softwareYear.getNodeValue(),
-										softwareLanguage.getNodeValue());
+								TechnicalProduction techinicalProduction = new TechnicalProduction(
+										softwareTitle.getNodeValue(), softwareYear.getNodeValue(), "SOFTWARE");
 
 								techinicalProductions.add(techinicalProduction);
 							}
@@ -164,13 +163,11 @@ public class XMLExtractor {
 		NodeList nodeList = dataNode.getChildNodes();
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Node node = nodeList.item(i);
-			// System.out.println(node.getNodeName());
-			NodeList filhosDeIde2 = node.getChildNodes();
-			for (int j = 0; j < filhosDeIde2.getLength(); j++) {
-				Node node2 = filhosDeIde2.item(j);
+			NodeList childNodeList = node.getChildNodes();
+			for (int j = 0; j < childNodeList.getLength(); j++) {
+				Node node2 = childNodeList.item(j);
 				Node basicDataEvent = node2.getChildNodes().item(0);
 				if (basicDataEvent != null) {
-					// System.out.println(basicDataEvent.getNodeName());
 					if (basicDataEvent.getNodeName().equals("DADOS-BASICOS-DE-ORIENTACOES-CONCLUIDAS-PARA-MESTRADO")) {
 						extractBasicDataOrientations("TITULO", orientations, basicDataEvent,
 								OrientationType.ORIENTACOES_CONCLUIDAS_PARA_MESTRADO);
@@ -273,38 +270,34 @@ public class XMLExtractor {
 						}
 					}
 				} else if (node.getNodeName().equals("LIVROS-E-CAPITULOS")) {
-					ArrayList<TechinicalProduction> techinicalProductions = new ArrayList<TechinicalProduction>();
+					ArrayList<BookChapter> books = new ArrayList<BookChapter>();
 
-					NodeList nodeList1 = node.getChildNodes();
-					for (int i1 = 0; i1 < nodeList1.getLength(); i1++) {
-						Node node1 = nodeList1.item(i1);
+					NodeList nodeListBooks = node.getChildNodes();
+					for (int k = 0; k < nodeListBooks.getLength(); k++) {
+						Node nodeBook = nodeListBooks.item(k);
 
-						if (node1 instanceof Element) {
-							if (node1.getNodeName().equals("LIVROS-PUBLICADOS-OU-ORGANIZADOS")) {
-								NodeList events = node1.getChildNodes();
-
+						if (nodeBook instanceof Element) {
+							if (nodeBook.getNodeName().equals("LIVROS-PUBLICADOS-OU-ORGANIZADOS")) {
+								NodeList events = nodeBook.getChildNodes();
 								Node basicDataEvent = events.item(0);
 								if (basicDataEvent != null) {
-
-									NodeList nodeList2 = basicDataEvent.getChildNodes();
-									for (int i2 = 0; i2 < nodeList2.getLength(); i2++) {
-										Node node2 = nodeList2.item(i2);
-
-										if (node2 instanceof Element) {
-											if (node2 != null) {
-												if (node2.getNodeName().equals("DADOS-BASICOS-DO-LIVRO")) {
-													Node softwareTitle = node2.getAttributes()
+									NodeList childNodesListBooks = basicDataEvent.getChildNodes();
+									for (int m = 0; m < childNodesListBooks.getLength(); m++) {
+										Node childNode = childNodesListBooks.item(m);
+										if (childNode instanceof Element) {
+											if (childNode != null) {
+												if (childNode.getNodeName().equals("DADOS-BASICOS-DO-LIVRO")) {
+													Node bookTitle = childNode.getAttributes()
 															.getNamedItem("TITULO-DO-LIVRO");
-													Node softwareYear = node2.getAttributes().getNamedItem("ANO");
-													Node softwareLanguage = node2.getAttributes()
-															.getNamedItem("IDIOMA");
+													Node bookYear = childNode.getAttributes().getNamedItem("ANO");
 
-													if (softwareTitle != null) {
+													if (bookTitle != null) {
+														PublicationType type = getPublicationType(basicDataEvent,
+																EnumPublicationLocalType.CONFERENCE);
+														
 														Publication publication = new Publication(
-																softwareTitle.getNodeValue(),
-																Integer.valueOf(softwareYear.getNodeValue()), null);
-														// publication =
-														// getRealPublication(publication);
+																bookTitle.getNodeValue(),
+																Integer.valueOf(bookYear.getNodeValue()), type);
 
 														publications.add(publication);
 													}
@@ -346,6 +339,9 @@ public class XMLExtractor {
 		if (local.equals(EnumPublicationLocalType.CONFERENCE)) {
 			if (details.getNodeName().equals("DETALHAMENTO-DO-TRABALHO")) {
 				eventName = details.getAttributes().getNamedItem("NOME-DO-EVENTO");
+			}
+			if (details.getNodeName().equals("DETALHAMENTO-DO-LIVRO")) {
+				eventName = details.getAttributes().getNamedItem("NOME-DA-EDITORA");
 			}
 		} else if (local.equals(EnumPublicationLocalType.PERIODIC)) {
 			if (details.getNodeName().equals("DETALHAMENTO-DO-ARTIGO")) {

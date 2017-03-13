@@ -14,7 +14,7 @@ import com.pa.entity.Publication;
 import com.pa.entity.PublicationType;
 import com.pa.entity.Qualis;
 import com.pa.entity.QualisData;
-import com.pa.entity.TechinicalProduction;
+import com.pa.entity.TechnicalProduction;
 
 public class HibernateUtil {
 
@@ -33,7 +33,7 @@ public class HibernateUtil {
 	    metadataSources.addAnnotatedClass(Publication.class);
 	    metadataSources.addAnnotatedClass(Curriculo.class);
 	    metadataSources.addAnnotatedClass(PublicationType.class);
-	    metadataSources.addAnnotatedClass(TechinicalProduction.class);
+	    metadataSources.addAnnotatedClass(TechnicalProduction.class);
 	    metadataSources.addAnnotatedClass(Orientation.class);
 	    Metadata metadata = metadataSources.buildMetadata();
 	    

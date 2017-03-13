@@ -7,7 +7,7 @@ import com.pa.comparator.SetCurriculoResult;
 import com.pa.entity.Curriculo;
 import com.pa.entity.Group;
 import com.pa.entity.QualisData;
-import com.pa.entity.TechinicalProduction;
+import com.pa.entity.TechnicalProduction;
 import com.pa.util.EnumPublicationLocalType;
 
 public class GroupAnalyzer {
@@ -33,6 +33,7 @@ public class GroupAnalyzer {
 				groupResult.getConferencesByQualis().putAll(curriculoResult.getConferencesByQualis());
 				groupResult.getPeriodicsByQualis().putAll(curriculoResult.getPeriodicsByQualis());
 				groupResult.setTechinicalProductions(curriculoResult.getTechinicalProductions());
+				groupResult.setOrientations(curriculoResult.getOrientations());
 			}
 		}
 		return groupResult;
@@ -44,8 +45,8 @@ public class GroupAnalyzer {
 		if(group != null){
 			gR = new SetCurriculoResult();
 
-			for (Curriculo curriculo : group.getCurriculos()) {
-				CurriculoResult cR = CurriculoAnalyzer.getInstance().analyzerCurriculo(curriculo, qualisDataMap);
+//			for (Curriculo curriculo : group.getCurriculos()) {
+//				CurriculoResult cR = CurriculoAnalyzer.getInstance().analyzerCurriculo(curriculo, qualisDataMap);
 
 //				Set<EnumQualisClassification> chaves = cR.getConferencesByQualis().keySet();
 //				for (EnumQualisClassification chave : chaves) {
@@ -64,7 +65,7 @@ public class GroupAnalyzer {
 //				
 //				gR.setConcludedOrientations(currentConcludedOrientations + cR.getConcludedOrientations());
 //				gR.setOnGoingOrientations(currentOnGoingOrientations + cR.getOnGoingOrientations());
-			}
+//			}
 			
 			gR = SetCurriculoMetrics.getInstance().calculateMetrics(group, qualisDataMap);
 		}

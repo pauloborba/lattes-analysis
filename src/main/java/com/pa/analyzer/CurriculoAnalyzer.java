@@ -31,10 +31,10 @@ public class CurriculoAnalyzer {
 			cR = new CurriculoResult();
 
 			associateAllPublicationWithQualis(curriculo, cR, qualisDataMap);
-
+			cR.setOrientations(curriculo.getOrientations());
 			cR.setConcludedOrientations(curriculo.getCountConcludedOrientations());
 			cR.setOnGoingOrientations(curriculo.getCountOnGoingOrientations());
-			cR.setTechinicalProductions(curriculo.getTechinicalProduction());
+			cR.setTechinicalProductions(curriculo.getTechnicalProduction());
 		}
 		
 		return cR;

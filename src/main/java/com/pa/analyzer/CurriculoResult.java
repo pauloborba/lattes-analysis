@@ -5,31 +5,42 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.pa.entity.Orientation;
 import com.pa.entity.Publication;
-import com.pa.entity.TechinicalProduction;
+import com.pa.entity.TechnicalProduction;
 import com.pa.util.EnumQualisClassification;
 
 public class CurriculoResult {
 	private Map<EnumQualisClassification, List<Publication>> periodicsByQualis;
 	private Map<EnumQualisClassification, List<Publication>> conferencesByQualis;
-	private List<TechinicalProduction> techinicalProductions;
+	private List<TechnicalProduction> techinicalProductions;
+	private List<Orientation> orientations;
 	private int concludedOrientations;
 	private int onGoingOrientations;
 	
 	public CurriculoResult() {
 		periodicsByQualis = new HashMap<EnumQualisClassification, List<Publication>>();
 		conferencesByQualis = new HashMap<EnumQualisClassification, List<Publication>>();
-		techinicalProductions = new ArrayList<TechinicalProduction>();
+		techinicalProductions = new ArrayList<TechnicalProduction>();
+		orientations = new ArrayList<Orientation>();
 		concludedOrientations = 0;
 		onGoingOrientations = 0;
 	}
 	
 
-	public List<TechinicalProduction> getTechinicalProductions() {
+	public List<Orientation> getOrientations() {
+		return orientations;
+	}
+
+	public void setOrientations(List<Orientation> orientations) {
+		this.orientations = orientations;
+	}
+
+	public List<TechnicalProduction> getTechinicalProductions() {
 		return techinicalProductions;
 	}
 
-	public void setTechinicalProductions(List<TechinicalProduction> techinicalProductions) {
+	public void setTechinicalProductions(List<TechnicalProduction> techinicalProductions) {
 		this.techinicalProductions = techinicalProductions;
 	}
 

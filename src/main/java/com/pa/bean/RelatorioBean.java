@@ -20,9 +20,10 @@ import com.pa.comparator.ComparationVO;
 import com.pa.comparator.SetCurriculoResult;
 import com.pa.database.impl.DatabaseFacade;
 import com.pa.entity.Group;
+import com.pa.entity.Orientation;
 import com.pa.entity.Publication;
 import com.pa.entity.QualisData;
-import com.pa.entity.TechinicalProduction;
+import com.pa.entity.TechnicalProduction;
 import com.pa.util.EnumPublicationLocalType;
 import com.pa.util.EnumQualisClassification;
 
@@ -111,7 +112,6 @@ public class RelatorioBean {
 		qualisDataMap.put(EnumPublicationLocalType.CONFERENCE, selectedQualisDataConference);
 
 		GroupResult groupResult = GroupAnalyzer.getInstance().groupResult(group, qualisDataMap);
-		SetCurriculoResult gR = GroupAnalyzer.getInstance().analyzerGroup(group, qualisDataMap);
 
 		if (checkQualisDataConference) {
 			putPublicationsFromConference(mapTypeByNode, groupResult);
@@ -120,7 +120,7 @@ public class RelatorioBean {
 			putPublicationsFromPeriodics(mapTypeByNode, groupResult);
 		}
 		if (checkOrientations) {
-			putValuesFromOrientations(mapTypeByNode, gR);
+			putPublicationsFromOrientations(mapTypeByNode, groupResult);
 		}
 		if (checkTechinicalProduction) {
 			putValuesFromTechinicalProduction(mapTypeByNode, groupResult);
@@ -142,15 +142,15 @@ public class RelatorioBean {
 			valueConference.add("-");
 		}
 		
-		List<TechinicalProduction> conferencesByQualis = gR.getTechinicalProductions();
+		List<TechnicalProduction> conferencesByQualis = gR.getTechinicalProductions();
 		
 		for (int j = 0; j < conferencesByQualis.size(); j++) {
-			TechinicalProduction tP = conferencesByQualis.get(j);
+			TechnicalProduction tP = conferencesByQualis.get(j);
 			if (tP != null) {
 				String value = tP.toString();
 				if (mapTypeByNode.containsKey("techinicalProductions")) {
 						TreeNode conferencesQualis = new DefaultTreeNode(
-								"techinicalProductions", new ComparationVO("  -  " + tP.getAno(),	tP.getTitulo()), techinicalProduction);
+								"techinicalProductions", new ComparationVO(tP.getTipo(),	tP.getAno() + " - " + tP.getTitulo()), techinicalProduction);
 
 						mapTypeByNode.put("techinicalProductions", conferencesQualis);
 				} else {
@@ -250,6 +250,35 @@ public class RelatorioBean {
 				}
 			}
 		}
+	}
+	
+	private void putPublicationsFromOrientations(Map<String, TreeNode> mapTypeByNode, GroupResult gR) {
+		TreeNode orientations = null;
+
+		if (!mapTypeByNode.containsKey("orientations")) {
+			orientations = new DefaultTreeNode("orientations", new ComparationVO("Orientações", "-"), root);
+			mapTypeByNode.put("orientations", orientations);
+		} else {
+			orientations = mapTypeByNode.get("orientations");
+			ComparationVO valueObject = (ComparationVO) orientations.getData();
+
+			List<String> valueConference = valueObject.getValues();
+			valueConference.add("-");
+		}
+
+		if (mapTypeByNode.containsKey("orientations")) {
+			for (int i = 0; i< gR.getOrientations().size(); i++) {
+				Orientation orientation = gR.getOrientations().get(i);
+				TreeNode conferencesQualis = new DefaultTreeNode("orientations",
+						new ComparationVO(orientation.getTipoOrientacao().getName(), orientation.getAno() + " - " + orientation.getTitulo()), orientations);
+				mapTypeByNode.put("orientations", conferencesQualis);
+			}
+		
+		} else {
+			TreeNode concludedOrientationsNode = mapTypeByNode.get("orientations");
+			ComparationVO valueObject = (ComparationVO) concludedOrientationsNode.getData();
+		}
+
 	}
 
 	private void putValuesFromOrientations(Map<String, TreeNode> mapTypeByNode, SetCurriculoResult gR) {

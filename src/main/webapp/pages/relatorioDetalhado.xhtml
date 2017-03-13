@@ -48,11 +48,6 @@
 										itemLabel="#{qualisData.year}" />
 								</p:selectOneMenu>
 							</p:row>
-							<p:row>
-								<p:selectBooleanCheckbox id="orientations"
-									value="#{relatorioBean.checkOrientations}" />
-								<p:outputLabel for="orientations" value="Orientações" />
-							</p:row>
 						</p:panelGrid>
 
 						<p:row>
@@ -77,10 +72,10 @@
 				            Relatório
 				        </f:facet>
 						<p:column headerText="">
-							<h:outputText value="#{value.name}" />
+							<h:outputText style="font-size:11px;" value="#{value.name}" />
 						</p:column>
 						
-						<p:columns var="column" value="#{relatorioBean.groups.target}"
+						<p:columns style="font-size:11px;" var="column" value="#{relatorioBean.groups.target}"
 							columnIndexVar="colIndex">
 							<f:facet name="header">
 								<h:outputText value="#{column.name}" />
