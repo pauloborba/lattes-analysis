@@ -1,29 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="iReportLattes_subreport_conferencias" pageWidth="216" pageHeight="802" columnWidth="216" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="2a1d649c-140e-473a-9a92-b7f48ad3070a">
-	<property name="ireport.zoom" value="1.5"/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="iReportLattes_subreport_conferencias" pageWidth="216" pageHeight="300" whenNoDataType="BlankPage" columnWidth="216" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="2a1d649c-140e-473a-9a92-b7f48ad3070a">
+	<property name="ireport.zoom" value="3.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<parameter name="parametroDataInicio" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="parametroDataFim" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[SELECT
-    count(p.title),q.classification, (SELECT
-    count(p.title)
+    COUNT(p.title),
+    q.classification,
+(SELECT
+            COUNT(p.title)
+        FROM
+            lattes.publication p
+                INNER JOIN
+            lattes.publicationtype pt ON pt.identifier = p.publicationType_identifier
+                INNER JOIN
+            lattes.qualis q ON pt.name LIKE CONCAT('%', q.name, '%')
+        WHERE
+            pt.type = 1
+                AND (CASE WHEN $P{parametroDataInicio} IS NOT NULL AND $P{parametroDataFim} IS NOT NULL
+		THEN p.year BETWEEN $P{parametroDataInicio} and $P{parametroDataFim} ELSE 1=1 END)) AS 'total'
 FROM
     lattes.publication p
         INNER JOIN
     lattes.publicationtype pt ON pt.identifier = p.publicationType_identifier
-WHERE
-    pt.type = 0)as 'total'
-FROM
-    lattes.publication p
         INNER JOIN
-    lattes.publicationtype pt ON pt.identifier = p.publicationType_identifier
-        INNER JOIN
-    lattes.qualis q ON q.name = pt.name
+    lattes.qualis q ON pt.name LIKE CONCAT('%', q.name, '%')
 WHERE
-    pt.type = 0
+    pt.type = 1
+       AND (CASE WHEN $P{parametroDataInicio} IS NOT NULL AND $P{parametroDataFim} IS NOT NULL
+		THEN p.year BETWEEN $P{parametroDataInicio} and $P{parametroDataFim} ELSE 1=1 END)
 GROUP BY q.classification;]]>
 	</queryString>
-	<field name="count(p.title)" class="java.lang.Long"/>
+	<field name="COUNT(p.title)" class="java.lang.Long"/>
 	<field name="classification" class="java.lang.Integer">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
@@ -45,7 +59,7 @@ GROUP BY q.classification;]]>
 			</staticText>
 			<textField>
 				<reportElement x="170" y="0" width="46" height="32" uuid="65498011-1319-4d18-a1d2-b87b452d670e"/>
-				<textElement verticalAlignment="Middle">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="15"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
@@ -73,14 +87,14 @@ GROUP BY q.classification;]]>
 	<detail>
 		<band height="20" splitType="Stretch">
 			<textField>
-				<reportElement x="100" y="0" width="116" height="20" uuid="ba7bf3e4-5869-4b1c-aca8-2a79d422cd8e"/>
-				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA[$F{count(p.title)}]]></textFieldExpression>
-			</textField>
-			<textField>
 				<reportElement x="0" y="0" width="116" height="20" uuid="26ddac0d-a603-427c-9e94-826f0597065d"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{classification}.intValue() == 0?"A1": $F{classification}.intValue() == 1?"A2": $F{classification}.intValue() == 2?"B1":$F{classification}.intValue() == 3?"B2":$F{classification}.intValue() == 4?"B3":$F{classification}.intValue() == 5?"B4":$F{classification}.intValue() == 6?"B5":$F{classification}.intValue() == 7?"C":$F{classification}.intValue() == 8?"NONE":""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="0" width="116" height="20" uuid="57ed023f-210c-4871-8a1c-78ca4e0f7b81"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{COUNT(p.title)}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

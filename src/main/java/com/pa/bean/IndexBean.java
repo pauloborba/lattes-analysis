@@ -41,6 +41,8 @@ public class IndexBean implements Serializable{
 	private Integer booksSize;
 	private Integer chapterSize;
 	private RelatorioManager relatorioManager; 
+	private String dataInicial;
+	private String dataFinal;
 
 	@PostConstruct
 	public void init() {
@@ -62,17 +64,29 @@ public class IndexBean implements Serializable{
 		publicationsSize = publications.size();
 		booksSize = books.size();
 		chapterSize = chapters.size();
+		dataInicial = "";
+		dataFinal = "";
 	}
 	
 	public void relatorioLattes(){
+		FacesContext context = FacesContext.getCurrentInstance();
 		try {
-			System.out.println("ok");
-			relatorioManager.gerarRelatorioLattes("01/01/2015 00:00:00", "01/01/2017 00:00:00");
+			relatorioManager.gerarRelatorioLattes(dataInicial, dataFinal);
+			relatorioManager.gerarRelatorioLattesOrientations(dataInicial, dataInicial);
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Relatório gerando com sucesso, local:" + System.getProperty("user.home") + "//", null) );
 		} catch (JRException | SQLException | IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
+	public String getDataInicial() {
+		return dataInicial;
+	}
+
+	public String getDataFinal() {
+		return dataFinal;
+	}
+
 	public Integer getBooksSize() {
 		return booksSize;
 	}

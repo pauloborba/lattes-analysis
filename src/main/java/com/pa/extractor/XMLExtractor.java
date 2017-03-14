@@ -233,6 +233,13 @@ public class XMLExtractor {
 						extractBasicDataOrientations("TITULO-DO-TRABALHO", orientations, basicDataEvent,
 								OrientationType.ORIENTACAO_EM_ANDAMENTO_DE_DOUTORADO);
 					}
+					if (basicDataEvent.getNodeName().equals("DADOS-BASICOS-DE-OUTRAS-ORIENTACOES-CONCLUIDAS")) {
+						Node orientationNatureza = basicDataEvent.getAttributes().getNamedItem("NATUREZA");
+						if (orientationNatureza.getNodeValue().equals("INICIACAO_CIENTIFICA")) {
+							extractBasicDataOrientations("TITULO", orientations, basicDataEvent,
+									OrientationType.ORIENTACAO_INICIACAO_CIENTIFICA);
+						}
+					}
 				}
 			}
 		}

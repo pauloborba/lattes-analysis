@@ -21,20 +21,19 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 
-public class RelatorioManager implements Serializable{
+public class RelatorioManager implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private final String HORARIO_PADRAO_DATA_INICIO = " 00:00:00";
-	private final String HORARIO_PADRAO_DATA_FIM = " 23:59:59";
 	private final String MENSAGEM_ERRO_DATA_INICIAL_MAIOR_QUE_DATA_FINAL_MES = "Atenção. O mês inicial informado é maior do que o mês final informado.";
 	private final String MENSAGEM_ERRO_DATA_INICIAL_MAIOR_QUE_DATA_FINAL_ANO = "Atenção. O ano inicial informado é maior do que o ano final informado.";
 	private final String MENSAGEM_ERRO_DATA_MAIOR_QUE_DATA_ATUAL = "Atenção. A data informada é maior do que a data atual.";
 	private final String ENDERECO_RELATORIOS_LATTES = "/iReportLattes.jrxml";
 	private final String ENDERECO_DIRETORIO_RELATORIOS = System.getProperty("user.home") + "//";
 	private final String NOME_DO_ARQUIVO = "RELATORIO_LATTES.html";
+	private final String NOME_DO_ARQUIVO_ORIENTATIONS = "RELATORIO_LATTES_ORIENTATIONS.html";
 
 	private InputStream inputStream;
 	private JasperDesign designInputStream;
@@ -47,20 +46,12 @@ public class RelatorioManager implements Serializable{
 		this.dataAtual = Calendar.getInstance();
 	}
 
-	public void gerarRelatorioLattes(String dataDeInicioParametter, String dataDeFimParametter)
-			throws JRException, SQLException, IOException {
-		this.validarCamposData(dataDeInicioParametter, dataDeFimParametter);
-		this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES,
-				this.parametrizarConsultaOperacoesDeEstoque(dataDeInicioParametter, dataDeFimParametter));
-		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO);
-	}
-
-	private HashMap<String, String> parametrizarConsultaOperacoesDeEstoque(String dataDeInicioParametter,
-			String dataDeFimParametter) throws IOException {
+	private HashMap<String, String> parametrizarConsulta(String dataDeInicioParametter, String dataDeFimParametter)
+			throws IOException {
 		this.parametros = new HashMap<String, String>();
-		if (formatarData(dataDeInicioParametter) != null && formatarData(dataDeFimParametter) != null) {
-			String dataInicio = formatarData(dataDeInicioParametter) + HORARIO_PADRAO_DATA_INICIO;
-			String dataFim = formatarData(dataDeFimParametter) + HORARIO_PADRAO_DATA_FIM;
+		if (dataDeInicioParametter != null && dataDeFimParametter != null) {
+			String dataInicio = dataDeInicioParametter;
+			String dataFim = dataDeFimParametter;
 			this.parametros.put("parametroDataInicio", dataInicio);
 			this.parametros.put("parametroDataFim", dataFim);
 		}
@@ -132,15 +123,30 @@ public class RelatorioManager implements Serializable{
 		this.inputStream = getClass().getResourceAsStream(endereco);
 		this.designInputStream = JRXmlLoader.load(inputStream);
 		this.pathjrxml = JasperCompileManager.compileReport(designInputStream);
-		 Connection conection = HibernateUtil.getSessionFactory()
-		.getSessionFactoryOptions().getServiceRegistry().getService(ConnectionProvider.class).getConnection();
-		this.printReport = JasperFillManager.fillReport(this.pathjrxml, parametros,conection);
+		Connection conection = HibernateUtil.getSessionFactory().getSessionFactoryOptions().getServiceRegistry()
+				.getService(ConnectionProvider.class).getConnection();
+		this.printReport = JasperFillManager.fillReport(this.pathjrxml, parametros, conection);
 
 	}
 
 	private void gerarHtmlDoRelatorio(String endereco, String nomeDoArquivo) throws JRException {
 		String enderecoFinal = endereco + nomeDoArquivo;
 		JasperExportManager.exportReportToHtmlFile(this.printReport, enderecoFinal);
+	}
+
+	public void gerarRelatorioLattes(String dataDeInicioParametter, String dataDeFimParametter)
+			throws JRException, SQLException, IOException {
+		// this.validarCamposData(dataDeInicioParametter, dataDeFimParametter);
+		this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES,
+				this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter));
+		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO);
+	}
+
+	public void gerarRelatorioLattesOrientations(String dataInicial, String dataInicial2)
+			throws JRException, SQLException, IOException {
+		this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES, this.parametrizarConsulta(dataInicial, dataInicial2));
+		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO_ORIENTATIONS);
+
 	}
 
 }
