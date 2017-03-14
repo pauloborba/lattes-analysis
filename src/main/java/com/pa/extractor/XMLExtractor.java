@@ -260,10 +260,14 @@ public class XMLExtractor {
 		NodeList nodeList = nodeProduction.getChildNodes();
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Node node = nodeList.item(i);
-
+			
 			if (node instanceof Element) {
+				System.out.println(node.getNodeName());
 				if (node.getNodeName().equals("TRABALHOS-EM-EVENTOS")) {
 					extractWorksInEvents(publications, node);
+				}
+				if (node.getNodeName().equals("ARTIGOS-PUBLICADOS")) {
+					extractPapersPublished(publications, node);
 				}
 			}
 		}

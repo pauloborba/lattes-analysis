@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="listagemGeralDeFuncionarios" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="BlankPage" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9bf9ac34-3740-4469-b2b9-30191fadda97">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="157"/>
+	<subDataset name="Table Dataset 1" uuid="868925df-c1c6-4a33-af80-76c1b374329c"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\Alex\\workspace\\lattes-analysis\\relatorios\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+    count(p.title),q.classification
+FROM
+    lattes.publication p
+        INNER JOIN
+    lattes.publicationtype pt ON pt.identifier = p.publicationType_identifier
+        INNER JOIN
+    lattes.qualis q ON q.name = pt.name
+WHERE
+    pt.type = 1
+GROUP BY q.classification;]]>
+	</queryString>
+	<field name="count(p.title)" class="java.lang.Long"/>
+	<field name="classification" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="129" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="802" height="61" uuid="6daffade-1029-4a95-a44a-ecd20689a385"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="30"/>
+				</textElement>
+				<text><![CDATA[Totalização da produção do projeto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="223" y="61" width="67" height="20" uuid="0c1e32f9-ab63-40a0-ab2d-34e14be84380"/>
+				<textElement>
+					<font size="15" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Período:]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="320" splitType="Stretch">
+			<rectangle>
+				<reportElement x="10" y="0" width="230" height="300" uuid="9a91dc45-8b0f-447d-88ed-c50a8f9fd7fe"/>
+				<graphicElement>
+					<pen lineWidth="2.0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="290" y="0" width="230" height="300" uuid="b4df09cd-9555-49e2-b0a8-7f5218cf8746"/>
+				<graphicElement>
+					<pen lineWidth="2.0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="565" y="0" width="237" height="100" uuid="fb3bb2dd-66e1-4eb3-bc75-0589856c1b69"/>
+				<graphicElement>
+					<pen lineWidth="2.0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="565" y="100" width="237" height="100" uuid="942cfed9-4f45-4e90-b278-28db138792ac"/>
+				<graphicElement>
+					<pen lineWidth="2.0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="565" y="200" width="237" height="100" uuid="d6849554-a0bc-470e-afa0-744c5785941e"/>
+				<graphicElement>
+					<pen lineWidth="2.0"/>
+				</graphicElement>
+			</rectangle>
+			<subreport>
+				<reportElement x="10" y="0" width="230" height="300" uuid="ea586d56-0cc3-4dba-ad6e-bbe58bd99b14"/>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "iReportLattes_subreport_conferencias.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="290" y="0" width="230" height="300" uuid="2cc35a9f-1115-4b29-b3f7-55bd39660bc4"/>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "iReportLattes_subreport_periodicos.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="565" y="0" width="237" height="100" uuid="d7134078-950e-4c6d-acb8-4e44771eaed2"/>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "iReportLattes_subreport_livros.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="565" y="100" width="237" height="100" uuid="bd16ceb3-d53a-4f72-9837-dc5b6c036ac6"/>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "iReportLattes_subreport_capituloslivros.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="565" y="200" width="237" height="100" uuid="b2a4ab09-63cb-4c6e-b687-0a80bb851e47"/>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "iReportLattes_subreport_orientacoes.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="13" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="10" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="10" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="11" splitType="Stretch"/>
+	</summary>
+</jasperReport>

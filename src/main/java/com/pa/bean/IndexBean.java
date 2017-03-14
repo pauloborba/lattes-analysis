@@ -1,12 +1,16 @@
 package com.pa.bean;
 
+import java.io.IOException;
+import java.io.Serializable;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-
-import org.hibernate.boot.model.relational.Database;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 
 import com.pa.database.impl.DatabaseFacade;
 import com.pa.entity.Book;
@@ -17,10 +21,17 @@ import com.pa.entity.Orientation;
 import com.pa.entity.Publication;
 import com.pa.entity.Qualis;
 import com.pa.entity.TechnicalProduction;
+import com.pa.manager.RelatorioManager;
+
+import net.sf.jasperreports.engine.JRException;
 
 @ManagedBean(name="indexBean")
 @ViewScoped
-public class IndexBean {
+public class IndexBean implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer groupsSize;
 	private Integer curriculosSize;
 	private Integer qualisSize;
@@ -29,10 +40,11 @@ public class IndexBean {
 	private Integer technicalProductionSize;
 	private Integer booksSize;
 	private Integer chapterSize;
+	private RelatorioManager relatorioManager; 
 
 	@PostConstruct
 	public void init() {
-
+		relatorioManager = new RelatorioManager();
 		List<Group> groups = DatabaseFacade.getInstance().listAllGroups();
 		List<Curriculo> curriculum = DatabaseFacade.getInstance().listAllCurriculos();
 		List<Qualis> qualis = DatabaseFacade.getInstance().listAllQualis();
@@ -52,6 +64,14 @@ public class IndexBean {
 		chapterSize = chapters.size();
 	}
 	
+	public void relatorioLattes(){
+		try {
+			System.out.println("ok");
+			relatorioManager.gerarRelatorioLattes("01/01/2015 00:00:00", "01/01/2017 00:00:00");
+		} catch (JRException | SQLException | IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	public Integer getBooksSize() {
 		return booksSize;

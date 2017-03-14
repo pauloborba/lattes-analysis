@@ -108,7 +108,13 @@
 				<b:column span="2">
 					<b:badge value="#{indexBean.chapterSize}" />
 				</b:column>
-			</b:row>							
+			</b:row>
+			<h:form>
+    			<p:growl id="growl" life="2000" />
+				<b:row>
+					<p:commandButton value="Gerar Relatório html" actionListener="#{indexBean.relatorioLattes}"/>
+				</b:row>
+				</h:form>						
 		</b:container>
 
 	</ui:define>
