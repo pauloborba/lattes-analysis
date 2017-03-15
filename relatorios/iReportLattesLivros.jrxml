@@ -14,14 +14,33 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[SELECT b.titulo, b.ano, b.nomeDaEditora
-FROM lattes.book b
+		<![CDATA[SELECT
+    GROUP_CONCAT(ba.autores) AS 'authors',
+    b.titulo,
+    b.ano,
+    b.nomeDaEditora,
+(SELECT
+            COUNT(distinct b.titulo)
+        FROM
+            lattes.book b
+        INNER JOIN
+    lattes.book_autores ba ON b.id = ba.Book_id
+        WHERE
+                (CASE WHEN $P{parametroDataInicio} IS NOT NULL AND $P{parametroDataFim} IS NOT NULL
+		THEN b.ano BETWEEN $P{parametroDataInicio} and $P{parametroDataFim} ELSE 1=1 END)) AS 'total'
+FROM
+    lattes.book b
+        INNER JOIN
+    lattes.book_autores ba ON b.id = ba.Book_id
 WHERE
    (CASE WHEN $P{parametroDataInicio} IS NOT NULL AND $P{parametroDataFim} IS NOT NULL
 		THEN b.ano BETWEEN $P{parametroDataInicio} and $P{parametroDataFim} ELSE 1=1 END)
-
-order by b.titulo asc;]]>
+group by b.titulo
+ORDER BY b.titulo ASC;]]>
 	</queryString>
+	<field name="authors" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
 	<field name="titulo" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
@@ -31,34 +50,35 @@ order by b.titulo asc;]]>
 	<field name="nomeDaEditora" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
+	<field name="total" class="java.lang.Long"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
 		<band height="129" splitType="Stretch">
 			<staticText>
-				<reportElement x="282" y="61" width="85" height="28" uuid="0c1e32f9-ab63-40a0-ab2d-34e14be84380"/>
+				<reportElement x="334" y="61" width="85" height="28" uuid="0c1e32f9-ab63-40a0-ab2d-34e14be84380"/>
 				<textElement>
 					<font size="20" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Período:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="371" y="61" width="50" height="28" uuid="59d04a4a-c5e0-4b36-acdd-7abbcf3a3f29"/>
+				<reportElement x="423" y="61" width="50" height="28" uuid="59d04a4a-c5e0-4b36-acdd-7abbcf3a3f29"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="20"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{parametroDataInicio}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="454" y="61" width="50" height="28" uuid="041ea6b2-9e4c-4da8-8629-de23259da7c2"/>
+				<reportElement x="506" y="61" width="50" height="28" uuid="041ea6b2-9e4c-4da8-8629-de23259da7c2"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="20"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{parametroDataFim}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="421" y="61" width="33" height="28" uuid="d2c9cb34-656c-4b13-b2b7-cb05c3180fc1"/>
+				<reportElement x="473" y="61" width="33" height="28" uuid="d2c9cb34-656c-4b13-b2b7-cb05c3180fc1"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="20" isBold="true"/>
 				</textElement>
@@ -71,6 +91,20 @@ order by b.titulo asc;]]>
 				</textElement>
 				<text><![CDATA[Detalhamento das publicações de livro do projeto]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="223" y="61" width="60" height="28" uuid="f363a1b1-82d9-4c0c-bddb-82c6ac6384b4"/>
+				<textElement>
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="283" y="61" width="51" height="28" uuid="73db83b8-00ca-44cc-83ee-426ea909ae85"/>
+				<textElement verticalAlignment="Middle">
+					<font size="20"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>
@@ -79,44 +113,56 @@ order by b.titulo asc;]]>
 	<columnHeader>
 		<band height="20" splitType="Stretch">
 			<staticText>
-				<reportElement x="100" y="0" width="484" height="20" uuid="32677cfc-96e9-47a1-ba1d-e1a924991542"/>
+				<reportElement x="231" y="0" width="316" height="20" uuid="32677cfc-96e9-47a1-ba1d-e1a924991542"/>
 				<textElement verticalAlignment="Middle">
 					<font size="15" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Título]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="0" width="100" height="20" uuid="2781daf3-6351-4307-95de-791f4ac65589"/>
+				<reportElement x="744" y="0" width="58" height="20" uuid="2781daf3-6351-4307-95de-791f4ac65589"/>
 				<textElement verticalAlignment="Middle">
 					<font size="15" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Ano]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="584" y="0" width="218" height="20" uuid="e0347c1f-2629-4928-be2a-a4a48d22170e"/>
+				<reportElement x="547" y="0" width="197" height="20" uuid="e0347c1f-2629-4928-be2a-a4a48d22170e"/>
 				<textElement verticalAlignment="Middle">
 					<font size="15" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Editora]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="231" height="20" uuid="178ad17d-7eec-4734-9ac0-2f3a27c8fea5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="15" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Autores]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="20" splitType="Stretch">
 			<textField>
-				<reportElement x="100" y="0" width="484" height="20" uuid="492ccc50-da17-46e2-9e88-0530d8f85e58"/>
+				<reportElement x="231" y="0" width="316" height="20" uuid="492ccc50-da17-46e2-9e88-0530d8f85e58"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{titulo} != null ? $F{titulo} : "----"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="0" width="100" height="20" uuid="4e1de852-3fb2-4dd3-81cb-a51f455679d8"/>
+				<reportElement x="744" y="0" width="58" height="20" uuid="4e1de852-3fb2-4dd3-81cb-a51f455679d8"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{ano}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{ano} != null ? $F{ano} : "----"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="584" y="0" width="218" height="20" uuid="57203c18-4eb0-41ee-9d4b-f22f56c8054f"/>
+				<reportElement x="547" y="0" width="197" height="20" uuid="57203c18-4eb0-41ee-9d4b-f22f56c8054f"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{nomeDaEditora}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{nomeDaEditora} != null ? $F{nomeDaEditora} : "----"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="231" height="20" uuid="7d553aab-343d-4fcb-a883-1250691ae3de"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{authors} != null ? $F{authors} : "----"]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

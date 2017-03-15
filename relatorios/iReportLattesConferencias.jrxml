@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="listagemGeralDeFuncionarios" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="BlankPage" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9bf9ac34-3740-4469-b2b9-30191fadda97">
-	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="48"/>
+	<property name="ireport.y" value="0"/>
 	<subDataset name="Table Dataset 1" uuid="868925df-c1c6-4a33-af80-76c1b374329c"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["C:\\Users\\Alex\\workspace\\lattes-analysis\\relatorios\\"]]></defaultValueExpression>
@@ -21,7 +21,7 @@
     GROUP_CONCAT(pa.authors) as 'authors',
     pt.name,
 (SELECT
-            COUNT(p.title)
+            COUNT(distinct p.title)
         FROM
             lattes.publication p
                 INNER JOIN
@@ -119,27 +119,19 @@ order by p.title asc;]]>
 		</band>
 	</title>
 	<pageHeader>
-		<band height="32" splitType="Stretch">
-			<staticText>
-				<reportElement x="10" y="10" width="319" height="20" uuid="7a783c24-95d0-49c4-b3e5-a4a027336b06"/>
-				<textElement verticalAlignment="Middle">
-					<font size="10" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Autores]]></text>
-			</staticText>
-		</band>
+		<band height="32" splitType="Stretch"/>
 	</pageHeader>
 	<columnHeader>
 		<band height="20" splitType="Stretch">
 			<staticText>
-				<reportElement x="329" y="0" width="278" height="20" uuid="fd258668-e9cd-43e0-9d9c-4013f988cf98"/>
+				<reportElement x="231" y="0" width="293" height="20" uuid="fd258668-e9cd-43e0-9d9c-4013f988cf98"/>
 				<textElement verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Título]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="0" width="319" height="20" uuid="62e453c3-651a-479d-8d66-ec0c29f6199e"/>
+				<reportElement x="0" y="0" width="231" height="20" uuid="62e453c3-651a-479d-8d66-ec0c29f6199e"/>
 				<textElement verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
@@ -149,32 +141,32 @@ order by p.title asc;]]>
 				<reportElement x="0" y="18" width="802" height="1" uuid="b745d0db-ce24-4fa6-84fe-dd39901e51d5"/>
 			</line>
 			<staticText>
-				<reportElement x="763" y="1" width="39" height="18" uuid="3acda0db-4aae-491e-a064-ed0239b8f232"/>
-				<textElement verticalAlignment="Middle">
+				<reportElement x="774" y="1" width="28" height="18" uuid="3acda0db-4aae-491e-a064-ed0239b8f232"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Ano]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="607" y="1" width="156" height="18" uuid="9be90f21-cd58-4972-999b-1db38add1d87"/>
+				<reportElement x="524" y="1" width="250" height="18" uuid="9be90f21-cd58-4972-999b-1db38add1d87"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Peródico]]></text>
+				<text><![CDATA[Conferência]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="20" splitType="Stretch">
 			<textField>
-				<reportElement x="0" y="0" width="319" height="20" uuid="c1b1edef-e827-4acc-a07c-1f5276dc4bdb"/>
+				<reportElement x="0" y="0" width="231" height="20" uuid="c1b1edef-e827-4acc-a07c-1f5276dc4bdb"/>
 				<textElement verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{authors}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="329" y="0" width="278" height="20" uuid="7c280a66-f1eb-40bb-919c-482c63a6de61"/>
+				<reportElement x="231" y="0" width="293" height="20" uuid="7c280a66-f1eb-40bb-919c-482c63a6de61"/>
 				<textElement verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
@@ -184,15 +176,15 @@ order by p.title asc;]]>
 				<reportElement x="0" y="19" width="802" height="1" uuid="2639aeb8-1885-4199-9094-8d1c79c3a3c1"/>
 			</line>
 			<textField>
-				<reportElement x="607" y="0" width="156" height="20" uuid="19fb5dfa-56b6-47e1-a988-57d0b9033d06"/>
+				<reportElement x="524" y="0" width="250" height="20" uuid="19fb5dfa-56b6-47e1-a988-57d0b9033d06"/>
 				<textElement verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="763" y="0" width="39" height="19" uuid="4660264a-157b-43ba-ba89-7102cee15091"/>
-				<textElement verticalAlignment="Middle">
+				<reportElement x="774" y="0" width="28" height="19" uuid="4660264a-157b-43ba-ba89-7102cee15091"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{year}]]></textFieldExpression>

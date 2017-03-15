@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -33,16 +34,17 @@ public class Book implements Serializable{
 	private String nomeDaEditora;
 	
 	@Column
-	private String autores;
+    @ElementCollection(targetClass=String.class)
+	private List<String> autores;
 
 	public Book(){}
 	
-	public Book(String titulo, String ano, String nomeDaEditora, String autores) {
+	public Book(String titulo, String ano, String nomeDaEditora, List<String> authors) {
 		super();
 		this.titulo = titulo;
 		this.ano = ano;
 		this.nomeDaEditora = nomeDaEditora;
-		this.autores = autores;
+		this.autores = authors;
 	}
 
 	public Long getId() {
@@ -77,11 +79,11 @@ public class Book implements Serializable{
 		this.nomeDaEditora = nomeDaEditora;
 	}
 
-	public String getAutores() {
+	public List<String> getAutores() {
 		return autores;
 	}
 
-	public void setAutores(String autores) {
+	public void setAutores(List<String> autores) {
 		this.autores = autores;
 	}
 
