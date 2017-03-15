@@ -46,9 +46,9 @@ public class CurriculoAnalyzerTest {
 		Curriculo c = new Curriculo("Nome", new Date());
 		
 		PublicationType typePublication = new PublicationType("Conferencia X", EnumPublicationLocalType.CONFERENCE);
-		Publication publication = new Publication("Primeira Publicacao A1", 2015, typePublication);
+		Publication publication = new Publication("Primeira Publicacao A1", 2015, typePublication, null);
 		PublicationType typePublication2 = new PublicationType("Conferencia Y", EnumPublicationLocalType.CONFERENCE);
-		Publication publication2 = new Publication("Segunda Publicacao A1", 2015, typePublication2);
+		Publication publication2 = new Publication("Segunda Publicacao A1", 2015, typePublication2, null);
 	
 		c.getPublications().add(publication);
 		c.getPublications().add(publication2);

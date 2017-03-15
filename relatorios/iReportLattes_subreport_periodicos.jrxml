@@ -22,7 +22,7 @@
                 INNER JOIN
             lattes.qualis q ON pt.name LIKE CONCAT('%', q.name, '%')
         WHERE
-            pt.type = 1
+            pt.type = 0
                 AND (CASE WHEN $P{parametroDataInicio} IS NOT NULL AND $P{parametroDataFim} IS NOT NULL
 		THEN p.year BETWEEN $P{parametroDataInicio} and $P{parametroDataFim} ELSE 1=1 END)) AS 'total'
 FROM
@@ -32,7 +32,7 @@ FROM
         INNER JOIN
     lattes.qualis q ON pt.name LIKE CONCAT('%', q.name, '%')
 WHERE
-    pt.type = 1
+    pt.type = 0
        AND (CASE WHEN $P{parametroDataInicio} IS NOT NULL AND $P{parametroDataFim} IS NOT NULL
 		THEN p.year BETWEEN $P{parametroDataInicio} and $P{parametroDataFim} ELSE 1=1 END)
 GROUP BY q.classification;]]>
@@ -82,13 +82,16 @@ GROUP BY q.classification;]]>
 				</textElement>
 				<text><![CDATA[QUALIS]]></text>
 			</staticText>
+			<line>
+				<reportElement x="0" y="23" width="216" height="1" uuid="934a2be5-1e56-4f84-9852-0475c4bbdd4c"/>
+			</line>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="20" splitType="Stretch">
 			<textField>
 				<reportElement x="0" y="0" width="116" height="20" uuid="26ddac0d-a603-427c-9e94-826f0597065d"/>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{classification}.intValue() == 0?"A1": $F{classification}.intValue() == 1?"A2": $F{classification}.intValue() == 2?"B1":$F{classification}.intValue() == 3?"B2":$F{classification}.intValue() == 4?"B3":$F{classification}.intValue() == 5?"B4":$F{classification}.intValue() == 6?"B5":$F{classification}.intValue() == 7?"C":$F{classification}.intValue() == 8?"NONE":""]]></textFieldExpression>
 			</textField>
 			<textField>
@@ -96,6 +99,9 @@ GROUP BY q.classification;]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{COUNT(p.title)}]]></textFieldExpression>
 			</textField>
+			<line>
+				<reportElement x="0" y="19" width="216" height="1" uuid="647b82db-8e74-4908-aca4-20664205af42"/>
+			</line>
 		</band>
 	</detail>
 	<columnFooter>

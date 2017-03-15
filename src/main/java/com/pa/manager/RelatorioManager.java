@@ -26,14 +26,24 @@ public class RelatorioManager implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	
 	private final String MENSAGEM_ERRO_DATA_INICIAL_MAIOR_QUE_DATA_FINAL_MES = "Atenção. O mês inicial informado é maior do que o mês final informado.";
 	private final String MENSAGEM_ERRO_DATA_INICIAL_MAIOR_QUE_DATA_FINAL_ANO = "Atenção. O ano inicial informado é maior do que o ano final informado.";
 	private final String MENSAGEM_ERRO_DATA_MAIOR_QUE_DATA_ATUAL = "Atenção. A data informada é maior do que a data atual.";
 	private final String ENDERECO_RELATORIOS_LATTES = "/iReportLattes.jrxml";
+	private final String ENDERECO_RELATORIOS_LATTES_ORIENTATIONS = "/iReportLattesOrientations.jrxml";
+	private final String ENDERECO_RELATORIOS_LATTES_LIVROS = "/iReportLattesLivros.jrxml";
+	private final String ENDERECO_RELATORIOS_LATTES_CAPITULOS = "/iReportLattesChapter.jrxml";
+	private final String ENDERECO_RELATORIOS_LATTES_CONFERENCIAS = "/iReportLattesConferencias.jrxml";
+	private final String ENDERECO_RELATORIOS_LATTES_PERIODICOS = "/iReportLattesPeriodicos.jrxml";
 	private final String ENDERECO_DIRETORIO_RELATORIOS = System.getProperty("user.home") + "//";
 	private final String NOME_DO_ARQUIVO = "RELATORIO_LATTES.html";
 	private final String NOME_DO_ARQUIVO_ORIENTATIONS = "RELATORIO_LATTES_ORIENTATIONS.html";
+	private final String NOME_DO_ARQUIVO_LIVROS = "RELATORIO_LATTES_LIVROS.html";
+	private final String NOME_DO_ARQUIVO_CAPITULOS = "RELATORIO_LATTES_CAPITULOS.html";
+	private final String NOME_DO_ARQUIVO_CONFERENCIAS = "RELATORIO_LATTES_CONFERENCIAS.html";
+	private final String NOME_DO_ARQUIVO_PERIODICOS = "RELATORIO_LATTES_PERIODICOS.html";
+	private static final long serialVersionUID = 1L;
 
 	private InputStream inputStream;
 	private JasperDesign designInputStream;
@@ -137,16 +147,18 @@ public class RelatorioManager implements Serializable {
 	public void gerarRelatorioLattes(String dataDeInicioParametter, String dataDeFimParametter)
 			throws JRException, SQLException, IOException {
 		// this.validarCamposData(dataDeInicioParametter, dataDeFimParametter);
-		this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES,
-				this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter));
+		this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES,this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter));
 		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO);
-	}
-
-	public void gerarRelatorioLattesOrientations(String dataInicial, String dataInicial2)
-			throws JRException, SQLException, IOException {
-		this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES, this.parametrizarConsulta(dataInicial, dataInicial2));
+		this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_ORIENTATIONS,this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter));
 		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO_ORIENTATIONS);
-
+		this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_LIVROS,this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter));
+		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO_LIVROS);
+		this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_CAPITULOS,this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter));
+		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO_CAPITULOS);
+		this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_CONFERENCIAS,this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter));
+		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO_CONFERENCIAS);
+		this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_PERIODICOS,this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter));
+		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO_PERIODICOS);
 	}
 
 }

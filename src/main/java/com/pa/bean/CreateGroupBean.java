@@ -2,6 +2,7 @@ package com.pa.bean;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -10,7 +11,6 @@ import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.application.FacesMessage.Severity;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -27,8 +27,12 @@ import com.pa.extractor.MultipleXMLExtractor;
  
 @ManagedBean(name="createGroupBean")
 @ViewScoped
-public class CreateGroupBean {
+public class CreateGroupBean implements Serializable{
      
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private boolean existingGroup = false;
 	private String groupName;
 	private List<String> fileNames = new ArrayList<String>();

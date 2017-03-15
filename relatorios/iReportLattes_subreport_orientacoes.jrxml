@@ -89,12 +89,12 @@ GROUP BY b.TipoOrientacao;]]>
 			</textField>
 			<textField>
 				<reportElement x="170" y="92" width="46" height="20" uuid="8d9cc200-93ab-4b1b-9f5b-b400ab204535"/>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{TOTAL_O_CONCLUIDAS_PARA_DOUTORADO}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="170" y="52" width="46" height="20" uuid="76ae05ce-029f-4aaa-9a5d-64167243bc85"/>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{TOTAL_O_CONCLUIDAS_PARA_MESTRADO}]]></textFieldExpression>
 			</textField>
 			<staticText>
@@ -113,14 +113,14 @@ GROUP BY b.TipoOrientacao;]]>
 			</staticText>
 			<staticText>
 				<reportElement x="33" y="92" width="137" height="20" uuid="8173a07a-9a02-4311-a54a-c48b553ed99a"/>
-				<textElement>
+				<textElement verticalAlignment="Middle">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[DOUTORADO (CONCLUIDA)]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="33" y="52" width="137" height="20" uuid="e36343f9-0695-414f-9aa3-f5179b74a3e2"/>
-				<textElement>
+				<textElement verticalAlignment="Middle">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[MESTRADO (CONCLUIDA)]]></text>
@@ -133,17 +133,29 @@ GROUP BY b.TipoOrientacao;]]>
 				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="33" y="120" width="137" height="20" uuid="a80b870f-f833-4797-83b5-8d3e6046a7ab"/>
+				<reportElement x="33" y="112" width="137" height="20" uuid="a80b870f-f833-4797-83b5-8d3e6046a7ab"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[INICIAÇÃO CIENTÍFICA]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="170" y="120" width="46" height="20" uuid="b00ffc2d-d9fc-42d9-b400-50b4e071726d"/>
+				<reportElement x="170" y="113" width="46" height="20" uuid="b00ffc2d-d9fc-42d9-b400-50b4e071726d"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{TOTAL_O_INICIACAO_CIENTIFICA}]]></textFieldExpression>
 			</textField>
+			<line>
+				<reportElement x="0" y="52" width="216" height="1" uuid="9210f3a6-40d3-4706-8859-df2c8abb5071"/>
+			</line>
+			<line>
+				<reportElement x="0" y="71" width="216" height="1" uuid="91598a19-764e-4140-b040-3d8a968c1323"/>
+			</line>
+			<line>
+				<reportElement x="0" y="92" width="216" height="1" uuid="372d3534-b517-4fb8-8727-dfcba3d01d44"/>
+			</line>
+			<line>
+				<reportElement x="0" y="112" width="216" height="1" uuid="7fa79a10-183e-4992-964b-0856a2a09c4d"/>
+			</line>
 		</band>
 	</title>
 	<pageHeader>

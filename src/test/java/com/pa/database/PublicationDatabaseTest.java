@@ -39,14 +39,14 @@ public class PublicationDatabaseTest {
 	
 	@Test
 	public void savePublicationTest() {
-		Publication publication = new Publication("Publication1", 2015, new PublicationType("TipoDePublicacao1", EnumPublicationLocalType.CONFERENCE));
+		Publication publication = new Publication("Publication1", 2015, new PublicationType("TipoDePublicacao1", EnumPublicationLocalType.CONFERENCE), null);
 		DatabaseFacade.getInstance().savePublication(publication);
 		assertNotNull(publication.getId());
 	}
 	
 	@Test
 	public void deletePublicationTest() {
-		Publication publication = new Publication("Publication1", 2015, new PublicationType("TipoDePublicacao1", EnumPublicationLocalType.CONFERENCE));
+		Publication publication = new Publication("Publication1", 2015, new PublicationType("TipoDePublicacao1", EnumPublicationLocalType.CONFERENCE), null);
 		DatabaseFacade.getInstance().savePublication(publication);
 		DatabaseFacade.getInstance().deletePublication(publication);
 		
@@ -58,7 +58,7 @@ public class PublicationDatabaseTest {
 	@Test
 	public void deletePublicationAndCheckPublicationTypeTest() {
 		PublicationType typePublication = new PublicationType("TipoDePublicacao1", EnumPublicationLocalType.CONFERENCE);
-		Publication publication = new Publication("Publication1", 2015, typePublication);
+		Publication publication = new Publication("Publication1", 2015, typePublication, null);
 		DatabaseFacade.getInstance().savePublication(publication);
 		DatabaseFacade.getInstance().deletePublication(publication);
 		
@@ -70,7 +70,7 @@ public class PublicationDatabaseTest {
 	@Test
 	public void updatePublicationTest() {
 		PublicationType typePublication = new PublicationType("TipoDePublicacao1", EnumPublicationLocalType.CONFERENCE);
-		Publication publication = new Publication("Publication1", 2015, typePublication);
+		Publication publication = new Publication("Publication1", 2015, typePublication, null);
 		DatabaseFacade.getInstance().savePublication(publication);
 		
 		publication.setTitle("TipoDePublicacaoEditada");
@@ -81,8 +81,8 @@ public class PublicationDatabaseTest {
 	
 	@Test
 	public void listAllPublicationTest() {
-		Publication publication = new Publication("Publication1", 2015, new PublicationType("TipoDePublicacao1", EnumPublicationLocalType.CONFERENCE));
-		Publication publication2 = new Publication("Publication2", 2015, new PublicationType("TipoDePublicacao2", EnumPublicationLocalType.CONFERENCE));
+		Publication publication = new Publication("Publication1", 2015, new PublicationType("TipoDePublicacao1", EnumPublicationLocalType.CONFERENCE), null);
+		Publication publication2 = new Publication("Publication2", 2015, new PublicationType("TipoDePublicacao2", EnumPublicationLocalType.CONFERENCE), null);
 		DatabaseFacade.getInstance().savePublication(publication);
 		DatabaseFacade.getInstance().savePublication(publication2);
 		
@@ -93,8 +93,8 @@ public class PublicationDatabaseTest {
 	
 	@Test
 	public void listAllPublicationByObjectTest() {
-		Publication publication = new Publication("Publication1", 2015, new PublicationType("TipoDePublicacao1", EnumPublicationLocalType.CONFERENCE));
-		Publication publication2 = new Publication("Publication2", 2015, new PublicationType("TipoDePublicacao2", EnumPublicationLocalType.CONFERENCE));
+		Publication publication = new Publication("Publication1", 2015, new PublicationType("TipoDePublicacao1", EnumPublicationLocalType.CONFERENCE), null);
+		Publication publication2 = new Publication("Publication2", 2015, new PublicationType("TipoDePublicacao2", EnumPublicationLocalType.CONFERENCE), null);
 		DatabaseFacade.getInstance().savePublication(publication);
 		DatabaseFacade.getInstance().savePublication(publication2);
 		
@@ -105,8 +105,8 @@ public class PublicationDatabaseTest {
 	
 	@Test
 	public void listAllPublicationByQueryTest() {
-		Publication publication = new Publication("Publication1", 2015, new PublicationType("TipoDePublicacao1", EnumPublicationLocalType.CONFERENCE));
-		Publication publication2 = new Publication("Publication2", 2015, new PublicationType("TipoDePublicacao2", EnumPublicationLocalType.CONFERENCE));
+		Publication publication = new Publication("Publication1", 2015, new PublicationType("TipoDePublicacao1", EnumPublicationLocalType.CONFERENCE), null);
+		Publication publication2 = new Publication("Publication2", 2015, new PublicationType("TipoDePublicacao2", EnumPublicationLocalType.CONFERENCE), null);
 		DatabaseFacade.getInstance().savePublication(publication);
 		DatabaseFacade.getInstance().savePublication(publication2);
 		

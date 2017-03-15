@@ -267,9 +267,8 @@ public class XMLExtractor {
 		NodeList nodeList = nodeProduction.getChildNodes();
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Node node = nodeList.item(i);
-			
+
 			if (node instanceof Element) {
-				System.out.println(node.getNodeName());
 				if (node.getNodeName().equals("TRABALHOS-EM-EVENTOS")) {
 					extractWorksInEvents(publications, node);
 				}
@@ -284,27 +283,36 @@ public class XMLExtractor {
 
 	private void extractWorksInEvents(Set<Publication> publications, Node node) {
 		NodeList events = node.getChildNodes();
-
+		Node eventTitle = null, eventYear = null;
+		List<String> authors = new ArrayList<String>();
+		
 		for (int j = 0; j < events.getLength(); j++) {
 			// Evento (Conferência)
 			Node event = events.item(j);
-			Node basicDataEvent = event.getChildNodes().item(0);
-			if (basicDataEvent != null) {
-				if (basicDataEvent.getNodeName().equals("DADOS-BASICOS-DO-TRABALHO")) {
-					Node eventTitle = basicDataEvent.getAttributes().getNamedItem("TITULO-DO-TRABALHO");
-					Node eventYear = basicDataEvent.getAttributes().getNamedItem("ANO-DO-TRABALHO");
-					Node eventLanguage = basicDataEvent.getAttributes().getNamedItem("IDIOMA");
-
-					if (eventTitle != null && eventYear != null) {
-						PublicationType type = getPublicationType(event, EnumPublicationLocalType.CONFERENCE);
-						Publication publication = new Publication(eventTitle.getNodeValue(),
-								Integer.valueOf(eventYear.getNodeValue()), type);
-
-						publication = getRealPublication(publication);
-
-						if (publication.getId() == null) {
-							publications.add(publication);
+			NodeList basicData = event.getChildNodes();
+			if (basicData != null) {
+				for (int k = 0; k <= basicData.getLength(); k++) {
+					Node basicDataEvent = basicData.item(k);
+					if (basicDataEvent != null) {
+						if (basicDataEvent.getNodeName().equals("DADOS-BASICOS-DO-TRABALHO")) {
+							eventTitle = basicDataEvent.getAttributes().getNamedItem("TITULO-DO-TRABALHO");
+							eventYear = basicDataEvent.getAttributes().getNamedItem("ANO-DO-TRABALHO");
 						}
+						if (basicDataEvent.getNodeName().equals("AUTORES")) {
+							authors.add(extractAuthorsPublications(basicDataEvent));
+						}
+					}
+				}
+
+				if (eventTitle != null && eventYear != null) {
+					PublicationType type = getPublicationType(event, EnumPublicationLocalType.CONFERENCE);
+					Publication publication = new Publication(eventTitle.getNodeValue(),
+							Integer.valueOf(eventYear.getNodeValue()), type, authors);
+
+					publication = getRealPublication(publication);
+
+					if (publication.getId() == null) {
+						publications.add(publication);
 					}
 				}
 			}
@@ -313,6 +321,8 @@ public class XMLExtractor {
 
 	private void extractChapterPublished(ArrayList<Chapter> chapters, Node node) {
 		NodeList nodeListBooks = node.getChildNodes();
+		String authors = "";
+		
 		for (int k = 0; k < nodeListBooks.getLength(); k++) {
 			Node nodeBook = nodeListBooks.item(k);
 
@@ -329,11 +339,14 @@ public class XMLExtractor {
 										.getNamedItem("TITULO-DO-CAPITULO-DO-LIVRO");
 								chapterYear = basicDataEvent.getAttributes().getNamedItem("ANO");
 							}
+//							if (detailDataEvent.getNodeName().equals("AUTORES")) {
+//								authors += extractAuthorsPublications(basicDataEvent) + ";";
+//							}
 							if (detailDataEvent.getNodeName().equals("DETALHAMENTO-DO-CAPITULO")) {
 								chapterBookTitle = detailDataEvent.getAttributes().getNamedItem("TITULO-DO-LIVRO");
 								if (chapterTitle != null) {
 									Chapter chapter = new Chapter(chapterTitle.getNodeValue(),
-											chapterYear.getNodeValue(), chapterBookTitle.getNodeValue(), null);
+											chapterYear.getNodeValue(), chapterBookTitle.getNodeValue(), authors);
 
 									chapters.add(chapter);
 								}
@@ -347,6 +360,8 @@ public class XMLExtractor {
 
 	private void extractBookPublished(ArrayList<Book> books, Node node) {
 		NodeList nodeListBooks = node.getChildNodes();
+		String authors = "";
+		
 		for (int k = 0; k < nodeListBooks.getLength(); k++) {
 			Node nodeBook = nodeListBooks.item(k);
 
@@ -363,12 +378,15 @@ public class XMLExtractor {
 									bookTitle = basicDataEvent.getAttributes().getNamedItem("TITULO-DO-LIVRO");
 									bookYear = basicDataEvent.getAttributes().getNamedItem("ANO");
 								}
+//								if (detailDataEvent.getNodeName().equals("AUTORES")) {
+//									authors += extractAuthorsPublications(detailDataEvent) + ";";
+//								}
 								if (detailDataEvent.getNodeName().equals("DETALHAMENTO-DO-LIVRO")) {
 									bookPublishingCompany = detailDataEvent.getAttributes()
 											.getNamedItem("NOME-DA-EDITORA");
 									if (bookTitle != null) {
 										Book book = new Book(bookTitle.getNodeValue(), bookYear.getNodeValue(),
-												bookPublishingCompany.getNodeValue(), null);
+												bookPublishingCompany.getNodeValue(), authors);
 										books.add(book);
 									}
 								}
@@ -382,31 +400,43 @@ public class XMLExtractor {
 
 	private void extractPapersPublished(Set<Publication> publications, Node node) {
 		NodeList articles = node.getChildNodes();
+		Node articleTitle = null, articleYear = null;
+		List<String> authors = new ArrayList<String>();
 
 		for (int j = 0; j < articles.getLength(); j++) {
 			// Artigo (Periodico ou Revista)
 			Node article = articles.item(j);
-			Node basicDataArticle = article.getChildNodes().item(0);
-			if (basicDataArticle != null) {
-				if (basicDataArticle.getNodeName().equals("DADOS-BASICOS-DO-ARTIGO")) {
-					Node articleTitle = basicDataArticle.getAttributes().getNamedItem("TITULO-DO-ARTIGO");
-					Node articleYear = basicDataArticle.getAttributes().getNamedItem("ANO-DO-ARTIGO");
-					Node eventLanguage = basicDataArticle.getAttributes().getNamedItem("IDIOMA");
-
-					if (articleTitle != null && articleYear != null) {
-						PublicationType type = getPublicationType(article, EnumPublicationLocalType.PERIODIC);
-						Publication publication = new Publication(articleTitle.getNodeValue(),
-								Integer.valueOf(articleYear.getNodeValue()), type);
-
-						publication = getRealPublication(publication);
-
-						if (publication.getId() == null) {
-							publications.add(publication);
+			NodeList basicData = article.getChildNodes();
+			if (basicData != null) {
+				for (int k = 0; k <= basicData.getLength(); k++) {
+					Node basicDataArticle = basicData.item(k);
+					if (basicDataArticle != null) {
+						if (basicDataArticle.getNodeName().equals("DADOS-BASICOS-DO-ARTIGO")) {
+							articleTitle = basicDataArticle.getAttributes().getNamedItem("TITULO-DO-ARTIGO");
+							articleYear = basicDataArticle.getAttributes().getNamedItem("ANO-DO-ARTIGO");
 						}
+						if (basicDataArticle.getNodeName().equals("AUTORES")) {
+							authors.add(extractAuthorsPublications(basicDataArticle));
+						}
+					}
+				}
+				if (articleTitle != null && articleYear != null) {
+					PublicationType type = getPublicationType(article, EnumPublicationLocalType.PERIODIC);
+					Publication publication = new Publication(articleTitle.getNodeValue(),
+							Integer.valueOf(articleYear.getNodeValue()), type, authors);
+
+					publication = getRealPublication(publication);
+
+					if (publication.getId() == null) {
+						publications.add(publication);
 					}
 				}
 			}
 		}
+	}
+
+	private String extractAuthorsPublications(Node node) {
+		return node.getAttributes().item(1).getNodeValue();
 	}
 
 	private Publication getRealPublication(Publication publication) {
@@ -421,7 +451,7 @@ public class XMLExtractor {
 		}
 		return publication;
 	}
-
+	
 	private PublicationType getPublicationType(Node mainNode, EnumPublicationLocalType local) {
 		PublicationType type = null;
 		String name;

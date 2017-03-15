@@ -32,12 +32,12 @@ public class Chapter implements Serializable{
 	@Column
 	private String tituloDoLivro;
 	
-	@OneToMany(cascade=CascadeType.ALL)
-	private List<Author> autores;
+	@Column
+	private String autores;
 
 	public Chapter(){}
 	
-	public Chapter(String titulo, String ano, String tituloDoLivro, List<Author> autores) {
+	public Chapter(String titulo, String ano, String tituloDoLivro, String autores) {
 		super();
 		this.titulo = titulo;
 		this.ano = ano;
@@ -77,12 +77,13 @@ public class Chapter implements Serializable{
 		this.tituloDoLivro = tituloDoLivro;
 	}
 
-	public List<Author> getAutores() {
+	public String getAutores() {
 		return autores;
 	}
 
-	public void setAutores(List<Author> autores) {
+	public void setAutores(String autores) {
 		this.autores = autores;
 	}
+	
 	
 }

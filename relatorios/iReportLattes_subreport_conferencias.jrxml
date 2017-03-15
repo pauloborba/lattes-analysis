@@ -22,7 +22,7 @@
                 INNER JOIN
             lattes.qualis q ON pt.name LIKE CONCAT('%', q.name, '%')
         WHERE
-            pt.type = 0
+            pt.type = 1
                 AND (CASE WHEN $P{parametroDataInicio} IS NOT NULL AND $P{parametroDataFim} IS NOT NULL
 		THEN p.year BETWEEN $P{parametroDataInicio} and $P{parametroDataFim} ELSE 1=1 END)) AS 'total'
 FROM
@@ -32,7 +32,7 @@ FROM
         INNER JOIN
     lattes.qualis q ON pt.name LIKE CONCAT('%', q.name, '%')
 WHERE
-    pt.type = 0
+    pt.type = 1
        AND (CASE WHEN $P{parametroDataInicio} IS NOT NULL AND $P{parametroDataFim} IS NOT NULL
 		THEN p.year BETWEEN $P{parametroDataInicio} and $P{parametroDataFim} ELSE 1=1 END)
 GROUP BY q.classification;]]>
@@ -83,6 +83,9 @@ GROUP BY q.classification;]]>
 				</textElement>
 				<text><![CDATA[QUALIS]]></text>
 			</staticText>
+			<line>
+				<reportElement x="0" y="22" width="216" height="1" uuid="9a38e46f-104a-4846-bdc8-4e4c44dd77a3"/>
+			</line>
 		</band>
 	</columnHeader>
 	<detail>
@@ -97,6 +100,9 @@ GROUP BY q.classification;]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{COUNT(p.title)}]]></textFieldExpression>
 			</textField>
+			<line>
+				<reportElement x="0" y="19" width="216" height="1" uuid="923faa24-bad5-4905-87df-f295950ce6d8"/>
+			</line>
 		</band>
 	</detail>
 	<columnFooter>

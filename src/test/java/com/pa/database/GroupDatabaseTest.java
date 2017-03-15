@@ -101,7 +101,7 @@ public class GroupDatabaseTest {
 		Group group = new Group("UFPE");
 		Curriculo curriculo = new Curriculo("Curriculo1", new Date());
 		curriculo.setId(10256l);
-		curriculo.getPublications().add(new Publication("Publication1", 2015, new PublicationType("TipoDePublicacao1", EnumPublicationLocalType.CONFERENCE)));
+		curriculo.getPublications().add(new Publication("Publication1", 2015, new PublicationType("TipoDePublicacao1", EnumPublicationLocalType.CONFERENCE), null));
 		group.getCurriculos().add(curriculo);
 		DatabaseFacade.getInstance().saveGroup(group);
 		
@@ -116,13 +116,13 @@ public class GroupDatabaseTest {
 		Group group = new Group("UFPE");
 		Curriculo curriculo = new Curriculo("Curriculo1", new Date());
 		curriculo.setId(10256l);
-		curriculo.getPublications().add(new Publication("Publication1", 2015, new PublicationType("TipoDePublicacao1", EnumPublicationLocalType.CONFERENCE)));
+		curriculo.getPublications().add(new Publication("Publication1", 2015, new PublicationType("TipoDePublicacao1", EnumPublicationLocalType.CONFERENCE), null));
 		group.getCurriculos().add(curriculo);
 		
 		Group group2 = new Group("UFPB");
 		Curriculo curriculo2 = new Curriculo("Curriculo2", new Date());
 		curriculo2.setId(10257l);
-		curriculo2.getPublications().add(new Publication("Publication2", 2015, new PublicationType("TipoDePublicacao2", EnumPublicationLocalType.CONFERENCE)));
+		curriculo2.getPublications().add(new Publication("Publication2", 2015, new PublicationType("TipoDePublicacao2", EnumPublicationLocalType.CONFERENCE), null));
 		group2.getCurriculos().add(curriculo2);
 		
 		DatabaseFacade.getInstance().saveGroup(group);
@@ -138,13 +138,13 @@ public class GroupDatabaseTest {
 		Group group = new Group("UFPE");
 		Curriculo curriculo = new Curriculo("Curriculo1", new Date());
 		curriculo.setId(10256l);
-		curriculo.getPublications().add(new Publication("Publication1", 2015, new PublicationType("TipoDePublicacao1", EnumPublicationLocalType.CONFERENCE)));
+		curriculo.getPublications().add(new Publication("Publication1", 2015, new PublicationType("TipoDePublicacao1", EnumPublicationLocalType.CONFERENCE), null));
 		group.getCurriculos().add(curriculo);
 		
 		Group group2 = new Group("UFPB");
 		Curriculo curriculo2 = new Curriculo("Curriculo2", new Date());
 		curriculo2.setId(10257l);
-		curriculo2.getPublications().add(new Publication("Publication2", 2015, new PublicationType("TipoDePublicacao1", EnumPublicationLocalType.CONFERENCE)));
+		curriculo2.getPublications().add(new Publication("Publication2", 2015, new PublicationType("TipoDePublicacao1", EnumPublicationLocalType.CONFERENCE), null));
 		group2.getCurriculos().add(curriculo2);
 		
 		DatabaseFacade.getInstance().saveGroup(group);
@@ -160,13 +160,13 @@ public class GroupDatabaseTest {
 		Group group = new Group("UFPE");
 		Curriculo curriculo = new Curriculo("Curriculo1", new Date());
 		curriculo.setId(10256l);
-		curriculo.getPublications().add(new Publication("Publication1", 2015, new PublicationType("TipoDePublicacao1", EnumPublicationLocalType.CONFERENCE)));
+		curriculo.getPublications().add(new Publication("Publication1", 2015, new PublicationType("TipoDePublicacao1", EnumPublicationLocalType.CONFERENCE), null));
 		group.getCurriculos().add(curriculo);
 		
 		Group group2 = new Group("UFPB");
 		Curriculo curriculo2 = new Curriculo("Curriculo2", new Date());
 		curriculo2.setId(10257l);
-		curriculo2.getPublications().add(new Publication("Publication2", 2015, new PublicationType("TipoDePublicacao1", EnumPublicationLocalType.CONFERENCE)));
+		curriculo2.getPublications().add(new Publication("Publication2", 2015, new PublicationType("TipoDePublicacao1", EnumPublicationLocalType.CONFERENCE), null));
 		group2.getCurriculos().add(curriculo2);
 		
 		DatabaseFacade.getInstance().saveGroup(group);

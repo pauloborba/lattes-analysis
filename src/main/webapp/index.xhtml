@@ -15,8 +15,8 @@
 				<b:row>
 						<h4>Informe um período para gerar um relatório detalhado.</h4>
 					<h:panelGrid columns="4" cellpadding="3">
-						<p:inputMask id="date1" value="#{indexBean.dataInicial}" mask="9999" placeholder="Data inicial ex: 2014"/>
-						<p:inputMask id="date2" value="#{indexBean.dataFinal}" mask="9999" placeholder="Data final ex:2016"/>
+						<p:inputMask id="date1" value="#{indexBean.data1}" mask="9999" placeholder="Data inicial ex: 2014"/>
+						<p:inputMask id="date2" value="#{indexBean.data2}" mask="9999" placeholder="Data final ex:2016"/>
 						<p:commandButton value="Gerar Relatório"
 							actionListener="#{indexBean.relatorioLattes}" />
 					</h:panelGrid>

@@ -90,36 +90,6 @@ GROUP BY q.classification;]]>
 	</title>
 	<pageHeader>
 		<band height="320" splitType="Stretch">
-			<rectangle>
-				<reportElement x="10" y="0" width="230" height="300" uuid="9a91dc45-8b0f-447d-88ed-c50a8f9fd7fe"/>
-				<graphicElement>
-					<pen lineWidth="2.0"/>
-				</graphicElement>
-			</rectangle>
-			<rectangle>
-				<reportElement x="290" y="0" width="230" height="300" uuid="b4df09cd-9555-49e2-b0a8-7f5218cf8746"/>
-				<graphicElement>
-					<pen lineWidth="2.0"/>
-				</graphicElement>
-			</rectangle>
-			<rectangle>
-				<reportElement x="565" y="0" width="237" height="33" uuid="fb3bb2dd-66e1-4eb3-bc75-0589856c1b69"/>
-				<graphicElement>
-					<pen lineWidth="2.0"/>
-				</graphicElement>
-			</rectangle>
-			<rectangle>
-				<reportElement x="565" y="50" width="237" height="33" uuid="942cfed9-4f45-4e90-b278-28db138792ac"/>
-				<graphicElement>
-					<pen lineWidth="2.0"/>
-				</graphicElement>
-			</rectangle>
-			<rectangle>
-				<reportElement x="565" y="100" width="237" height="200" uuid="d6849554-a0bc-470e-afa0-744c5785941e"/>
-				<graphicElement>
-					<pen lineWidth="2.0"/>
-				</graphicElement>
-			</rectangle>
 			<subreport>
 				<reportElement x="10" y="0" width="230" height="288" uuid="ea586d56-0cc3-4dba-ad6e-bbe58bd99b14"/>
 				<subreportParameter name="parametroDataInicio">
