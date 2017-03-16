@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="listagemGeralDeFuncionarios" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="BlankPage" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9bf9ac34-3740-4469-b2b9-30191fadda97">
 	<property name="ireport.zoom" value="1.5"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.x" value="390"/>
 	<property name="ireport.y" value="0"/>
 	<subDataset name="Table Dataset 1" uuid="868925df-c1c6-4a33-af80-76c1b374329c"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
@@ -17,7 +17,7 @@
 		<![CDATA[SELECT
     p.year,
     p.title,
-    q.classification,
+    IFNULL(q.classification,8),
     GROUP_CONCAT(pa.authors) as 'authors',
     pt.name,
 (SELECT
@@ -26,7 +26,7 @@
             lattes.publication p
                 INNER JOIN
             lattes.publicationtype pt ON pt.identifier = p.publicationType_identifier
-                INNER JOIN
+                left JOIN
             lattes.qualis q ON pt.name LIKE CONCAT('%', q.name, '%')
         WHERE
             pt.type = 1
@@ -37,14 +37,14 @@ lattes.publication_authors pa inner join
     lattes.publication p  ON p.id = pa.Publication_id
         INNER JOIN
     lattes.publicationtype pt ON pt.identifier = p.publicationType_identifier
-        INNER JOIN
+        left JOIN
     lattes.qualis q ON pt.name LIKE CONCAT('%', q.name, '%')
 WHERE
 pt.type = 1 and
      (CASE WHEN $P{parametroDataInicio} IS NOT NULL AND $P{parametroDataFim} IS NOT NULL
 		THEN p.year BETWEEN $P{parametroDataInicio} and $P{parametroDataFim} ELSE 1=1 END)
 group by p.title
-order by p.title asc;]]>
+order by p.year asc;]]>
 	</queryString>
 	<field name="year" class="java.lang.Integer">
 		<fieldDescription><![CDATA[]]></fieldDescription>
@@ -52,9 +52,7 @@ order by p.title asc;]]>
 	<field name="title" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="classification" class="java.lang.Integer">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
+	<field name="IFNULL(q.classification,8)" class="java.lang.Long"/>
 	<field name="authors" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
@@ -124,14 +122,7 @@ order by p.title asc;]]>
 	<columnHeader>
 		<band height="20" splitType="Stretch">
 			<staticText>
-				<reportElement x="231" y="0" width="293" height="20" uuid="fd258668-e9cd-43e0-9d9c-4013f988cf98"/>
-				<textElement verticalAlignment="Middle">
-					<font size="10" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Título]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="0" width="231" height="20" uuid="62e453c3-651a-479d-8d66-ec0c29f6199e"/>
+				<reportElement x="0" y="0" width="248" height="20" uuid="62e453c3-651a-479d-8d66-ec0c29f6199e"/>
 				<textElement verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
@@ -148,46 +139,53 @@ order by p.title asc;]]>
 				<text><![CDATA[Ano]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="524" y="1" width="250" height="18" uuid="9be90f21-cd58-4972-999b-1db38add1d87"/>
+				<reportElement x="541" y="1" width="233" height="18" uuid="9be90f21-cd58-4972-999b-1db38add1d87"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Conferência]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="248" y="1" width="293" height="17" uuid="fd258668-e9cd-43e0-9d9c-4013f988cf98"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Título]]></text>
+			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="20" splitType="Stretch">
+		<band height="28" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="25" width="802" height="1" uuid="2639aeb8-1885-4199-9094-8d1c79c3a3c1"/>
+			</line>
 			<textField>
-				<reportElement x="0" y="0" width="231" height="20" uuid="c1b1edef-e827-4acc-a07c-1f5276dc4bdb"/>
+				<reportElement x="0" y="0" width="248" height="23" uuid="c1b1edef-e827-4acc-a07c-1f5276dc4bdb"/>
 				<textElement verticalAlignment="Middle">
-					<font size="7"/>
+					<font size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{authors}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="231" y="0" width="293" height="20" uuid="7c280a66-f1eb-40bb-919c-482c63a6de61"/>
+				<reportElement x="541" y="0" width="233" height="23" uuid="19fb5dfa-56b6-47e1-a988-57d0b9033d06"/>
 				<textElement verticalAlignment="Middle">
-					<font size="7"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{title}]]></textFieldExpression>
-			</textField>
-			<line>
-				<reportElement x="0" y="19" width="802" height="1" uuid="2639aeb8-1885-4199-9094-8d1c79c3a3c1"/>
-			</line>
-			<textField>
-				<reportElement x="524" y="0" width="250" height="20" uuid="19fb5dfa-56b6-47e1-a988-57d0b9033d06"/>
-				<textElement verticalAlignment="Middle">
-					<font size="7"/>
+					<font size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="774" y="0" width="28" height="19" uuid="4660264a-157b-43ba-ba89-7102cee15091"/>
+				<reportElement x="774" y="1" width="28" height="23" uuid="4660264a-157b-43ba-ba89-7102cee15091"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="7"/>
+					<font size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{year}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="248" y="1" width="293" height="23" uuid="7c280a66-f1eb-40bb-919c-482c63a6de61"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{title}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

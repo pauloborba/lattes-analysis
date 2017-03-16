@@ -11,34 +11,44 @@
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT
-    COUNT(p.title),
-    q.classification,
-(SELECT
-            COUNT(p.title)
+    p.year,
+     COUNT(distinct p.title),
+    ifnull(q.classification, 9),
+    pt.name,
+    (SELECT
+            COUNT(DISTINCT p.title)
         FROM
             lattes.publication p
                 INNER JOIN
             lattes.publicationtype pt ON pt.identifier = p.publicationType_identifier
-                INNER JOIN
-            lattes.qualis q ON pt.name LIKE CONCAT('%', q.name, '%')
+                left JOIN
+            lattes.qualis q ON pt.name = q.name
+                left JOIN
+            lattes.qualisdata_qualis qd ON q.id = qd.qualis_id
+                left JOIN
+            lattes.qualisdata qualisdata ON qualisdata.id = qd.QualisData_id
         WHERE
             pt.type = 0
-                AND (CASE WHEN $P{parametroDataInicio} IS NOT NULL AND $P{parametroDataFim} IS NOT NULL
+                 AND (CASE WHEN $P{parametroDataInicio} IS NOT NULL AND $P{parametroDataFim} IS NOT NULL
 		THEN p.year BETWEEN $P{parametroDataInicio} and $P{parametroDataFim} ELSE 1=1 END)) AS 'total'
 FROM
     lattes.publication p
         INNER JOIN
     lattes.publicationtype pt ON pt.identifier = p.publicationType_identifier
-        INNER JOIN
-    lattes.qualis q ON pt.name LIKE CONCAT('%', q.name, '%')
+        LEFT JOIN
+    lattes.qualis q ON pt.name = q.name
 WHERE
     pt.type = 0
-       AND (CASE WHEN $P{parametroDataInicio} IS NOT NULL AND $P{parametroDataFim} IS NOT NULL
+         AND (CASE WHEN $P{parametroDataInicio} IS NOT NULL AND $P{parametroDataFim} IS NOT NULL
 		THEN p.year BETWEEN $P{parametroDataInicio} and $P{parametroDataFim} ELSE 1=1 END)
 GROUP BY q.classification;]]>
 	</queryString>
-	<field name="COUNT(p.title)" class="java.lang.Long"/>
-	<field name="classification" class="java.lang.Integer">
+	<field name="year" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="COUNT(distinct p.title)" class="java.lang.Long"/>
+	<field name="ifnull(q.classification, 9)" class="java.lang.Long"/>
+	<field name="name" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="total" class="java.lang.Long"/>
@@ -68,40 +78,36 @@ GROUP BY q.classification;]]>
 	</pageHeader>
 	<columnHeader>
 		<band height="24" splitType="Stretch">
-			<staticText>
-				<reportElement x="100" y="2" width="116" height="20" uuid="f7a0e035-eaec-4abb-bafb-1ea147f16b0a"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="10" isBold="true"/>
-				</textElement>
-				<text><![CDATA[QT]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="2" width="116" height="20" uuid="2a2e22aa-3966-4c92-935c-5b89dac9feb9"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="10" isBold="true"/>
-				</textElement>
-				<text><![CDATA[QUALIS]]></text>
-			</staticText>
 			<line>
 				<reportElement x="0" y="23" width="216" height="1" uuid="934a2be5-1e56-4f84-9852-0475c4bbdd4c"/>
 			</line>
+			<staticText>
+				<reportElement x="124" y="2" width="92" height="20" uuid="d7a8e59f-1a6d-4258-b47c-7e8933370c6d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[QT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="2" width="100" height="20" uuid="160affe5-7d93-4e9e-b5d4-51024a46ed98"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[QUALIS]]></text>
+			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="20" splitType="Stretch">
-			<textField>
-				<reportElement x="0" y="0" width="116" height="20" uuid="26ddac0d-a603-427c-9e94-826f0597065d"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{classification}.intValue() == 0?"A1": $F{classification}.intValue() == 1?"A2": $F{classification}.intValue() == 2?"B1":$F{classification}.intValue() == 3?"B2":$F{classification}.intValue() == 4?"B3":$F{classification}.intValue() == 5?"B4":$F{classification}.intValue() == 6?"B5":$F{classification}.intValue() == 7?"C":$F{classification}.intValue() == 8?"NONE":""]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="100" y="0" width="116" height="20" uuid="57ed023f-210c-4871-8a1c-78ca4e0f7b81"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{COUNT(p.title)}]]></textFieldExpression>
-			</textField>
 			<line>
 				<reportElement x="0" y="19" width="216" height="1" uuid="647b82db-8e74-4908-aca4-20664205af42"/>
 			</line>
+			<textField>
+				<reportElement x="124" y="0" width="92" height="20" uuid="c1682b0b-1c44-44e7-91a4-ab0e0fe2db52"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{COUNT(distinct p.title)}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="100" height="20" uuid="8d36d312-4709-401a-a968-780374eada78"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{ifnull(q.classification, 9)}.intValue() == 0?"A1": $F{ifnull(q.classification, 9)}.intValue() == 1?"A2": $F{ifnull(q.classification, 9)}.intValue() == 2?"B1":$F{ifnull(q.classification, 9)}.intValue() == 3?"B2":$F{ifnull(q.classification, 9)}.intValue() == 4?"B3":$F{ifnull(q.classification, 9)}.intValue() == 5?"B4":$F{ifnull(q.classification, 9)}.intValue() == 6?"B5":$F{ifnull(q.classification, 9)}.intValue() == 7?"C":$F{ifnull(q.classification, 9)}.intValue() == 8?"C":$F{ifnull(q.classification, 9)}.intValue() == 9?"NONE":""]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<columnFooter>

@@ -11,39 +11,38 @@
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT DISTINCT
- (SELECT
-            COUNT(b.TipoOrientacao)
-        FROM
-            lattes.orientation b
-        WHERE (CASE WHEN $P{parametroDataInicio} IS NOT NULL AND $P{parametroDataFim} IS NOT NULL
-		THEN b.ano BETWEEN $P{parametroDataInicio} and $P{parametroDataFim} ELSE 1=1 END)) as 'total',
+ ((SELECT COUNT(b.TipoOrientacao) FROM lattes.orientation b WHERE b.TipoOrientacao = 'ORIENTACAO_EM_ANDAMENTO_DE_MESTRADO' and b.tipoOrientador = 'ORIENTADOR_PRINCIPAL' AND b.ano BETWEEN '2015' AND '2017') +
+    (SELECT COUNT(b.TipoOrientacao) FROM lattes.orientation b WHERE b.TipoOrientacao = 'ORIENTACAO_EM_ANDAMENTO_DE_DOUTORADO' and b.tipoOrientador = 'ORIENTADOR_PRINCIPAL' AND b.ano BETWEEN '2015' AND '2017') +
+    (SELECT COUNT(b.TipoOrientacao) FROM lattes.orientation b WHERE b.TipoOrientacao = 'ORIENTACOES_CONCLUIDAS_PARA_DOUTORADO' and b.tipoOrientador = 'ORIENTADOR_PRINCIPAL' AND b.ano BETWEEN '2015' AND '2017') +
+    (SELECT COUNT(b.TipoOrientacao) FROM lattes.orientation b WHERE b.TipoOrientacao = 'ORIENTACOES_CONCLUIDAS_PARA_MESTRADO' and b.tipoOrientador = 'ORIENTADOR_PRINCIPAL' AND b.ano BETWEEN '2015' AND '2017') +
+	(SELECT COUNT(b.TipoOrientacao) FROM lattes.orientation b WHERE b.TipoOrientacao = 'ORIENTACAO_INICIACAO_CIENTIFICA' AND b.ano BETWEEN '2015' AND '2017')) as 'total',
     (SELECT
             COUNT(b.TipoOrientacao)
         FROM
             lattes.orientation b
         WHERE
-            b.TipoOrientacao = 'ORIENTACAO_EM_ANDAMENTO_DE_MESTRADO' and (CASE WHEN $P{parametroDataInicio} IS NOT NULL AND $P{parametroDataFim} IS NOT NULL
+            b.TipoOrientacao = 'ORIENTACAO_EM_ANDAMENTO_DE_MESTRADO'  and b.tipoOrientador = 'ORIENTADOR_PRINCIPAL' and (CASE WHEN $P{parametroDataInicio} IS NOT NULL AND $P{parametroDataFim} IS NOT NULL
 		THEN b.ano BETWEEN $P{parametroDataInicio} and $P{parametroDataFim} ELSE 1=1 END)) AS 'TOTAL_O_EM_ANDAMENTO_DE_MESTRADO',
     (SELECT
             COUNT(b.TipoOrientacao)
         FROM
             lattes.orientation b
         WHERE
-            b.TipoOrientacao = 'ORIENTACAO_EM_ANDAMENTO_DE_DOUTORADO' and (CASE WHEN $P{parametroDataInicio} IS NOT NULL AND $P{parametroDataFim} IS NOT NULL
+            b.TipoOrientacao = 'ORIENTACAO_EM_ANDAMENTO_DE_DOUTORADO'  and b.tipoOrientador = 'ORIENTADOR_PRINCIPAL' and (CASE WHEN $P{parametroDataInicio} IS NOT NULL AND $P{parametroDataFim} IS NOT NULL
 		THEN b.ano BETWEEN $P{parametroDataInicio} and $P{parametroDataFim} ELSE 1=1 END)) AS 'TOTAL_O_EM_ANDAMENTO_DE_DOUTORADO',
     (SELECT
             COUNT(b.TipoOrientacao)
         FROM
             lattes.orientation b
         WHERE
-            b.TipoOrientacao = 'ORIENTACOES_CONCLUIDAS_PARA_DOUTORADO' and (CASE WHEN $P{parametroDataInicio} IS NOT NULL AND $P{parametroDataFim} IS NOT NULL
+            b.TipoOrientacao = 'ORIENTACOES_CONCLUIDAS_PARA_DOUTORADO'  and b.tipoOrientador = 'ORIENTADOR_PRINCIPAL' and (CASE WHEN $P{parametroDataInicio} IS NOT NULL AND $P{parametroDataFim} IS NOT NULL
 		THEN b.ano BETWEEN $P{parametroDataInicio} and $P{parametroDataFim} ELSE 1=1 END)) AS 'TOTAL_O_CONCLUIDAS_PARA_DOUTORADO',
     (SELECT
             COUNT(b.TipoOrientacao)
         FROM
             lattes.orientation b
         WHERE
-            b.TipoOrientacao = 'ORIENTACOES_CONCLUIDAS_PARA_MESTRADO' and (CASE WHEN $P{parametroDataInicio} IS NOT NULL AND $P{parametroDataFim} IS NOT NULL
+            b.TipoOrientacao = 'ORIENTACOES_CONCLUIDAS_PARA_MESTRADO'  and b.tipoOrientador = 'ORIENTADOR_PRINCIPAL' and (CASE WHEN $P{parametroDataInicio} IS NOT NULL AND $P{parametroDataFim} IS NOT NULL
 		THEN b.ano BETWEEN $P{parametroDataInicio} and $P{parametroDataFim} ELSE 1=1 END)) AS 'TOTAL_O_CONCLUIDAS_PARA_MESTRADO',
     (SELECT
             COUNT(b.TipoOrientacao)

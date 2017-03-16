@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="iReportLattes_subreport_conferencias" pageWidth="216" pageHeight="300" whenNoDataType="BlankPage" columnWidth="216" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="2a1d649c-140e-473a-9a92-b7f48ad3070a">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="iReportLattes_subreport_conferencias" pageWidth="216" pageHeight="50" whenNoDataType="BlankPage" columnWidth="216" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="2a1d649c-140e-473a-9a92-b7f48ad3070a">
 	<property name="ireport.zoom" value="3.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -10,17 +10,17 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[SELECT
-    COUNT(p.title),
-    q.classification,
+		<![CDATA[SELECT distinct
+    COUNT(distinct p.title),
+    IFNULL(q.classification,8) as 'classification',
 (SELECT
-            COUNT(p.title)
+            COUNT(distinct p.title)
         FROM
             lattes.publication p
                 INNER JOIN
             lattes.publicationtype pt ON pt.identifier = p.publicationType_identifier
-                INNER JOIN
-            lattes.qualis q ON pt.name LIKE CONCAT('%', q.name, '%')
+                left JOIN
+     lattes.qualis q ON pt.name LIKE CONCAT('%', q.name, '%')
         WHERE
             pt.type = 1
                 AND (CASE WHEN $P{parametroDataInicio} IS NOT NULL AND $P{parametroDataFim} IS NOT NULL
@@ -29,16 +29,16 @@ FROM
     lattes.publication p
         INNER JOIN
     lattes.publicationtype pt ON pt.identifier = p.publicationType_identifier
-        INNER JOIN
-    lattes.qualis q ON pt.name LIKE CONCAT('%', q.name, '%')
+        left JOIN
+     lattes.qualis q ON pt.name LIKE CONCAT('%', q.name, '%')
 WHERE
     pt.type = 1
        AND (CASE WHEN $P{parametroDataInicio} IS NOT NULL AND $P{parametroDataFim} IS NOT NULL
 		THEN p.year BETWEEN $P{parametroDataInicio} and $P{parametroDataFim} ELSE 1=1 END)
 GROUP BY q.classification;]]>
 	</queryString>
-	<field name="COUNT(p.title)" class="java.lang.Long"/>
-	<field name="classification" class="java.lang.Integer">
+	<field name="COUNT(distinct p.title)" class="java.lang.Long"/>
+	<field name="classification" class="java.lang.Long">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="total" class="java.lang.Long"/>
@@ -47,7 +47,7 @@ GROUP BY q.classification;]]>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="3" splitType="Stretch"/>
+		<band splitType="Stretch"/>
 	</title>
 	<pageHeader>
 		<band height="32" splitType="Stretch">
@@ -68,50 +68,18 @@ GROUP BY q.classification;]]>
 		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="24" splitType="Stretch">
-			<staticText>
-				<reportElement x="100" y="2" width="116" height="20" uuid="f7a0e035-eaec-4abb-bafb-1ea147f16b0a"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="10" isBold="true"/>
-				</textElement>
-				<text><![CDATA[QT]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="2" width="116" height="20" uuid="2a2e22aa-3966-4c92-935c-5b89dac9feb9"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="10" isBold="true"/>
-				</textElement>
-				<text><![CDATA[QUALIS]]></text>
-			</staticText>
-			<line>
-				<reportElement x="0" y="22" width="216" height="1" uuid="9a38e46f-104a-4846-bdc8-4e4c44dd77a3"/>
-			</line>
-		</band>
+		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="20" splitType="Stretch">
-			<textField>
-				<reportElement x="0" y="0" width="116" height="20" uuid="06be10b1-c1b5-4697-adaf-8161e82a6c54"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{classification}.intValue() == 0?"A1": $F{classification}.intValue() == 1?"A2": $F{classification}.intValue() == 2?"B1":$F{classification}.intValue() == 3?"B2":$F{classification}.intValue() == 4?"B3":$F{classification}.intValue() == 5?"B4":$F{classification}.intValue() == 6?"B5":$F{classification}.intValue() == 7?"C":$F{classification}.intValue() == 8?"NONE":""]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="100" y="0" width="116" height="20" uuid="720620e1-03b3-4e10-8c5b-5095641c477d"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{COUNT(p.title)}]]></textFieldExpression>
-			</textField>
-			<line>
-				<reportElement x="0" y="19" width="216" height="1" uuid="923faa24-bad5-4905-87df-f295950ce6d8"/>
-			</line>
-		</band>
+		<band splitType="Stretch"/>
 	</detail>
 	<columnFooter>
-		<band height="1" splitType="Stretch"/>
+		<band splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
 		<band splitType="Stretch"/>
 	</pageFooter>
 	<summary>
-		<band height="5" splitType="Stretch"/>
+		<band splitType="Stretch"/>
 	</summary>
 </jasperReport>

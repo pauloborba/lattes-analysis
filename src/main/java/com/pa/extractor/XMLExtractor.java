@@ -217,28 +217,29 @@ public class XMLExtractor {
 			for (int j = 0; j < childNodeList.getLength(); j++) {
 				Node node2 = childNodeList.item(j);
 				Node basicDataEvent = node2.getChildNodes().item(0);
-				if (basicDataEvent != null) {
+				Node detailDataEvent = node2.getChildNodes().item(1);
+				if (basicDataEvent != null && detailDataEvent != null) {
 					if (basicDataEvent.getNodeName().equals("DADOS-BASICOS-DE-ORIENTACOES-CONCLUIDAS-PARA-MESTRADO")) {
-						extractBasicDataOrientations("TITULO", orientations, basicDataEvent,
-								OrientationType.ORIENTACOES_CONCLUIDAS_PARA_MESTRADO);
+						extractDataOrientations("TITULO", orientations, basicDataEvent,detailDataEvent,
+								OrientationType.ORIENTACOES_CONCLUIDAS_PARA_MESTRADO, "NOME-DO-ORIENTADO", "TIPO-DE-ORIENTACAO");
 					}
 					if (basicDataEvent.getNodeName().equals("DADOS-BASICOS-DE-ORIENTACOES-CONCLUIDAS-PARA-DOUTORADO")) {
-						extractBasicDataOrientations("TITULO", orientations, basicDataEvent,
-								OrientationType.ORIENTACOES_CONCLUIDAS_PARA_DOUTORADO);
+						extractDataOrientations("TITULO", orientations, basicDataEvent,detailDataEvent,
+								OrientationType.ORIENTACOES_CONCLUIDAS_PARA_DOUTORADO, "NOME-DO-ORIENTADO", "TIPO-DE-ORIENTACAO");
 					}
 					if (basicDataEvent.getNodeName().equals("DADOS-BASICOS-DA-ORIENTACAO-EM-ANDAMENTO-DE-MESTRADO")) {
-						extractBasicDataOrientations("TITULO-DO-TRABALHO", orientations, basicDataEvent,
-								OrientationType.ORIENTACAO_EM_ANDAMENTO_DE_MESTRADO);
+						extractDataOrientations("TITULO-DO-TRABALHO", orientations, basicDataEvent,detailDataEvent,
+								OrientationType.ORIENTACAO_EM_ANDAMENTO_DE_MESTRADO, "NOME-DO-ORIENTANDO", "TIPO-DE-ORIENTACAO");
 					}
 					if (basicDataEvent.getNodeName().equals("DADOS-BASICOS-DA-ORIENTACAO-EM-ANDAMENTO-DE-DOUTORADO")) {
-						extractBasicDataOrientations("TITULO-DO-TRABALHO", orientations, basicDataEvent,
-								OrientationType.ORIENTACAO_EM_ANDAMENTO_DE_DOUTORADO);
+						extractDataOrientations("TITULO-DO-TRABALHO", orientations, basicDataEvent,detailDataEvent,
+								OrientationType.ORIENTACAO_EM_ANDAMENTO_DE_DOUTORADO, "NOME-DO-ORIENTANDO", "TIPO-DE-ORIENTACAO");
 					}
 					if (basicDataEvent.getNodeName().equals("DADOS-BASICOS-DE-OUTRAS-ORIENTACOES-CONCLUIDAS")) {
 						Node orientationNatureza = basicDataEvent.getAttributes().getNamedItem("NATUREZA");
 						if (orientationNatureza.getNodeValue().equals("INICIACAO_CIENTIFICA")) {
-							extractBasicDataOrientations("TITULO", orientations, basicDataEvent,
-									OrientationType.ORIENTACAO_INICIACAO_CIENTIFICA);
+							extractDataOrientations("TITULO", orientations, basicDataEvent,detailDataEvent,
+									OrientationType.ORIENTACAO_INICIACAO_CIENTIFICA, "NOME-DO-ORIENTADO", "TIPO-DE-ORIENTACAO-CONCLUIDA");
 						}
 					}
 				}
@@ -247,21 +248,26 @@ public class XMLExtractor {
 		return orientations;
 	}
 
-	private void extractBasicDataOrientations(String title, ArrayList<Orientation> orientations, Node basicDataEvent,
-			OrientationType orientationType) {
+	private void extractDataOrientations(String title, ArrayList<Orientation> orientations, Node basicDataEvent,
+			Node detailDataEvent, OrientationType orientationType, String andamento, String tipoOrientador) {
 		Node orientationTitle = basicDataEvent.getAttributes().getNamedItem(title);
 		Node orientationNatureza = basicDataEvent.getAttributes().getNamedItem("NATUREZA");
 		Node orientationYear = basicDataEvent.getAttributes().getNamedItem("ANO");
 		Node orientationLanguage = basicDataEvent.getAttributes().getNamedItem("IDIOMA");
+		Node orientationtype = detailDataEvent.getAttributes().getNamedItem(tipoOrientador);
+		Node orientationNameStudent = detailDataEvent.getAttributes().getNamedItem(andamento);
 
 		if (orientationTitle != null) {
 			Orientation orientation = new Orientation(orientationNatureza.getNodeValue(), orientationType,
 					orientationTitle.getNodeValue(), orientationYear.getNodeValue(),
-					orientationLanguage.getNodeValue());
+					orientationLanguage.getNodeValue(), orientationtype.getNodeValue(), orientationNameStudent.getNodeValue());
+			
+			
+			
 			orientations.add(orientation);
 		}
 	}
-
+	
 	private Set<Publication> extractPublications(Node nodeProduction) {
 		Set<Publication> publications = new HashSet<Publication>();
 
@@ -454,14 +460,15 @@ public class XMLExtractor {
 		if (!databasePublications.isEmpty()) {
 			for (Publication basePublication : databasePublications) {
 				if (basePublication.getPublicationType().equals(publication.getPublicationType())
+						&& basePublication.getPublicationType().getName().equals(publication.getPublicationType().getName())
 						&& basePublication.getTitle().equals(publication.getTitle())) {
-					publication = basePublication;
+					
 				}
 			}
 		}
 		return publication;
 	}
-
+	
 	private PublicationType getPublicationType(Node mainNode, EnumPublicationLocalType local) {
 		PublicationType type = null;
 		String name;

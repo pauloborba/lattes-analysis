@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="listagemGeralDeFuncionarios" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="BlankPage" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9bf9ac34-3740-4469-b2b9-30191fadda97">
-	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<subDataset name="Table Dataset 1" uuid="868925df-c1c6-4a33-af80-76c1b374329c"/>
@@ -15,7 +15,7 @@
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT
-    b.TipoOrientacao,b.titulo, b.ano, b.natureza, c.name,
+    b.TipoOrientacao,b.titulo, b.ano, b.natureza, c.name,b.nomeOrientando,
     (SELECT
    count(b.titulo)
 FROM
@@ -38,7 +38,7 @@ WHERE
 	b.TipoOrientacao = 'ORIENTACAO_INICIACAO_CIENTIFICA' and
     (CASE WHEN $P{parametroDataInicio} IS NOT NULL AND $P{parametroDataFim} IS NOT NULL
 		THEN b.ano BETWEEN $P{parametroDataInicio} and $P{parametroDataFim} ELSE 1=1 END)
-ORDER BY b.titulo ASC;]]>
+ORDER BY b.ano ASC;]]>
 	</queryString>
 	<field name="TipoOrientacao" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
@@ -53,6 +53,9 @@ ORDER BY b.titulo ASC;]]>
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nomeOrientando" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="total" class="java.lang.Long"/>
@@ -125,21 +128,21 @@ ORDER BY b.titulo ASC;]]>
 	<columnHeader>
 		<band height="20" splitType="Stretch">
 			<staticText>
-				<reportElement x="203" y="0" width="473" height="20" uuid="32677cfc-96e9-47a1-ba1d-e1a924991542"/>
+				<reportElement x="184" y="0" width="346" height="20" uuid="32677cfc-96e9-47a1-ba1d-e1a924991542"/>
 				<textElement verticalAlignment="Middle">
 					<font size="15" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Título]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="151" y="0" width="52" height="20" uuid="2781daf3-6351-4307-95de-791f4ac65589"/>
+				<reportElement x="151" y="0" width="33" height="20" uuid="2781daf3-6351-4307-95de-791f4ac65589"/>
 				<textElement verticalAlignment="Middle">
 					<font size="15" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Ano]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="676" y="0" width="126" height="20" uuid="e0347c1f-2629-4928-be2a-a4a48d22170e"/>
+				<reportElement x="689" y="0" width="113" height="20" uuid="e0347c1f-2629-4928-be2a-a4a48d22170e"/>
 				<textElement verticalAlignment="Middle">
 					<font size="15" isBold="true"/>
 				</textElement>
@@ -152,29 +155,41 @@ ORDER BY b.titulo ASC;]]>
 				</textElement>
 				<text><![CDATA[Orientador]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="530" y="0" width="159" height="20" uuid="134c76ae-488d-4288-99b5-0b0040319b84"/>
+				<textElement verticalAlignment="Middle">
+					<font size="15" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Orientando]]></text>
+			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="20" splitType="Stretch">
+		<band height="30" splitType="Stretch">
 			<textField>
-				<reportElement x="203" y="0" width="473" height="20" uuid="45a557eb-2324-46ab-ad82-4a69cce20b13"/>
+				<reportElement x="184" y="2" width="346" height="25" uuid="45a557eb-2324-46ab-ad82-4a69cce20b13"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="151" y="0" width="52" height="20" uuid="5d711e35-4c3f-4caf-b4c7-025b4e0ae905"/>
+				<reportElement x="151" y="2" width="33" height="25" uuid="5d711e35-4c3f-4caf-b4c7-025b4e0ae905"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{ano}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="676" y="0" width="126" height="20" uuid="f72f9677-5f96-4893-abcb-51946331998a"/>
+				<reportElement x="689" y="2" width="113" height="25" uuid="f72f9677-5f96-4893-abcb-51946331998a"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{natureza}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="0" width="151" height="20" uuid="f0e5f30f-f390-4c68-98a0-a5722d279094"/>
+				<reportElement x="0" y="2" width="151" height="25" uuid="f0e5f30f-f390-4c68-98a0-a5722d279094"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="530" y="2" width="159" height="25" uuid="bee1d69c-d16a-4120-bcbd-f2c0b4de03ec"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nomeOrientando}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

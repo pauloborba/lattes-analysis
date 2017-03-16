@@ -37,15 +37,40 @@ public class Orientation implements Serializable{
 	@Column
 	private String idioma;
 	
+	@Column
+	private String tipoOrientador;
+	
+	@Column
+	private String nomeOrientando;
+	
 	public Orientation(){}
 	
-	public Orientation(String natureza, OrientationType tipoOrientacao, String titulo, String ano, String idioma) {
+	public Orientation(String natureza, OrientationType tipoOrientacao, String titulo, String ano, String idioma, String tipoOrientador, String nomeOrientando) {
 		super();
 		this.natureza = natureza;
 		TipoOrientacao = tipoOrientacao;
 		this.titulo = titulo;
 		this.ano = ano;
 		this.idioma = idioma;
+		this.tipoOrientador = tipoOrientador;
+		this.nomeOrientando = nomeOrientando;
+	}
+
+	
+	public String getTipoOrientador() {
+		return tipoOrientador;
+	}
+
+	public void setTipoOrientador(String tipoOrientador) {
+		this.tipoOrientador = tipoOrientador;
+	}
+
+	public String getNomeOrientando() {
+		return nomeOrientando;
+	}
+
+	public void setNomeOrientando(String nomeOrientando) {
+		this.nomeOrientando = nomeOrientando;
 	}
 
 	public OrientationType getTipoOrientacao() {
