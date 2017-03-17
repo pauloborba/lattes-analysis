@@ -104,7 +104,7 @@ ORDER BY b.ano ASC;]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="15" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Orientações de iniciação científica]]></text>
+				<text><![CDATA[Orientações concluidas de iniciação científica]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="289" y="61" width="56" height="28" uuid="a9fe8eb0-0bd5-424d-9cd3-26304a6583ca"/>

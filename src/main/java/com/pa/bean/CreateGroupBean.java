@@ -95,8 +95,8 @@ public class CreateGroupBean implements Serializable{
 		fillCurriculumLists(selectedGroups, duplicatedCurriculos, allCurriculos);
 		
 		if(!duplicatedCurriculos.isEmpty()) {
-			String msg = buildMessageForDuplications(duplicatedCurriculos);
-			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, null) );
+		//	String msg = buildMessageForDuplications(duplicatedCurriculos);
+		//	context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, null) );
 		}
 		else {
 			createGroupFromAnotherGroups(context, allCurriculos);
@@ -132,7 +132,7 @@ public class CreateGroupBean implements Serializable{
 		Group group = new Group(groupName);
 		group.getCurriculos().addAll(allCurriculos);
 		
-		Group grupoAux = this.save(group, false);
+		Group grupoAux = this.save(group, true);
 
 		if(grupoAux != null) {
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "O grupo " + grupoAux.getName() + " foi criado com sucesso.", null) );

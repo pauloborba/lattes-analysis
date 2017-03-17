@@ -17,8 +17,7 @@
 		<![CDATA[SELECT
     p.year,
     p.title,
-    IFNULL(q.classification,8),
-    GROUP_CONCAT(pa.authors) as 'authors',
+    group_concat(pa.authors),
     pt.name,
 (SELECT
             COUNT(distinct p.title)
@@ -26,8 +25,7 @@
             lattes.publication p
                 INNER JOIN
             lattes.publicationtype pt ON pt.identifier = p.publicationType_identifier
-                left JOIN
-            lattes.qualis q ON pt.name LIKE CONCAT('%', q.name, '%')
+
         WHERE
             pt.type = 1
                 AND (CASE WHEN $P{parametroDataInicio} IS NOT NULL AND $P{parametroDataFim} IS NOT NULL
@@ -37,8 +35,6 @@ lattes.publication_authors pa inner join
     lattes.publication p  ON p.id = pa.Publication_id
         INNER JOIN
     lattes.publicationtype pt ON pt.identifier = p.publicationType_identifier
-        left JOIN
-    lattes.qualis q ON pt.name LIKE CONCAT('%', q.name, '%')
 WHERE
 pt.type = 1 and
      (CASE WHEN $P{parametroDataInicio} IS NOT NULL AND $P{parametroDataFim} IS NOT NULL
@@ -52,10 +48,7 @@ order by p.year asc;]]>
 	<field name="title" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="IFNULL(q.classification,8)" class="java.lang.Long"/>
-	<field name="authors" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
+	<field name="group_concat(pa.authors)" class="java.lang.String"/>
 	<field name="name" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
@@ -121,13 +114,6 @@ order by p.year asc;]]>
 	</pageHeader>
 	<columnHeader>
 		<band height="20" splitType="Stretch">
-			<staticText>
-				<reportElement x="0" y="0" width="248" height="20" uuid="62e453c3-651a-479d-8d66-ec0c29f6199e"/>
-				<textElement verticalAlignment="Middle">
-					<font size="10" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Autores]]></text>
-			</staticText>
 			<line>
 				<reportElement x="0" y="18" width="802" height="1" uuid="b745d0db-ce24-4fa6-84fe-dd39901e51d5"/>
 			</line>
@@ -146,46 +132,53 @@ order by p.year asc;]]>
 				<text><![CDATA[Conferência]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="248" y="1" width="293" height="17" uuid="fd258668-e9cd-43e0-9d9c-4013f988cf98"/>
+				<reportElement x="266" y="1" width="267" height="17" uuid="fd258668-e9cd-43e0-9d9c-4013f988cf98"/>
 				<textElement verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Título]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="255" height="20" uuid="456a4695-a34a-447b-bd33-9d34bf756594"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Autores]]></text>
+			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="28" splitType="Stretch">
+		<band height="47" splitType="Stretch">
 			<line>
-				<reportElement x="0" y="25" width="802" height="1" uuid="2639aeb8-1885-4199-9094-8d1c79c3a3c1"/>
+				<reportElement x="0" y="45" width="802" height="1" uuid="2639aeb8-1885-4199-9094-8d1c79c3a3c1"/>
 			</line>
 			<textField>
-				<reportElement x="0" y="0" width="248" height="23" uuid="c1b1edef-e827-4acc-a07c-1f5276dc4bdb"/>
-				<textElement verticalAlignment="Middle">
-					<font size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{authors}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="541" y="0" width="233" height="23" uuid="19fb5dfa-56b6-47e1-a988-57d0b9033d06"/>
+				<reportElement x="541" y="0" width="233" height="46" uuid="19fb5dfa-56b6-47e1-a988-57d0b9033d06"/>
 				<textElement verticalAlignment="Middle">
 					<font size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="774" y="1" width="28" height="23" uuid="4660264a-157b-43ba-ba89-7102cee15091"/>
+				<reportElement x="774" y="1" width="28" height="46" uuid="4660264a-157b-43ba-ba89-7102cee15091"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{year}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="248" y="1" width="293" height="23" uuid="7c280a66-f1eb-40bb-919c-482c63a6de61"/>
+				<reportElement x="266" y="1" width="267" height="46" uuid="7c280a66-f1eb-40bb-919c-482c63a6de61"/>
 				<textElement verticalAlignment="Middle">
 					<font size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{title}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="1" width="255" height="46" uuid="a2e56da0-5df8-4b03-8004-ae3463214e0e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{group_concat(pa.authors)}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

@@ -220,26 +220,36 @@ public class XMLExtractor {
 				Node detailDataEvent = node2.getChildNodes().item(1);
 				if (basicDataEvent != null && detailDataEvent != null) {
 					if (basicDataEvent.getNodeName().equals("DADOS-BASICOS-DE-ORIENTACOES-CONCLUIDAS-PARA-MESTRADO")) {
-						extractDataOrientations("TITULO", orientations, basicDataEvent,detailDataEvent,
-								OrientationType.ORIENTACOES_CONCLUIDAS_PARA_MESTRADO, "NOME-DO-ORIENTADO", "TIPO-DE-ORIENTACAO");
+						extractDataOrientations("TITULO", orientations, basicDataEvent, detailDataEvent,
+								OrientationType.ORIENTACOES_CONCLUIDAS_PARA_MESTRADO, "NOME-DO-ORIENTADO",
+								"TIPO-DE-ORIENTACAO");
 					}
 					if (basicDataEvent.getNodeName().equals("DADOS-BASICOS-DE-ORIENTACOES-CONCLUIDAS-PARA-DOUTORADO")) {
-						extractDataOrientations("TITULO", orientations, basicDataEvent,detailDataEvent,
-								OrientationType.ORIENTACOES_CONCLUIDAS_PARA_DOUTORADO, "NOME-DO-ORIENTADO", "TIPO-DE-ORIENTACAO");
+						extractDataOrientations("TITULO", orientations, basicDataEvent, detailDataEvent,
+								OrientationType.ORIENTACOES_CONCLUIDAS_PARA_DOUTORADO, "NOME-DO-ORIENTADO",
+								"TIPO-DE-ORIENTACAO");
 					}
 					if (basicDataEvent.getNodeName().equals("DADOS-BASICOS-DA-ORIENTACAO-EM-ANDAMENTO-DE-MESTRADO")) {
-						extractDataOrientations("TITULO-DO-TRABALHO", orientations, basicDataEvent,detailDataEvent,
-								OrientationType.ORIENTACAO_EM_ANDAMENTO_DE_MESTRADO, "NOME-DO-ORIENTANDO", "TIPO-DE-ORIENTACAO");
+						extractDataOrientations("TITULO-DO-TRABALHO", orientations, basicDataEvent, detailDataEvent,
+								OrientationType.ORIENTACAO_EM_ANDAMENTO_DE_MESTRADO, "NOME-DO-ORIENTANDO",
+								"TIPO-DE-ORIENTACAO");
 					}
 					if (basicDataEvent.getNodeName().equals("DADOS-BASICOS-DA-ORIENTACAO-EM-ANDAMENTO-DE-DOUTORADO")) {
-						extractDataOrientations("TITULO-DO-TRABALHO", orientations, basicDataEvent,detailDataEvent,
-								OrientationType.ORIENTACAO_EM_ANDAMENTO_DE_DOUTORADO, "NOME-DO-ORIENTANDO", "TIPO-DE-ORIENTACAO");
+						extractDataOrientations("TITULO-DO-TRABALHO", orientations, basicDataEvent, detailDataEvent,
+								OrientationType.ORIENTACAO_EM_ANDAMENTO_DE_DOUTORADO, "NOME-DO-ORIENTANDO",
+								"TIPO-DE-ORIENTACAO");
+					}
+					if (basicDataEvent.getNodeName()
+							.equals("DADOS-BASICOS-DA-ORIENTACAO-EM-ANDAMENTO-DE-INICIACAO-CIENTIFICA")) {
+						extractDataOrientations("TITULO-DO-TRABALHO", orientations, basicDataEvent, detailDataEvent,
+								OrientationType.ORIENTACAO_INICIACAO_CIENTIFICA_ANDAMENTO, "NOME-DO-ORIENTANDO", "");
 					}
 					if (basicDataEvent.getNodeName().equals("DADOS-BASICOS-DE-OUTRAS-ORIENTACOES-CONCLUIDAS")) {
 						Node orientationNatureza = basicDataEvent.getAttributes().getNamedItem("NATUREZA");
 						if (orientationNatureza.getNodeValue().equals("INICIACAO_CIENTIFICA")) {
-							extractDataOrientations("TITULO", orientations, basicDataEvent,detailDataEvent,
-									OrientationType.ORIENTACAO_INICIACAO_CIENTIFICA, "NOME-DO-ORIENTADO", "TIPO-DE-ORIENTACAO-CONCLUIDA");
+							extractDataOrientations("TITULO", orientations, basicDataEvent, detailDataEvent,
+									OrientationType.ORIENTACAO_INICIACAO_CIENTIFICA, "NOME-DO-ORIENTADO",
+									"TIPO-DE-ORIENTACAO-CONCLUIDA");
 						}
 					}
 				}
@@ -250,24 +260,31 @@ public class XMLExtractor {
 
 	private void extractDataOrientations(String title, ArrayList<Orientation> orientations, Node basicDataEvent,
 			Node detailDataEvent, OrientationType orientationType, String andamento, String tipoOrientador) {
+		Node orientationtype = null;
 		Node orientationTitle = basicDataEvent.getAttributes().getNamedItem(title);
 		Node orientationNatureza = basicDataEvent.getAttributes().getNamedItem("NATUREZA");
 		Node orientationYear = basicDataEvent.getAttributes().getNamedItem("ANO");
 		Node orientationLanguage = basicDataEvent.getAttributes().getNamedItem("IDIOMA");
-		Node orientationtype = detailDataEvent.getAttributes().getNamedItem(tipoOrientador);
 		Node orientationNameStudent = detailDataEvent.getAttributes().getNamedItem(andamento);
-
-		if (orientationTitle != null) {
-			Orientation orientation = new Orientation(orientationNatureza.getNodeValue(), orientationType,
-					orientationTitle.getNodeValue(), orientationYear.getNodeValue(),
-					orientationLanguage.getNodeValue(), orientationtype.getNodeValue(), orientationNameStudent.getNodeValue());
-			
-			
-			
-			orientations.add(orientation);
+		if (!tipoOrientador.isEmpty()) {
+			orientationtype = detailDataEvent.getAttributes().getNamedItem(tipoOrientador);
+			if (orientationTitle != null) {
+				Orientation orientation = new Orientation(orientationNatureza.getNodeValue(), orientationType,
+						orientationTitle.getNodeValue(), orientationYear.getNodeValue(),
+						orientationLanguage.getNodeValue(), orientationtype.getNodeValue(),
+						orientationNameStudent.getNodeValue());
+				orientations.add(orientation);
+			}
+		} else {
+			if (orientationTitle != null) {
+				Orientation orientation = new Orientation(orientationNatureza.getNodeValue(), orientationType,
+						orientationTitle.getNodeValue(), orientationYear.getNodeValue(),
+						orientationLanguage.getNodeValue(), null, orientationNameStudent.getNodeValue());
+				orientations.add(orientation);
+			}
 		}
 	}
-	
+
 	private Set<Publication> extractPublications(Node nodeProduction) {
 		Set<Publication> publications = new HashSet<Publication>();
 
@@ -316,14 +333,13 @@ public class XMLExtractor {
 					Publication publication = new Publication(eventTitle.getNodeValue(),
 							Integer.valueOf(eventYear.getNodeValue()), type, authors);
 
-					publication = getRealPublication(publication);
-
-					if (publication.getId() == null) {
+					if (getRealPublicationConference(publication)) {
 						publications.add(publication);
+						authors = new ArrayList<String>();
 					}
-
 					authors = new ArrayList<String>();
 				}
+
 			}
 		}
 	}
@@ -449,26 +465,51 @@ public class XMLExtractor {
 		String[] t = s.split(Pattern.quote(";"));
 		String author = t[0];
 		if (author != null) {
-			return author;
+			return author + "; ";
 		} else {
 			return "";
 		}
+	}
+
+	private boolean getRealPublicationConference(Publication publication) {
+		List<Publication> databasePublications = DatabaseFacade.getInstance().listAllPublications(publication);
+		if (!databasePublications.isEmpty()) {
+			for (Publication basePublication : databasePublications) {
+				if (publication.getTitle().trim().equalsIgnoreCase(basePublication.getTitle().trim())) {
+					return false;
+				}
+				if (publication.getTitle().trim().equalsIgnoreCase(basePublication.getTitle().trim())
+						&& publication.getPublicationType().getName().trim()
+								.equalsIgnoreCase(basePublication.getPublicationType().getName().trim())) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
 	private Publication getRealPublication(Publication publication) {
 		List<Publication> databasePublications = DatabaseFacade.getInstance().listAllPublications(publication);
 		if (!databasePublications.isEmpty()) {
 			for (Publication basePublication : databasePublications) {
-				if (basePublication.getPublicationType().equals(publication.getPublicationType())
-						&& basePublication.getPublicationType().getName().equals(publication.getPublicationType().getName())
-						&& basePublication.getTitle().equals(publication.getTitle())) {
-					
+				if (publication.getPublicationType().getType().equals(EnumPublicationLocalType.CONFERENCE)) {
+
+					if (publication.getTitle().trim().equalsIgnoreCase(basePublication.getTitle().trim())) {
+						publication.setId(basePublication.getId());
+						return publication;
+					}
+				} else {
+					if (basePublication.getPublicationType().equals(publication.getPublicationType())
+							&& basePublication.getTitle().trim().equalsIgnoreCase(publication.getTitle().trim())) {
+						publication.setId(basePublication.getId());
+						return publication;
+					}
 				}
 			}
 		}
 		return publication;
 	}
-	
+
 	private PublicationType getPublicationType(Node mainNode, EnumPublicationLocalType local) {
 		PublicationType type = null;
 		String name;

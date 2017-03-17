@@ -12,15 +12,12 @@
 	<queryString>
 		<![CDATA[SELECT distinct
     COUNT(distinct p.title),
-    IFNULL(q.classification,8) as 'classification',
 (SELECT
             COUNT(distinct p.title)
         FROM
             lattes.publication p
                 INNER JOIN
             lattes.publicationtype pt ON pt.identifier = p.publicationType_identifier
-                left JOIN
-     lattes.qualis q ON pt.name LIKE CONCAT('%', q.name, '%')
         WHERE
             pt.type = 1
                 AND (CASE WHEN $P{parametroDataInicio} IS NOT NULL AND $P{parametroDataFim} IS NOT NULL
@@ -29,18 +26,13 @@ FROM
     lattes.publication p
         INNER JOIN
     lattes.publicationtype pt ON pt.identifier = p.publicationType_identifier
-        left JOIN
-     lattes.qualis q ON pt.name LIKE CONCAT('%', q.name, '%')
 WHERE
     pt.type = 1
        AND (CASE WHEN $P{parametroDataInicio} IS NOT NULL AND $P{parametroDataFim} IS NOT NULL
 		THEN p.year BETWEEN $P{parametroDataInicio} and $P{parametroDataFim} ELSE 1=1 END)
-GROUP BY q.classification;]]>
+GROUP BY p.title;]]>
 	</queryString>
 	<field name="COUNT(distinct p.title)" class="java.lang.Long"/>
-	<field name="classification" class="java.lang.Long">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
 	<field name="total" class="java.lang.Long"/>
 	<variable name="variable1" class="java.lang.String"/>
 	<background>

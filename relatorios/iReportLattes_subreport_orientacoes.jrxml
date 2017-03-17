@@ -11,25 +11,24 @@
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT DISTINCT
- ((SELECT COUNT(b.TipoOrientacao) FROM lattes.orientation b WHERE b.TipoOrientacao = 'ORIENTACAO_EM_ANDAMENTO_DE_MESTRADO' and b.tipoOrientador = 'ORIENTADOR_PRINCIPAL' AND b.ano BETWEEN '2015' AND '2017') +
-    (SELECT COUNT(b.TipoOrientacao) FROM lattes.orientation b WHERE b.TipoOrientacao = 'ORIENTACAO_EM_ANDAMENTO_DE_DOUTORADO' and b.tipoOrientador = 'ORIENTADOR_PRINCIPAL' AND b.ano BETWEEN '2015' AND '2017') +
+ ((SELECT COUNT(b.TipoOrientacao) FROM lattes.orientation b WHERE b.TipoOrientacao = 'ORIENTACAO_EM_ANDAMENTO_DE_MESTRADO' and b.tipoOrientador = 'ORIENTADOR_PRINCIPAL' ) +
+    (SELECT COUNT(b.TipoOrientacao) FROM lattes.orientation b WHERE b.TipoOrientacao = 'ORIENTACAO_EM_ANDAMENTO_DE_DOUTORADO' and b.tipoOrientador = 'ORIENTADOR_PRINCIPAL') +
     (SELECT COUNT(b.TipoOrientacao) FROM lattes.orientation b WHERE b.TipoOrientacao = 'ORIENTACOES_CONCLUIDAS_PARA_DOUTORADO' and b.tipoOrientador = 'ORIENTADOR_PRINCIPAL' AND b.ano BETWEEN '2015' AND '2017') +
     (SELECT COUNT(b.TipoOrientacao) FROM lattes.orientation b WHERE b.TipoOrientacao = 'ORIENTACOES_CONCLUIDAS_PARA_MESTRADO' and b.tipoOrientador = 'ORIENTADOR_PRINCIPAL' AND b.ano BETWEEN '2015' AND '2017') +
-	(SELECT COUNT(b.TipoOrientacao) FROM lattes.orientation b WHERE b.TipoOrientacao = 'ORIENTACAO_INICIACAO_CIENTIFICA' AND b.ano BETWEEN '2015' AND '2017')) as 'total',
+	(SELECT COUNT(b.TipoOrientacao) FROM lattes.orientation b WHERE b.TipoOrientacao = 'ORIENTACAO_INICIACAO_CIENTIFICA' AND b.ano BETWEEN '2015' AND '2017') +
+(SELECT COUNT(b.TipoOrientacao) FROM lattes.orientation b WHERE b.TipoOrientacao = 'ORIENTACAO_INICIACAO_CIENTIFICA_ANDAMENTO')) as 'total',
     (SELECT
             COUNT(b.TipoOrientacao)
         FROM
             lattes.orientation b
         WHERE
-            b.TipoOrientacao = 'ORIENTACAO_EM_ANDAMENTO_DE_MESTRADO'  and b.tipoOrientador = 'ORIENTADOR_PRINCIPAL' and (CASE WHEN $P{parametroDataInicio} IS NOT NULL AND $P{parametroDataFim} IS NOT NULL
-		THEN b.ano BETWEEN $P{parametroDataInicio} and $P{parametroDataFim} ELSE 1=1 END)) AS 'TOTAL_O_EM_ANDAMENTO_DE_MESTRADO',
+            b.TipoOrientacao = 'ORIENTACAO_EM_ANDAMENTO_DE_MESTRADO'  and b.tipoOrientador = 'ORIENTADOR_PRINCIPAL' ) AS 'TOTAL_O_EM_ANDAMENTO_DE_MESTRADO',
     (SELECT
             COUNT(b.TipoOrientacao)
         FROM
             lattes.orientation b
         WHERE
-            b.TipoOrientacao = 'ORIENTACAO_EM_ANDAMENTO_DE_DOUTORADO'  and b.tipoOrientador = 'ORIENTADOR_PRINCIPAL' and (CASE WHEN $P{parametroDataInicio} IS NOT NULL AND $P{parametroDataFim} IS NOT NULL
-		THEN b.ano BETWEEN $P{parametroDataInicio} and $P{parametroDataFim} ELSE 1=1 END)) AS 'TOTAL_O_EM_ANDAMENTO_DE_DOUTORADO',
+            b.TipoOrientacao = 'ORIENTACAO_EM_ANDAMENTO_DE_DOUTORADO'  and b.tipoOrientador = 'ORIENTADOR_PRINCIPAL' ) AS 'TOTAL_O_EM_ANDAMENTO_DE_DOUTORADO',
     (SELECT
             COUNT(b.TipoOrientacao)
         FROM
@@ -50,12 +49,16 @@
             lattes.orientation b
         WHERE
             b.TipoOrientacao = 'ORIENTACAO_INICIACAO_CIENTIFICA'  and (CASE WHEN $P{parametroDataInicio} IS NOT NULL AND $P{parametroDataFim} IS NOT NULL
-		THEN b.ano BETWEEN $P{parametroDataInicio} and $P{parametroDataFim} ELSE 1=1 END)) AS 'TOTAL_O_INICIACAO_CIENTIFICA'
+		THEN b.ano BETWEEN $P{parametroDataInicio} and $P{parametroDataFim} ELSE 1=1 END)) AS 'TOTAL_O_INICIACAO_CIENTIFICA_concluida',
+(SELECT
+            COUNT(b.TipoOrientacao)
+        FROM
+            lattes.orientation b
+        WHERE
+            b.TipoOrientacao = 'ORIENTACAO_INICIACAO_CIENTIFICA_ANDAMENTO') AS 'TOTAL_O_INICIACAO_CIENTIFICA_ANDAMENTO'
 FROM
     lattes.orientation b
-where
-(CASE WHEN $P{parametroDataInicio} IS NOT NULL AND $P{parametroDataFim} IS NOT NULL
-		THEN b.ano BETWEEN $P{parametroDataInicio} and $P{parametroDataFim} ELSE 1=1 END)
+
 GROUP BY b.TipoOrientacao;]]>
 	</queryString>
 	<field name="total" class="java.lang.Long"/>
@@ -63,12 +66,13 @@ GROUP BY b.TipoOrientacao;]]>
 	<field name="TOTAL_O_EM_ANDAMENTO_DE_DOUTORADO" class="java.lang.Long"/>
 	<field name="TOTAL_O_CONCLUIDAS_PARA_DOUTORADO" class="java.lang.Long"/>
 	<field name="TOTAL_O_CONCLUIDAS_PARA_MESTRADO" class="java.lang.Long"/>
-	<field name="TOTAL_O_INICIACAO_CIENTIFICA" class="java.lang.Long"/>
+	<field name="TOTAL_O_INICIACAO_CIENTIFICA_concluida" class="java.lang.Long"/>
+	<field name="TOTAL_O_INICIACAO_CIENTIFICA_ANDAMENTO" class="java.lang.Long"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="146" splitType="Stretch">
+		<band height="151" splitType="Stretch">
 			<staticText>
 				<reportElement x="0" y="0" width="170" height="32" uuid="edac2019-4e69-403a-8818-abe78660e064"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -97,28 +101,28 @@ GROUP BY b.TipoOrientacao;]]>
 				<textFieldExpression><![CDATA[$F{TOTAL_O_CONCLUIDAS_PARA_MESTRADO}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="33" y="32" width="137" height="20" uuid="e6f2f6e7-3dd2-4a20-9cf1-75efe49916d8"/>
+				<reportElement x="15" y="32" width="155" height="20" uuid="e6f2f6e7-3dd2-4a20-9cf1-75efe49916d8"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[MESTRADO (ANDAMENTO)]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="33" y="72" width="137" height="20" uuid="be4da478-67df-4a89-a166-cad7a0e08584"/>
+				<reportElement x="15" y="72" width="155" height="20" uuid="be4da478-67df-4a89-a166-cad7a0e08584"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[DOUTORADO (ANDAMENTO)]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="33" y="92" width="137" height="20" uuid="8173a07a-9a02-4311-a54a-c48b553ed99a"/>
+				<reportElement x="15" y="92" width="155" height="20" uuid="8173a07a-9a02-4311-a54a-c48b553ed99a"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[DOUTORADO (CONCLUIDA)]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="33" y="52" width="137" height="20" uuid="e36343f9-0695-414f-9aa3-f5179b74a3e2"/>
+				<reportElement x="15" y="52" width="155" height="20" uuid="e36343f9-0695-414f-9aa3-f5179b74a3e2"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8" isBold="true"/>
 				</textElement>
@@ -131,18 +135,6 @@ GROUP BY b.TipoOrientacao;]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement x="33" y="112" width="137" height="20" uuid="a80b870f-f833-4797-83b5-8d3e6046a7ab"/>
-				<textElement verticalAlignment="Middle">
-					<font size="8" isBold="true"/>
-				</textElement>
-				<text><![CDATA[INICIAÇÃO CIENTÍFICA]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="170" y="113" width="46" height="20" uuid="b00ffc2d-d9fc-42d9-b400-50b4e071726d"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{TOTAL_O_INICIACAO_CIENTIFICA}]]></textFieldExpression>
-			</textField>
 			<line>
 				<reportElement x="0" y="52" width="216" height="1" uuid="9210f3a6-40d3-4706-8859-df2c8abb5071"/>
 			</line>
@@ -154,6 +146,33 @@ GROUP BY b.TipoOrientacao;]]>
 			</line>
 			<line>
 				<reportElement x="0" y="112" width="216" height="1" uuid="7fa79a10-183e-4992-964b-0856a2a09c4d"/>
+			</line>
+			<textField>
+				<reportElement x="170" y="112" width="46" height="21" uuid="3610ccbc-861a-4fec-9f8c-9ac5caa4b501"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{TOTAL_O_INICIACAO_CIENTIFICA_ANDAMENTO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="170" y="131" width="46" height="20" uuid="1d7f58ea-1fea-4103-9379-84bfbe913d50"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{TOTAL_O_INICIACAO_CIENTIFICA_concluida}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="15" y="113" width="155" height="20" uuid="554c8036-71d0-4777-bdd9-6aaee20ceca7"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[INICIAÇÃO CIENTÍFICA (ANDAMENTO)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="15" y="131" width="155" height="20" uuid="81bebaae-a1e8-4108-96df-aef6f8e5588c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[INICIAÇÃO CIENTÍFICA (CONCLUIDA)]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="131" width="216" height="1" uuid="beb115fb-340f-4c13-89cf-4fa3565bc903"/>
 			</line>
 		</band>
 	</title>

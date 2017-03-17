@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="listagemGeralDeFuncionarios" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="BlankPage" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9bf9ac34-3740-4469-b2b9-30191fadda97">
 	<property name="ireport.zoom" value="1.5"/>
-	<property name="ireport.x" value="215"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<subDataset name="Table Dataset 1" uuid="868925df-c1c6-4a33-af80-76c1b374329c"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
@@ -25,7 +25,7 @@ FROM
         INNER JOIN
     lattes.curriculo c ON c.id = co.Curriculo_id
 WHERE
-	b.TipoOrientacao = 'ORIENTACAO_EM_ANDAMENTO_DE_DOUTORADO'  and b.tipoOrientador = 'ORIENTADOR_PRINCIPAL') as 'total'
+	b.TipoOrientacao = 'ORIENTACAO_INICIACAO_CIENTIFICA_ANDAMENTO') as 'total'
 FROM
     lattes.orientation b
         INNER JOIN
@@ -33,7 +33,7 @@ FROM
         INNER JOIN
     lattes.curriculo c ON c.id = co.Curriculo_id
 WHERE
-	b.TipoOrientacao = 'ORIENTACAO_EM_ANDAMENTO_DE_DOUTORADO'  and b.tipoOrientador = 'ORIENTADOR_PRINCIPAL'
+	b.TipoOrientacao = 'ORIENTACAO_INICIACAO_CIENTIFICA_ANDAMENTO'
 
 ORDER BY b.ano ASC;]]>
 	</queryString>
@@ -101,7 +101,7 @@ ORDER BY b.ano ASC;]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="15" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Orientações em andamento para doutorado]]></text>
+				<text><![CDATA[Orientações em andamento de iniciação científica]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="289" y="61" width="56" height="28" uuid="a9fe8eb0-0bd5-424d-9cd3-26304a6583ca"/>

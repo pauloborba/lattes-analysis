@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="listagemGeralDeFuncionarios" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="BlankPage" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9bf9ac34-3740-4469-b2b9-30191fadda97">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="14"/>
+	<property name="ireport.y" value="0"/>
 	<subDataset name="Table Dataset 1" uuid="868925df-c1c6-4a33-af80-76c1b374329c"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["C:\\Users\\Alex\\workspace\\lattes-analysis\\relatorios\\"]]></defaultValueExpression>
@@ -89,7 +89,7 @@ GROUP BY q.classification;]]>
 		</band>
 	</title>
 	<pageHeader>
-		<band height="320" splitType="Stretch">
+		<band height="304" splitType="Stretch">
 			<subreport>
 				<reportElement x="437" y="34" width="237" height="30" uuid="d7134078-950e-4c6d-acb8-4e44771eaed2"/>
 				<subreportParameter name="parametroDataInicio">
