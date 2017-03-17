@@ -4,12 +4,16 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 
+import com.pa.entity.Book;
+import com.pa.entity.Chapter;
 import com.pa.entity.Curriculo;
 import com.pa.entity.Group;
+import com.pa.entity.Orientation;
 import com.pa.entity.Publication;
 import com.pa.entity.PublicationType;
 import com.pa.entity.Qualis;
 import com.pa.entity.QualisData;
+import com.pa.entity.TechnicalProduction;
 import com.pa.util.EnumPublicationLocalType;
 
 
@@ -23,6 +27,10 @@ public class DatabaseFacade {
 	private PublicationTypeDAO pTDAO = new PublicationTypeDAO(PublicationType.class);
 	private QualisDAO qDAO = new QualisDAO(Qualis.class);
 	private QualisDataDAO qdDAO = new QualisDataDAO(QualisData.class);
+	private TechinicalProductionDAO tPDAO = new TechinicalProductionDAO(TechnicalProduction.class);
+	private OrientationDAO oDAO = new OrientationDAO(Orientation.class);
+	private BookDAO bDAO = new BookDAO(Book.class);
+	private ChapterDAO chDAO = new ChapterDAO(Chapter.class);
 	
 	private DatabaseFacade() {}
 	
@@ -32,6 +40,30 @@ public class DatabaseFacade {
 		}
 		
 		return _instance;
+	}
+	
+	public TechnicalProduction saveTechnicalProduction(TechnicalProduction t){
+		return tPDAO.save(t);
+	}
+	
+	public void updateTechnicalProduction(TechnicalProduction t) {
+		tPDAO.update(t);
+	}
+	
+	public List<TechnicalProduction> listAllTechnicalProductions() {
+		return tPDAO.listAll();
+	}
+	
+	public List<Orientation> listAllOrientations() {
+		return oDAO.listAll();
+	}
+	
+	public List<Book> listAllBooks() {
+		return bDAO.listAll();
+	}
+	
+	public List<Chapter> listAllChapters() {
+		return chDAO.listAll();
 	}
 	
 	public Curriculo saveCurriculo(Curriculo c) {

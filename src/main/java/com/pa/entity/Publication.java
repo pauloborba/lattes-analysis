@@ -1,6 +1,10 @@
 package com.pa.entity;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -15,24 +19,40 @@ public class Publication {
 	@Id @GeneratedValue
 	private Long id;
 	
+	@Column
 	private String title;
 	
 	@Transient
 	private EnumQualisClassification qualis;
 	
+	@Column
 	private int year;
 	
 	@OneToOne(cascade=CascadeType.PERSIST)
 	private PublicationType publicationType;
 	
+	@Column
+    @ElementCollection(targetClass=String.class)
+	private List<String> authors;
+	
 	public Publication() {}
 	
-	public Publication(String title, int year, PublicationType typePublication) {
+	public Publication(String title, int year, PublicationType typePublication, List<String> authors) {
 		this.title = title;
 		this.year = year;
 		this.publicationType = typePublication;
+		this.authors = authors;
 	}
 	
+	
+	public List<String> getAuthors() {
+		return authors;
+	}
+
+	public void setAuthors(List<String> authors) {
+		this.authors = authors;
+	}
+
 	public String getTitle() {
 		return title;
 	}
@@ -72,4 +92,5 @@ public class Publication {
 	public void setId(Long id) {
 		this.id = id;
 	}
+
 }

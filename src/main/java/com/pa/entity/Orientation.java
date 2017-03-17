@@ -1,16 +1,23 @@
 package com.pa.entity;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
-public class Orientation {
+@Entity
+public class Orientation implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
@@ -18,8 +25,8 @@ public class Orientation {
 	@Column
 	private String natureza;
 	
-	@Column
-	private String TipoOrientacao;
+	@Enumerated(EnumType.STRING)
+	private OrientationType TipoOrientacao;
 	
 	@Column
 	private String titulo;
@@ -28,41 +35,49 @@ public class Orientation {
 	private String ano;
 	
 	@Column
-	private String pais;
-	
-	@Column
 	private String idioma;
 	
 	@Column
-	private String homePage;
+	private String tipoOrientador;
 	
 	@Column
-	private String flagRelevancia;
+	private String nomeOrientando;
 	
-	@Column
-	private String doi;
+	public Orientation(){}
 	
-	@Column
-	private String tituloIngles;
-	
-	@OneToMany(cascade=CascadeType.ALL)
-	private ArrayList<KnowledgeArea> areasDeConhecimento;
-	
-	
-
-	public ArrayList<KnowledgeArea> getAreasDeConhecimento() {
-		return areasDeConhecimento;
+	public Orientation(String natureza, OrientationType tipoOrientacao, String titulo, String ano, String idioma, String tipoOrientador, String nomeOrientando) {
+		super();
+		this.natureza = natureza;
+		TipoOrientacao = tipoOrientacao;
+		this.titulo = titulo;
+		this.ano = ano;
+		this.idioma = idioma;
+		this.tipoOrientador = tipoOrientador;
+		this.nomeOrientando = nomeOrientando;
 	}
 
-	public void setAreasDeConhecimento(ArrayList<KnowledgeArea> areasDeConhecimento) {
-		this.areasDeConhecimento = areasDeConhecimento;
+	
+	public String getTipoOrientador() {
+		return tipoOrientador;
 	}
 
-	public String getTipoOrientacao() {
+	public void setTipoOrientador(String tipoOrientador) {
+		this.tipoOrientador = tipoOrientador;
+	}
+
+	public String getNomeOrientando() {
+		return nomeOrientando;
+	}
+
+	public void setNomeOrientando(String nomeOrientando) {
+		this.nomeOrientando = nomeOrientando;
+	}
+
+	public OrientationType getTipoOrientacao() {
 		return TipoOrientacao;
 	}
 
-	public void setTipoOrientacao(String tipoOrientacao) {
+	public void setTipoOrientacao(OrientationType tipoOrientacao) {
 		TipoOrientacao = tipoOrientacao;
 	}
 
@@ -90,52 +105,12 @@ public class Orientation {
 		this.ano = ano;
 	}
 
-	public String getPais() {
-		return pais;
-	}
-
-	public void setPais(String pais) {
-		this.pais = pais;
-	}
-
 	public String getIdioma() {
 		return idioma;
 	}
 
 	public void setIdioma(String idioma) {
 		this.idioma = idioma;
-	}
-
-	public String getHomePage() {
-		return homePage;
-	}
-
-	public void setHomePage(String homePage) {
-		this.homePage = homePage;
-	}
-
-	public String getFlagRelevancia() {
-		return flagRelevancia;
-	}
-
-	public void setFlagRelevancia(String flagRelevancia) {
-		this.flagRelevancia = flagRelevancia;
-	}
-
-	public String getDoi() {
-		return doi;
-	}
-
-	public void setDoi(String doi) {
-		this.doi = doi;
-	}
-
-	public String getTituloIngles() {
-		return tituloIngles;
-	}
-
-	public void setTituloIngles(String tituloIngles) {
-		this.tituloIngles = tituloIngles;
 	}
 
 	public Long getId() {

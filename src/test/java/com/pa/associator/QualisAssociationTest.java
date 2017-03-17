@@ -34,7 +34,7 @@ public class QualisAssociationTest {
 		QualisData qualis = new QualisData("qualis.xls", LOCAL_TYPE, YEAR_OF_QUALIS);
 		qualis.getQualis().add(new Qualis(NAME_OF_QUALIS, "A2"));
 		
-		Publication publication = new Publication("Publicação de Teste", YEAR_OF_QUALIS, new PublicationType(NAME_OF_QUALIS, LOCAL_TYPE));
+		Publication publication = new Publication("Publicação de Teste", YEAR_OF_QUALIS, new PublicationType(NAME_OF_QUALIS, LOCAL_TYPE), null);
 		
 		Map<EnumPublicationLocalType, QualisData> qualisDataMap = new HashMap<EnumPublicationLocalType, QualisData>();
 		qualisDataMap.put(LOCAL_TYPE, qualis);
@@ -48,7 +48,7 @@ public class QualisAssociationTest {
 		QualisData qualis = new QualisData("qualis.xls", LOCAL_TYPE, YEAR_OF_QUALIS);
 		qualis.getQualis().add(new Qualis(NAME_OF_QUALIS, "A2"));
 		
-		Publication publication = new Publication("Publicação de Teste", YEAR_OF_QUALIS, new PublicationType("Tipo de Publicação", LOCAL_TYPE));
+		Publication publication = new Publication("Publicação de Teste", YEAR_OF_QUALIS, new PublicationType("Tipo de Publicação", LOCAL_TYPE), null);
 		
 		Map<EnumPublicationLocalType, QualisData> qualisDataMap = new HashMap<EnumPublicationLocalType, QualisData>();
 		qualisDataMap.put(LOCAL_TYPE, qualis);
@@ -62,7 +62,7 @@ public class QualisAssociationTest {
 		QualisData qualis = new QualisData("qualis.xls", LOCAL_TYPE, YEAR_OF_QUALIS);
 		qualis.getQualis().add(new Qualis(NAME_OF_QUALIS, "A2"));
 		
-		Publication publication = new Publication("Publicação de Teste", 2014, new PublicationType(NAME_OF_QUALIS, LOCAL_TYPE));
+		Publication publication = new Publication("Publicação de Teste", 2014, new PublicationType(NAME_OF_QUALIS, LOCAL_TYPE), null);
 
 		Map<EnumPublicationLocalType, QualisData> qualisDataMap = new HashMap<EnumPublicationLocalType, QualisData>();
 		qualisDataMap.put(LOCAL_TYPE, qualis);
@@ -73,7 +73,7 @@ public class QualisAssociationTest {
 	
 	@Test
 	public void associateInexistentQualisEmptyToPublicationTest() {
-		Publication publication = new Publication("Publicação de Teste", YEAR_OF_QUALIS, new PublicationType("Tipo de Publicação", LOCAL_TYPE));
+		Publication publication = new Publication("Publicação de Teste", YEAR_OF_QUALIS, new PublicationType("Tipo de Publicação", LOCAL_TYPE), null);
 		qService.associatePublicationQualis(publication, null);
 		
 		assertEquals(publication.getQualis(), EnumQualisClassification.NONE);
@@ -84,7 +84,7 @@ public class QualisAssociationTest {
 		QualisData qualis = new QualisData("qualis.xls", LOCAL_TYPE, YEAR_OF_QUALIS);
 		qualis.getQualis().add(new Qualis(NAME_OF_QUALIS, "A2"));
 		
-		Publication publication = new Publication("Publicação de Teste", YEAR_OF_QUALIS, new PublicationType(NAME_OF_QUALIS, LOCAL_TYPE));
+		Publication publication = new Publication("Publicação de Teste", YEAR_OF_QUALIS, new PublicationType(NAME_OF_QUALIS, LOCAL_TYPE), null);
 		
 		Map<EnumPublicationLocalType, QualisData> qualisDataMap = new HashMap<EnumPublicationLocalType, QualisData>();
 		qualisDataMap.put(LOCAL_TYPE, qualis);
@@ -100,7 +100,7 @@ public class QualisAssociationTest {
 		QualisData qualis = new QualisData("qualis.xls", LOCAL_TYPE, YEAR_OF_QUALIS);
 		qualis.getQualis().add(new Qualis(NAME_OF_QUALIS, "A2"));
 		
-		Publication publication = new Publication("Publicação de Teste", YEAR_OF_QUALIS, new PublicationType(NAME_OF_QUALIS, LOCAL_TYPE));
+		Publication publication = new Publication("Publicação de Teste", YEAR_OF_QUALIS, new PublicationType(NAME_OF_QUALIS, LOCAL_TYPE), null);
 		
 		Map<EnumPublicationLocalType, QualisData> qualisDataMap = new HashMap<EnumPublicationLocalType, QualisData>();
 		qualisDataMap.put(LOCAL_TYPE, qualis);
@@ -121,7 +121,7 @@ public class QualisAssociationTest {
 		String periodicName = "Periodico Teste";
 		qualisPeriodic.getQualis().add(new Qualis(periodicName, "C"));
 		
-		Publication publication = new Publication("Publicação de Teste", YEAR_OF_QUALIS, new PublicationType(periodicName, EnumPublicationLocalType.PERIODIC));
+		Publication publication = new Publication("Publicação de Teste", YEAR_OF_QUALIS, new PublicationType(periodicName, EnumPublicationLocalType.PERIODIC), null);
 		
 		Map<EnumPublicationLocalType, QualisData> qualisDataMap = new HashMap<EnumPublicationLocalType, QualisData>();
 		qualisDataMap.put(LOCAL_TYPE, qualis);
@@ -136,7 +136,7 @@ public class QualisAssociationTest {
 		QualisData qualis = new QualisData("qualis.xls", LOCAL_TYPE, YEAR_OF_QUALIS);
 		qualis.getQualis().add(new Qualis(NAME_OF_QUALIS, "A2"));
 		
-		Publication publication = new Publication("Publicação de Teste", YEAR_OF_QUALIS, new PublicationType("Periodico Teste", EnumPublicationLocalType.PERIODIC));
+		Publication publication = new Publication("Publicação de Teste", YEAR_OF_QUALIS, new PublicationType("Periodico Teste", EnumPublicationLocalType.PERIODIC), null);
 		
 		Map<EnumPublicationLocalType, QualisData> qualisDataMap = new HashMap<EnumPublicationLocalType, QualisData>();
 		qualisDataMap.put(LOCAL_TYPE, qualis);

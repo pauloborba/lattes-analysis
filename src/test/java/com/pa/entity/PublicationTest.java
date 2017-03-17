@@ -17,7 +17,7 @@ public class PublicationTest {
 	@Before
 	public void createPublicationType() {
 		PublicationType type = new PublicationType("Name", EnumPublicationLocalType.CONFERENCE);
-		publication = new Publication("Title", 2013, type);
+		publication = new Publication("Title", 2013, type, null);
 	}
 	
 	/*

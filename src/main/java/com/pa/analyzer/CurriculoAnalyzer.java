@@ -31,9 +31,10 @@ public class CurriculoAnalyzer {
 			cR = new CurriculoResult();
 
 			associateAllPublicationWithQualis(curriculo, cR, qualisDataMap);
-
-			cR.setConcludedOrientations(curriculo.getConcludedOrientations());
-			cR.setOnGoingOrientations(curriculo.getOnGoingOrientations());
+			cR.setOrientations(curriculo.getOrientations());
+			cR.setConcludedOrientations(curriculo.getCountConcludedOrientations());
+			cR.setOnGoingOrientations(curriculo.getCountOnGoingOrientations());
+			cR.setTechinicalProductions(curriculo.getTechnicalProduction());
 		}
 		
 		return cR;
@@ -45,29 +46,32 @@ public class CurriculoAnalyzer {
 			
 			EnumQualisClassification qualisFromPublication = publication.getQualis();
 			
-			if(publication.getPublicationType().getType().equals(EnumPublicationLocalType.PERIODIC)) {
-
-				if(!cR.getPeriodicsByQualis().containsKey(qualisFromPublication)) {
-					List<Publication> publications = new ArrayList<Publication>();
-					publications.add(publication);
-
-					cR.getPeriodicsByQualis().put(qualisFromPublication, publications);
+			if (publication.getPublicationType() != null) {
+				
+				if(publication.getPublicationType().getType().equals(EnumPublicationLocalType.PERIODIC)) {
+	
+					if(!cR.getPeriodicsByQualis().containsKey(qualisFromPublication)) {
+						List<Publication> publications = new ArrayList<Publication>();
+						publications.add(publication);
+	
+						cR.getPeriodicsByQualis().put(qualisFromPublication, publications);
+					}
+					else {
+						List<Publication> publicationsWithQualis = cR.getPeriodicsByQualis().get(qualisFromPublication);
+						publicationsWithQualis.add(publication);
+					}
 				}
-				else {
-					List<Publication> publicationsWithQualis = cR.getPeriodicsByQualis().get(qualisFromPublication);
-					publicationsWithQualis.add(publication);
-				}
-			}
-			else if(publication.getPublicationType().getType().equals(EnumPublicationLocalType.CONFERENCE)) {
-				if(!cR.getConferencesByQualis().containsKey(qualisFromPublication)) {
-					List<Publication> publications = new ArrayList<Publication>();
-					publications.add(publication);
-
-					cR.getConferencesByQualis().put(qualisFromPublication, publications);
-				}
-				else {
-					List<Publication> publicationsWithQualis = cR.getConferencesByQualis().get(qualisFromPublication);
-					publicationsWithQualis.add(publication);
+				else if(publication.getPublicationType().getType().equals(EnumPublicationLocalType.CONFERENCE)) {
+					if(!cR.getConferencesByQualis().containsKey(qualisFromPublication)) {
+						List<Publication> publications = new ArrayList<Publication>();
+						publications.add(publication);
+	
+						cR.getConferencesByQualis().put(qualisFromPublication, publications);
+					}
+					else {
+						List<Publication> publicationsWithQualis = cR.getConferencesByQualis().get(qualisFromPublication);
+						publicationsWithQualis.add(publication);
+					}
 				}
 			}
 		}

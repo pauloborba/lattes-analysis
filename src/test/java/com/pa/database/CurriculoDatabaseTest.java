@@ -52,7 +52,7 @@ public class CurriculoDatabaseTest {
 	public void saveCurriculoWithPublicationTest() {
 		Curriculo curriculo = new Curriculo("Curriculo1", new Date());
 		curriculo.setId(10256l);
-		curriculo.getPublications().add(new Publication("Publication1", 2015, new PublicationType("TipoDePublicacao1", EnumPublicationLocalType.CONFERENCE)));
+		curriculo.getPublications().add(new Publication("Publication1", 2015, new PublicationType("TipoDePublicacao1", EnumPublicationLocalType.CONFERENCE), null));
 		DatabaseFacade.getInstance().saveCurriculo(curriculo);
 		
 		List<Publication> publications = DatabaseFacade.getInstance().listAllPublications();
@@ -76,10 +76,10 @@ public class CurriculoDatabaseTest {
 	public void updatePublicationTest() {
 		Curriculo curriculo = new Curriculo("Curriculo1", new Date());
 		curriculo.setId(10256l);
-		curriculo.getPublications().add(new Publication("Publication1", 2015, new PublicationType("TipoDePublicacao1", EnumPublicationLocalType.CONFERENCE)));
+		curriculo.getPublications().add(new Publication("Publication1", 2015, new PublicationType("TipoDePublicacao1", EnumPublicationLocalType.CONFERENCE), null));
 		DatabaseFacade.getInstance().saveCurriculo(curriculo);
 		
-		curriculo.getPublications().add(new Publication("Publication2", 2015, new PublicationType("TipoDePublicacao2", EnumPublicationLocalType.CONFERENCE)));
+		curriculo.getPublications().add(new Publication("Publication2", 2015, new PublicationType("TipoDePublicacao2", EnumPublicationLocalType.CONFERENCE), null));
 		DatabaseFacade.getInstance().updateCurriculo(curriculo);
 		
 		assertEquals(curriculo.getPublications().size(), 2);
@@ -89,11 +89,11 @@ public class CurriculoDatabaseTest {
 	public void listAllPublicationTest() {
 		Curriculo curriculo = new Curriculo("Curriculo1", new Date());
 		curriculo.setId(10256l);
-		curriculo.getPublications().add(new Publication("Publication1", 2015, new PublicationType("TipoDePublicacao1", EnumPublicationLocalType.CONFERENCE)));
+		curriculo.getPublications().add(new Publication("Publication1", 2015, new PublicationType("TipoDePublicacao1", EnumPublicationLocalType.CONFERENCE), null));
 		
 		Curriculo curriculo2 = new Curriculo("Curriculo2", new Date());
 		curriculo2.setId(10257l);
-		curriculo2.getPublications().add(new Publication("Publication2", 2015, new PublicationType("TipoDePublicacao2", EnumPublicationLocalType.CONFERENCE)));
+		curriculo2.getPublications().add(new Publication("Publication2", 2015, new PublicationType("TipoDePublicacao2", EnumPublicationLocalType.CONFERENCE), null));
 		DatabaseFacade.getInstance().saveCurriculo(curriculo);
 		DatabaseFacade.getInstance().saveCurriculo(curriculo2);
 		
@@ -106,11 +106,11 @@ public class CurriculoDatabaseTest {
 	public void listAllPublicationByObjectTest() {
 		Curriculo curriculo = new Curriculo("Curriculo1", new Date());
 		curriculo.setId(10256l);
-		curriculo.getPublications().add(new Publication("Publication1", 2015, new PublicationType("TipoDePublicacao1", EnumPublicationLocalType.CONFERENCE)));
+		curriculo.getPublications().add(new Publication("Publication1", 2015, new PublicationType("TipoDePublicacao1", EnumPublicationLocalType.CONFERENCE), null));
 		
 		Curriculo curriculo2 = new Curriculo("Curriculo2", new Date());
 		curriculo2.setId(10257l);
-		curriculo2.getPublications().add(new Publication("Publication2", 2015, new PublicationType("TipoDePublicacao2", EnumPublicationLocalType.CONFERENCE)));
+		curriculo2.getPublications().add(new Publication("Publication2", 2015, new PublicationType("TipoDePublicacao2", EnumPublicationLocalType.CONFERENCE), null));
 		DatabaseFacade.getInstance().saveCurriculo(curriculo);
 		DatabaseFacade.getInstance().saveCurriculo(curriculo2);
 		
@@ -123,11 +123,11 @@ public class CurriculoDatabaseTest {
 	public void listAllCurriculosByQueryTest() {
 		Curriculo curriculo = new Curriculo("Curriculo1", new Date());
 		curriculo.setId(10256l);
-		curriculo.getPublications().add(new Publication("Publication1", 2015, new PublicationType("TipoDePublicacao1", EnumPublicationLocalType.CONFERENCE)));
+		curriculo.getPublications().add(new Publication("Publication1", 2015, new PublicationType("TipoDePublicacao1", EnumPublicationLocalType.CONFERENCE), null));
 		
 		Curriculo curriculo2 = new Curriculo("Curriculo2", new Date());
 		curriculo2.setId(10257l);
-		curriculo2.getPublications().add(new Publication("Publication2", 2015, new PublicationType("TipoDePublicacao2", EnumPublicationLocalType.CONFERENCE)));
+		curriculo2.getPublications().add(new Publication("Publication2", 2015, new PublicationType("TipoDePublicacao2", EnumPublicationLocalType.CONFERENCE), null));
 		DatabaseFacade.getInstance().saveCurriculo(curriculo);
 		DatabaseFacade.getInstance().saveCurriculo(curriculo2);
 		

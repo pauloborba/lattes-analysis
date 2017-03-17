@@ -1,30 +1,30 @@
 package com.pa.entity;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+public enum OrientationType {
+	ORIENTACAO_EM_ANDAMENTO_DE_MESTRADO("ORIENTACAO EM ANDAMENTO DE MESTRADO"), ORIENTACAO_EM_ANDAMENTO_DE_DOUTORADO(
+			"ORIENTACAO EM ANDAMENTO DE DOUTORADO"), ORIENTACOES_CONCLUIDAS_PARA_MESTRADO(
+					"ORIENTACOES CONCLUIDAS PARA MESTRADO"), ORIENTACOES_CONCLUIDAS_PARA_DOUTORADO(
+							"ORIENTACOES CONCLUIDAS PARA DOUTORADO"), ORIENTACAO_INICIACAO_CIENTIFICA(
+									"INICIACAO CIENTIFICA"), ORIENTACAO_INICIACAO_CIENTIFICA_ANDAMENTO(
+											"INICIACAO CIENTIFICA ANDAMENTO");
 
-public class OrientationType {
+	private String name;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
-	
-	@Column
-	private String tipoOrientacao;
-
-	public String getTipoOrientacao() {
-		return tipoOrientacao;
+	private OrientationType(String name) {
+		this.name = name;
 	}
 
-	public void setTipoOrientacao(String tipoOrientacao) {
-		this.tipoOrientacao = tipoOrientacao;
+	public String getName() {
+		return name;
 	}
 
-	public Long getId() {
-		return id;
+	public void setName(String name) {
+		this.name = name;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return this.name;
+	}
+
 }

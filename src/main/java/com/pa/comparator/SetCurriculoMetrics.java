@@ -4,8 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.hibernate.boot.model.relational.Database;
+
 import com.pa.analyzer.CurriculoAnalyzer;
 import com.pa.analyzer.CurriculoResult;
+import com.pa.database.impl.DatabaseFacade;
 import com.pa.entity.Curriculo;
 import com.pa.entity.Group;
 import com.pa.entity.Publication;
@@ -33,6 +36,7 @@ public class SetCurriculoMetrics {
 		Double onGoingOrientations = 0.0;
 		
 		for (Curriculo curriculo : group.getCurriculos()) {
+			
 			CurriculoResult result = CurriculoAnalyzer.getInstance().analyzerCurriculo(curriculo, qualisDataMap);
 			
 			mapQualis = this.addQualisFromCurriculo(result, mapQualis);

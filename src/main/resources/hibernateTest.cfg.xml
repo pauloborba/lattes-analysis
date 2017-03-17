@@ -13,14 +13,14 @@
 		<property name="hbm2ddl.auto">create-drop</property>
 		
 		<property name="hibernate.current_session_context_class">thread</property>
-		
-		<!-- Entities --> 
-		<mapping  class="com.pa.entity.Group" />  
-		<mapping  class="com.pa.entity.Publication" />  
+		<mapping class="com.pa.entity.Group" />  
+		<mapping class="com.pa.entity.Publication" />  
 		<mapping class="com.pa.entity.Curriculo" /> 
+		<mapping class="com.pa.entity.Orientation" /> 
 		<mapping class="com.pa.entity.PublicationType" /> 
 		<mapping class="com.pa.entity.Qualis" /> 
 		<mapping class="com.pa.entity.QualisData" /> 
+		<mapping class="com.pa.entity.TechinicalProduction" /> 
 	</session-factory> 
 </hibernate-configuration>
 
