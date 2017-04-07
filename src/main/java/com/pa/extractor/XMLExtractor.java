@@ -301,9 +301,9 @@ public class XMLExtractor {
 				if (node.getNodeName().equals("TRABALHOS-EM-EVENTOS")) {
 					extractWorksInEvents(publications, node);
 				}
-//				if (node.getNodeName().equals("ARTIGOS-PUBLICADOS")) {
-//					extractPapersPublished(publications, node);
-//				}
+				if (node.getNodeName().equals("ARTIGOS-PUBLICADOS")) {
+					extractPapersPublished(publications, node);
+				}
 			}
 		}
 
