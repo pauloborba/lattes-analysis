@@ -5,6 +5,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.criterion.Restrictions;
 
 import com.pa.database.GenericDAO;
+import com.pa.entity.Author;
 import com.pa.entity.Curriculo;
 import com.pa.entity.Publication;
 

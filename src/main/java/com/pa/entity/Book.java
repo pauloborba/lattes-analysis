@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -33,13 +32,12 @@ public class Book implements Serializable{
 	@Column
 	private String nomeDaEditora;
 	
-	@Column
-    @ElementCollection(targetClass=String.class)
-	private List<String> autores;
+	@OneToMany(cascade=CascadeType.ALL)
+	private List<Author> autores;
 
 	public Book(){}
 	
-	public Book(String titulo, String ano, String nomeDaEditora, List<String> authors) {
+	public Book(String titulo, String ano, String nomeDaEditora, List<Author> authors) {
 		super();
 		this.titulo = titulo;
 		this.ano = ano;
@@ -79,11 +77,11 @@ public class Book implements Serializable{
 		this.nomeDaEditora = nomeDaEditora;
 	}
 
-	public List<String> getAutores() {
+	public List<Author> getAutores() {
 		return autores;
 	}
 
-	public void setAutores(List<String> autores) {
+	public void setAutores(List<Author> autores) {
 		this.autores = autores;
 	}
 

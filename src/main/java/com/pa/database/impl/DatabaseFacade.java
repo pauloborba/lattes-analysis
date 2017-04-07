@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 
+import com.pa.entity.Author;
 import com.pa.entity.Book;
 import com.pa.entity.Chapter;
 import com.pa.entity.Curriculo;
@@ -31,6 +32,7 @@ public class DatabaseFacade {
 	private OrientationDAO oDAO = new OrientationDAO(Orientation.class);
 	private BookDAO bDAO = new BookDAO(Book.class);
 	private ChapterDAO chDAO = new ChapterDAO(Chapter.class);
+	private AuthorDAO aDAO = new AuthorDAO(Author.class);
 	
 	private DatabaseFacade() {}
 	
@@ -340,5 +342,13 @@ public class DatabaseFacade {
 	
 	public List<Qualis> listAllQualisByQuery(String query) {
 		return qDAO.listAllByQuery(query);
+	}
+	
+	public Author getAuthorByName(String name) {
+		return aDAO.getAuthorByName(name);
+	}
+	
+	public List<Author> listAllAuthors() {
+		return aDAO.listAll();
 	}
 }

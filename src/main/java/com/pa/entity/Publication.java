@@ -4,10 +4,10 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
@@ -31,13 +31,12 @@ public class Publication {
 	@OneToOne(cascade=CascadeType.PERSIST)
 	private PublicationType publicationType;
 	
-	@Column
-    @ElementCollection(targetClass=String.class)
-	private List<String> authors;
+	@OneToMany(cascade=CascadeType.ALL)
+	private List<Author> authors;
 	
 	public Publication() {}
 	
-	public Publication(String title, int year, PublicationType typePublication, List<String> authors) {
+	public Publication(String title, int year, PublicationType typePublication, List<Author> authors) {
 		this.title = title;
 		this.year = year;
 		this.publicationType = typePublication;
@@ -45,11 +44,11 @@ public class Publication {
 	}
 	
 	
-	public List<String> getAuthors() {
+	public List<Author> getAuthors() {
 		return authors;
 	}
 
-	public void setAuthors(List<String> authors) {
+	public void setAuthors(List<Author> authors) {
 		this.authors = authors;
 	}
 

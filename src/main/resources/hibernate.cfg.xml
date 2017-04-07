@@ -23,6 +23,7 @@
 		<mapping class="com.pa.entity.Qualis" />
 		<mapping class="com.pa.entity.QualisData" />
 		<mapping class="com.pa.entity.TechinicalProduction" />
+		<mapping class="com.pa.entity.Author" />
 	</session-factory>
 </hibernate-configuration>
 
