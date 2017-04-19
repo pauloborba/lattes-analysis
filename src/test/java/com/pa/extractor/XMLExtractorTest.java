@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.Iterator;
 
 import com.pa.database.util.HibernateUtil;
-import com.pa.entity.Curriculo;
+import com.pa.entity.Researcher;
 import com.pa.entity.Publication;
 import com.pa.entity.PublicationType;
 import com.pa.exception.InvalidPatternFileException;
@@ -26,7 +26,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class XMLExtractorTest {
-	static Curriculo curriculo;
+	static Researcher curriculo;
 	
 	static Publication publicationConference;
 	static Publication publicationPeriodic;
@@ -125,8 +125,8 @@ public class XMLExtractorTest {
 	
 	@Test
 	public void whenExtractXMLThenCurriculoPublicationShouldHaveCorrectYear() {
-		assertEquals(2004, publicationConference.getYear());
-		assertEquals(2005, publicationPeriodic.getYear());
+		assertEquals("2004", publicationConference.getYear());
+		assertEquals("2005", publicationPeriodic.getYear());
 	}
 	
 	@Test

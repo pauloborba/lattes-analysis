@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="listagemGeralDeFuncionarios" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="BlankPage" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9bf9ac34-3740-4469-b2b9-30191fadda97">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<subDataset name="Table Dataset 1" uuid="868925df-c1c6-4a33-af80-76c1b374329c"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\Alex\\workspace\\lattes-analysis\\relatorios\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="parametroDataInicio" class="java.lang.String"/>
+	<parameter name="parametroDataFim" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="title" class="java.lang.String"/>
+	<field name="authors" class="java.util.List"/>
+	<field name="publicationType.name" class="java.lang.String"/>
+	<field name="qualis" class="java.lang.Object"/>
+	<field name="year" class="java.lang.Object"/>
+	<variable name="title" class="java.lang.String"/>
+	<variable name="id" class="java.lang.String"/>
+	<variable name="qualis" class="java.lang.String"/>
+	<variable name="year" class="java.lang.String"/>
+	<variable name="publicationType" class="java.lang.String"/>
+	<variable name="authors" class="java.lang.String"/>
+	<variable name="variable1" class="java.lang.String"/>
+	<variable name="field1_1" class="java.lang.Integer" calculation="DistinctCount">
+		<variableExpression><![CDATA[]]></variableExpression>
+	</variable>
+	<variable name="field1_2" class="java.lang.Integer" resetType="Page" calculation="DistinctCount">
+		<variableExpression><![CDATA[]]></variableExpression>
+	</variable>
+	<variable name="field1_3" class="java.lang.Integer" resetType="Page" calculation="DistinctCount">
+		<variableExpression><![CDATA[]]></variableExpression>
+	</variable>
+	<variable name="title_1" class="java.lang.Integer" resetType="Page" calculation="DistinctCount">
+		<variableExpression><![CDATA[$F{title}]]></variableExpression>
+	</variable>
+	<variable name="title_2" class="java.lang.Integer" resetType="Page" calculation="Count">
+		<variableExpression><![CDATA[$F{title}]]></variableExpression>
+	</variable>
+	<variable name="title_3" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$F{title}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="129" splitType="Stretch">
+			<staticText>
+				<reportElement x="351" y="61" width="85" height="28" uuid="0c1e32f9-ab63-40a0-ab2d-34e14be84380"/>
+				<textElement>
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Período:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="490" y="61" width="33" height="28" uuid="d2c9cb34-656c-4b13-b2b7-cb05c3180fc1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[a]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="802" height="61" uuid="32db3912-8bf7-4962-9d15-b5c581a8a73d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="28"/>
+				</textElement>
+				<text><![CDATA[Detalhamento das publicações em periódicos do projeto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="205" y="61" width="60" height="28" uuid="5bfe33d7-d95f-4df6-aad3-a3a752243269"/>
+				<textElement>
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="436" y="61" width="54" height="28" uuid="cde11b85-8076-42d8-b85b-d9a1f4522ef0"/>
+				<textElement verticalAlignment="Middle">
+					<font size="15"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{parametroDataInicio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="523" y="61" width="54" height="28" uuid="cb12a5b1-9161-4a02-9a0d-dc313942fea5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="15"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{parametroDataFim}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="265" y="61" width="86" height="28" uuid="f3567fdc-ed41-4ce2-95da-d5ab63ef9cd6"/>
+				<textElement verticalAlignment="Middle">
+					<font size="15"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{title_3}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="32" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="19" width="802" height="1" uuid="59e5096c-33de-4850-b25f-664c95cb820f"/>
+			</line>
+			<staticText>
+				<reportElement x="249" y="0" width="241" height="20" uuid="97d57966-44b3-4232-9054-f2bf4207242c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="15" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Título]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="249" height="20" uuid="d6c7a8bd-cb60-49d6-82c7-bd1cdb8129cd"/>
+				<textElement verticalAlignment="Middle">
+					<font size="15" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Autores]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="490" y="0" width="200" height="20" uuid="3d6bb7cf-f34f-4500-ab5c-fdaee8736fcb"/>
+				<textElement verticalAlignment="Middle">
+					<font size="15" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Periódico]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="740" y="0" width="62" height="20" uuid="948a20d8-beee-40f9-ae5f-a1d0cfac02fb"/>
+				<textElement verticalAlignment="Middle">
+					<font size="15" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Qualis]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="690" y="0" width="50" height="20" uuid="e2f096ea-ef5c-45ec-ab3f-dbd6388bb644"/>
+				<textElement verticalAlignment="Middle">
+					<font size="15" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ano]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="48" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="45" width="802" height="1" uuid="4fcd92f9-0500-4c90-b17a-180c5af2a5a3"/>
+			</line>
+			<textField>
+				<reportElement x="249" y="0" width="237" height="45" uuid="edd3dfeb-16dd-4f69-b52a-0dfafd0de62b"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{title}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="245" height="45" uuid="9d28a301-ea0f-43ef-89ac-ad6d99f08975"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{authors}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="490" y="0" width="196" height="45" uuid="df04741a-9469-40ea-9471-b2d41976168f"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{publicationType.name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="740" y="0" width="62" height="45" uuid="11c1257a-913d-4744-8513-bb1bde949888"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[""+$F{qualis}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="690" y="0" width="46" height="45" uuid="d39ff32a-0edf-4fec-a54d-1a0e3520324b"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[""+$F{year}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="28" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="11" splitType="Stretch"/>
+	</summary>
+</jasperReport>

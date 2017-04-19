@@ -24,10 +24,10 @@ public class AuthorDAO extends GenericDAO<Author, Long> {
 		return super.save(x);
 	}
 
-	public Author getAuthorByName(String name) {
+	public Author getAuthorByName(Long name) {
 		Criteria criteria = createCriteria(Author.class);
 
-		criteria.add(Restrictions.eq("nome", name));
+		criteria.add(Restrictions.eq("id", name));
 
 		Author author = (Author) criteria.uniqueResult();
 		

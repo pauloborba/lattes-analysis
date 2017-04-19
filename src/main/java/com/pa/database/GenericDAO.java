@@ -54,8 +54,9 @@ public abstract class GenericDAO<T, PK extends Serializable> implements Interfac
 		
 		Transaction trans = sessao.beginTransaction();
 		
-		sessao.update(x);
 		sessao.flush();
+		sessao.clear();
+		sessao.update(x);
 		
 		trans.commit();
 	}

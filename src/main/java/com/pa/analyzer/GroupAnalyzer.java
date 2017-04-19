@@ -2,9 +2,9 @@ package com.pa.analyzer;
 
 import java.util.Map;
 
-import com.pa.comparator.SetCurriculoMetrics;
-import com.pa.comparator.SetCurriculoResult;
-import com.pa.entity.Curriculo;
+import com.pa.comparator.SetResearcherMetrics;
+import com.pa.comparator.SetResearcherResult;
+import com.pa.entity.Researcher;
 import com.pa.entity.Group;
 import com.pa.entity.QualisData;
 import com.pa.entity.TechnicalProduction;
@@ -27,7 +27,7 @@ public class GroupAnalyzer {
 		if(group != null) {
 			groupResult = new GroupResult();
 			
-			for (Curriculo curriculo : group.getCurriculos()) {
+			for (Researcher curriculo : group.getCurriculos()) {
 				CurriculoResult curriculoResult = CurriculoAnalyzer.getInstance().analyzerCurriculo(curriculo, qualisDataMap);
 				
 				groupResult.getConferencesByQualis().putAll(curriculoResult.getConferencesByQualis());
@@ -39,11 +39,11 @@ public class GroupAnalyzer {
 		return groupResult;
 	}
 	
-	public SetCurriculoResult analyzerGroup(Group group, Map<EnumPublicationLocalType, QualisData> qualisDataMap) {
-		SetCurriculoResult gR = null;
+	public SetResearcherResult analyzerGroup(Group group, Map<EnumPublicationLocalType, QualisData> qualisDataMap) {
+		SetResearcherResult gR = null;
 		
 		if(group != null){
-			gR = new SetCurriculoResult();
+			gR = new SetResearcherResult();
 
 //			for (Curriculo curriculo : group.getCurriculos()) {
 //				CurriculoResult cR = CurriculoAnalyzer.getInstance().analyzerCurriculo(curriculo, qualisDataMap);
@@ -67,7 +67,7 @@ public class GroupAnalyzer {
 //				gR.setOnGoingOrientations(currentOnGoingOrientations + cR.getOnGoingOrientations());
 //			}
 			
-			gR = SetCurriculoMetrics.getInstance().calculateMetrics(group, qualisDataMap);
+			gR = SetResearcherMetrics.getInstance().calculateMetrics(group, qualisDataMap);
 		}
 		
 		return gR;

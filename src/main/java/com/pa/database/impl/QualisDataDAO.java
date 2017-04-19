@@ -5,7 +5,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.criterion.Restrictions;
 
 import com.pa.database.GenericDAO;
-import com.pa.entity.Curriculo;
+import com.pa.entity.Researcher;
 import com.pa.entity.Qualis;
 import com.pa.entity.QualisData;
 import com.pa.util.EnumPublicationLocalType;

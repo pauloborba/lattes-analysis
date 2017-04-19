@@ -7,7 +7,7 @@ import org.hibernate.Criteria;
 import com.pa.entity.Author;
 import com.pa.entity.Book;
 import com.pa.entity.Chapter;
-import com.pa.entity.Curriculo;
+import com.pa.entity.Researcher;
 import com.pa.entity.Group;
 import com.pa.entity.Orientation;
 import com.pa.entity.Publication;
@@ -22,7 +22,7 @@ public class DatabaseFacade {
 
 	private static DatabaseFacade _instance = null;
 	
-	private CurriculoDAO cDAO = new CurriculoDAO(Curriculo.class);
+	private ResearcherDAO cDAO = new ResearcherDAO(Researcher.class);
 	private GroupDAO gDAO = new GroupDAO(Group.class);
 	private PublicationDAO pDAO = new PublicationDAO(Publication.class);
 	private PublicationTypeDAO pTDAO = new PublicationTypeDAO(PublicationType.class);
@@ -68,51 +68,51 @@ public class DatabaseFacade {
 		return chDAO.listAll();
 	}
 	
-	public Curriculo saveCurriculo(Curriculo c) {
+	public Researcher saveCurriculo(Researcher c) {
 		return cDAO.save(c);
 	}
 	
-	public void deleteCurriculo(Curriculo c) {
+	public void deleteCurriculo(Researcher c) {
 		cDAO.delete(c);
 	}
 	
-	public void updateCurriculo(Curriculo c) {
+	public void updateCurriculo(Researcher c) {
 		cDAO.update(c);
 	}
 	
-	public void refreshCurriculo(Curriculo c) {
+	public void refreshCurriculo(Researcher c) {
 		cDAO.refresh(c);
 	}
 	
-	public Curriculo getCurriculoByName(String name) {
+	public Researcher getCurriculoByName(String name) {
 		return cDAO.getCurriculoByName(name);
 	}
 	
-	public Curriculo getCurriculoById(Long id) {
+	public Researcher getCurriculoById(Long id) {
 		return cDAO.get(id);
 	}
 	
 	public Criteria createCurriculoCriteria() {
-		return cDAO.createCriteria(Curriculo.class);
+		return cDAO.createCriteria(Researcher.class);
 	}
 	
 	public Criteria createCurriculoCriteria(String alias) {
-		return cDAO.createCriteria(Curriculo.class, alias);
+		return cDAO.createCriteria(Researcher.class, alias);
 	}
 	
-	public List<Curriculo> listAllCurriculos() {
+	public List<Researcher> listAllCurriculos() {
 		return cDAO.listAll();
 	}
 	
-	public List<Curriculo> listAllCurriculos(Object example) {
+	public List<Researcher> listAllCurriculos(Object example) {
 		return cDAO.listAll(example);
 	}
 	
-	public List<Curriculo> listAllCurriculos(int first, int max) {
+	public List<Researcher> listAllCurriculos(int first, int max) {
 		return cDAO.listAll(first, max);
 	}
 	
-	public List<Curriculo> listAllCurriculosByQuery(String query) {
+	public List<Researcher> listAllCurriculosByQuery(String query) {
 		return cDAO.listAllByQuery(query);
 	}
 	
@@ -344,7 +344,7 @@ public class DatabaseFacade {
 		return qDAO.listAllByQuery(query);
 	}
 	
-	public Author getAuthorByName(String name) {
+	public Author getAuthorByName(Long name) {
 		return aDAO.getAuthorByName(name);
 	}
 	

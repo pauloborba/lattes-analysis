@@ -3,7 +3,7 @@ package com.pa.database.impl;
 import org.hibernate.HibernateException;
 
 import com.pa.database.GenericDAO;
-import com.pa.entity.Curriculo;
+import com.pa.entity.Researcher;
 import com.pa.entity.Group;
 
 class GroupDAO extends GenericDAO<Group, Long> {
@@ -19,10 +19,10 @@ class GroupDAO extends GenericDAO<Group, Long> {
 
 	@Override
 	public Group save(Group x) throws HibernateException {
-		CurriculoDAO cDAO = new CurriculoDAO(Curriculo.class);
+		ResearcherDAO cDAO = new ResearcherDAO(Researcher.class);
 		
-		for (Curriculo curriculo : x.getCurriculos()) {
-			Curriculo cLattesBD = cDAO.get(curriculo.getId());
+		for (Researcher curriculo : x.getCurriculos()) {
+			Researcher cLattesBD = cDAO.get(curriculo.getId());
 			
 			if(cLattesBD == null) {
 				cDAO.save(curriculo);

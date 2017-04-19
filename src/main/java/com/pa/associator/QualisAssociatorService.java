@@ -29,7 +29,7 @@ public class QualisAssociatorService {
 		publication.setQualis(qualisClassification);
 	}
 
-	private EnumQualisClassification getQualisForPublication(Publication publication, Map<EnumPublicationLocalType, QualisData> qualisDataMap) {
+	public EnumQualisClassification getQualisForPublication(Publication publication, Map<EnumPublicationLocalType, QualisData> qualisDataMap) {
 		EnumQualisClassification qualisClassification = EnumQualisClassification.NONE;
 		
 		PublicationType publicationType = publication.getPublicationType();

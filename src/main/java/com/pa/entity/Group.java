@@ -22,13 +22,13 @@ public class Group {
 	private String name;
 	
 	@ManyToMany(cascade={CascadeType.PERSIST, CascadeType.MERGE})
-	private List<Curriculo> curriculos;
+	private List<Researcher> curriculos;
 	
 	public Group() {}
 	
 	public Group(String name) {
 		this.name = name;
-		this.curriculos = new ArrayList<Curriculo>();
+		this.curriculos = new ArrayList<Researcher>();
 	}
 
 	public String getName() {
@@ -39,11 +39,11 @@ public class Group {
 		this.name = name;
 	}
 
-	public List<Curriculo> getCurriculos() {
+	public List<Researcher> getCurriculos() {
 		return curriculos;
 	}
 
-	public void setCurriculos(List<Curriculo> curriculos) {
+	public void setCurriculos(List<Researcher> curriculos) {
 		this.curriculos = curriculos;
 	}
 

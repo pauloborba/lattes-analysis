@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.pa.database.util.HibernateUtil;
-import com.pa.entity.Curriculo;
+import com.pa.entity.Researcher;
 import com.pa.entity.Group;
 import com.pa.exception.InvalidPatternFileException;
 import com.pa.extractor.MultipleXMLExtractor;
@@ -126,7 +126,7 @@ public class MultipleXMLExtractorTest {
 		MultipleXMLExtractor multipleExtractor = new MultipleXMLExtractor();
 		multipleExtractor.saveGroup(folderGroup, false);
 		
-		List<Curriculo> mixList = new ArrayList<Curriculo>(fileGroup.getCurriculos());
+		List<Researcher> mixList = new ArrayList<Researcher>(fileGroup.getCurriculos());
 		mixList.add(folderGroup.getCurriculos().get(0));
 		
 		assertTrue(multipleExtractor.checkCurriculoExistence(mixList));

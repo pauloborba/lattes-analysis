@@ -19,7 +19,7 @@ import org.junit.Test;
 
 import com.pa.database.impl.DatabaseFacade;
 import com.pa.database.util.HibernateUtil;
-import com.pa.entity.Curriculo;
+import com.pa.entity.Researcher;
 import com.pa.entity.Publication;
 import com.pa.entity.PublicationType;
 import com.pa.entity.Qualis;
@@ -43,7 +43,7 @@ public class CurriculoAnalyzerTest {
 	
 	@Test
 	public void analyseCurriculoQualisTest() {
-		Curriculo c = new Curriculo("Nome", new Date());
+		Researcher c = new Researcher("Nome", new Date());
 		
 		PublicationType typePublication = new PublicationType("Conferencia X", EnumPublicationLocalType.CONFERENCE);
 		Publication publication = new Publication("Primeira Publicacao A1", 2015, typePublication, null);
@@ -62,7 +62,7 @@ public class CurriculoAnalyzerTest {
 	
 	@Test
 	public void analyseCurriculoConcludedOrientationsTest() {
-		Curriculo c = new Curriculo("Nome", new Date());
+		Researcher c = new Researcher("Nome", new Date());
 		c.setCountConcludedOrientations(3);
 		
 		CurriculoResult cR = CurriculoAnalyzer.getInstance().analyzerCurriculo(c, qualisDataMap);
@@ -73,7 +73,7 @@ public class CurriculoAnalyzerTest {
 	
 	@Test
 	public void analyseCurriculoOnGoingOrientationsTest() {
-		Curriculo c = new Curriculo("Nome", new Date());
+		Researcher c = new Researcher("Nome", new Date());
 		c.setCountOnGoingOrientations(2);
 		
 		CurriculoResult cR = CurriculoAnalyzer.getInstance().analyzerCurriculo(c, qualisDataMap);
@@ -84,7 +84,7 @@ public class CurriculoAnalyzerTest {
 	
 	@Test
 	public void analyseCurriculoEmptyTest() {
-		Curriculo c = new Curriculo("Nome", new Date());
+		Researcher c = new Researcher("Nome", new Date());
 		
 		CurriculoResult cR = CurriculoAnalyzer.getInstance().analyzerCurriculo(c, qualisDataMap);
 		int concludedOrientation = cR.getConcludedOrientations();
@@ -94,7 +94,7 @@ public class CurriculoAnalyzerTest {
 	
 	@Test
 	public void analyseQualisPublicationsInEmptyCurriculoTest() {
-		Curriculo c = new Curriculo("Nome", new Date());
+		Researcher c = new Researcher("Nome", new Date());
 		
 		CurriculoResult cR = CurriculoAnalyzer.getInstance().analyzerCurriculo(c, qualisDataMap);
 		List<Publication> publications = cR.getPeriodicsByQualis().get(EnumQualisClassification.A1);

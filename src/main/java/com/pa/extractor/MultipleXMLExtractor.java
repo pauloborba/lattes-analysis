@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.pa.database.impl.DatabaseFacade;
-import com.pa.entity.Curriculo;
+import com.pa.entity.Researcher;
 import com.pa.entity.Group;
 import com.pa.entity.TechnicalProduction;
 import com.pa.exception.InvalidPatternFileException;
@@ -17,7 +17,7 @@ public class MultipleXMLExtractor {
 		XMLExtractor extractor = new XMLExtractor();
 
 		for (InputStream input : inputs) {
-			Curriculo curriculo = extractor.lattesExtractor(input);
+			Researcher curriculo = extractor.lattesExtractor(input);
 			group.getCurriculos().add(curriculo);
 		}
 		
@@ -27,10 +27,10 @@ public class MultipleXMLExtractor {
 	public Group saveGroup(Group groupData, boolean overwrite) {
 		Group group;
 		
-		List<Curriculo> updatedCurriculos = new ArrayList<Curriculo>();
+		List<Researcher> updatedCurriculos = new ArrayList<Researcher>();
 		
-		for (Curriculo curriculo : groupData.getCurriculos()) {
-			Curriculo databaseCurriculo = DatabaseFacade.getInstance().getCurriculoById(curriculo.getId());
+		for (Researcher curriculo : groupData.getCurriculos()) {
+			Researcher databaseCurriculo = DatabaseFacade.getInstance().getCurriculoById(curriculo.getId());
 			
 			if (databaseCurriculo != null) {
 				if (overwrite) {
@@ -74,11 +74,11 @@ public class MultipleXMLExtractor {
 		return group;
 	}
 	
-	public boolean checkCurriculoExistence(List<Curriculo> curriculos) {
+	public boolean checkCurriculoExistence(List<Researcher> curriculos) {
 		boolean exist = false;
 		
-		for (Curriculo curriculo : curriculos) {			
-			Curriculo databaseCurriculo = DatabaseFacade.getInstance().getCurriculoById(curriculo.getId());
+		for (Researcher curriculo : curriculos) {			
+			Researcher databaseCurriculo = DatabaseFacade.getInstance().getCurriculoById(curriculo.getId());
 			if (databaseCurriculo != null) {
 				exist = true;
 				break;

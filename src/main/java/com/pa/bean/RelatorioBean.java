@@ -1,5 +1,7 @@
 package com.pa.bean;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,15 +19,18 @@ import org.primefaces.model.TreeNode;
 import com.pa.analyzer.GroupAnalyzer;
 import com.pa.analyzer.GroupResult;
 import com.pa.comparator.ComparationVO;
-import com.pa.comparator.SetCurriculoResult;
+import com.pa.comparator.SetResearcherResult;
 import com.pa.database.impl.DatabaseFacade;
 import com.pa.entity.Group;
 import com.pa.entity.Orientation;
 import com.pa.entity.Publication;
 import com.pa.entity.QualisData;
 import com.pa.entity.TechnicalProduction;
+import com.pa.manager.RelatorioManager;
 import com.pa.util.EnumPublicationLocalType;
 import com.pa.util.EnumQualisClassification;
+
+import net.sf.jasperreports.engine.JRException;
 
 @ManagedBean(name = "relatorioBean")
 @ViewScoped
@@ -43,6 +48,7 @@ public class RelatorioBean {
 	private QualisData selectedQualisDataPeriodic;
 
 	private TreeNode root = null;
+	private RelatorioManager relatorioManager;
 	
 	@PostConstruct
 	public void init() {
@@ -59,6 +65,8 @@ public class RelatorioBean {
 		qualisDataPeriodic = DatabaseFacade.getInstance().listAllQualisData(examplePeriodic);
 
 		groups = new DualListModel<Group>(groupsFromDatabase, groupsTarget);
+		
+		relatorioManager = new RelatorioManager();
 	}
 
 	public void comparar(ActionEvent actionEvent) {
@@ -88,7 +96,7 @@ public class RelatorioBean {
 		qualisDataMap.put(EnumPublicationLocalType.PERIODIC, selectedQualisDataPeriodic);
 		qualisDataMap.put(EnumPublicationLocalType.CONFERENCE, selectedQualisDataConference);
 
-		SetCurriculoResult gR = GroupAnalyzer.getInstance().analyzerGroup(group, qualisDataMap);
+		SetResearcherResult gR = GroupAnalyzer.getInstance().analyzerGroup(group, qualisDataMap);
 
 		// conferencias
 		if (checkQualisDataConference) {
@@ -112,6 +120,7 @@ public class RelatorioBean {
 		qualisDataMap.put(EnumPublicationLocalType.CONFERENCE, selectedQualisDataConference);
 
 		GroupResult groupResult = GroupAnalyzer.getInstance().groupResult(group, qualisDataMap);
+		
 
 		if (checkQualisDataConference) {
 			putPublicationsFromConference(mapTypeByNode, groupResult);
@@ -281,7 +290,7 @@ public class RelatorioBean {
 
 	}
 
-	private void putValuesFromOrientations(Map<String, TreeNode> mapTypeByNode, SetCurriculoResult gR) {
+	private void putValuesFromOrientations(Map<String, TreeNode> mapTypeByNode, SetResearcherResult gR) {
 		TreeNode orientations = null;
 
 		if (!mapTypeByNode.containsKey("orientations")) {
@@ -326,7 +335,7 @@ public class RelatorioBean {
 		}
 	}
 
-	private void putValuesFromPeriodics(Map<String, TreeNode> mapTypeByNode, SetCurriculoResult gR) {
+	private void putValuesFromPeriodics(Map<String, TreeNode> mapTypeByNode, SetResearcherResult gR) {
 		TreeNode periodics = null;
 
 		if (!mapTypeByNode.containsKey("periodics")) {
@@ -361,7 +370,7 @@ public class RelatorioBean {
 		}
 	}
 
-	private void putValuesFromConference(Map<String, TreeNode> mapTypeByNode, SetCurriculoResult gR) {
+	private void putValuesFromConference(Map<String, TreeNode> mapTypeByNode, SetResearcherResult gR) {
 		TreeNode conferences = null;
 
 		if (!mapTypeByNode.containsKey("conferences")) {

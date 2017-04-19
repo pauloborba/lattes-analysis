@@ -8,8 +8,8 @@ import java.util.List;
 
 import com.pa.analyzer.CurriculoAnalyzer;
 import com.pa.analyzer.CurriculoResult;
-import com.pa.comparator.SetCurriculoMetrics;
-import com.pa.comparator.SetCurriculoResult;
+import com.pa.comparator.SetResearcherMetrics;
+import com.pa.comparator.SetResearcherResult;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -22,7 +22,7 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import com.pa.entity.Curriculo;
+import com.pa.entity.Researcher;
 import com.pa.entity.Group;
 import com.pa.entity.Publication;
 import com.pa.entity.QualisData;
@@ -31,17 +31,17 @@ import com.pa.util.EnumQualisClassification;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({CurriculoAnalyzer.class})
 public class SetCurriculoMetricsTest {
-	static SetCurriculoResult result;
+	static SetResearcherResult result;
 	
 	@BeforeClass
 	static public void createGroup() {
 		mocking();
 		
-		Curriculo nielson = new Curriculo("Nielson", new Date());
+		Researcher nielson = new Researcher("Nielson", new Date());
 		nielson.setId((long) 123456);
-		Curriculo fernando = new Curriculo("Fernando", new Date());
+		Researcher fernando = new Researcher("Fernando", new Date());
 		fernando.setId((long) 456789);
-		Curriculo jessica = new Curriculo("Jéssica", new Date());
+		Researcher jessica = new Researcher("Jéssica", new Date());
 		jessica.setId((long) 456123);
 		
 		Group group = new Group("New");

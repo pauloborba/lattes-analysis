@@ -6,7 +6,7 @@ import java.util.Map;
 
 import com.pa.associator.QualisAssociatorService;
 
-import com.pa.entity.Curriculo;
+import com.pa.entity.Researcher;
 import com.pa.entity.Publication;
 import com.pa.entity.QualisData;
 import com.pa.util.EnumPublicationLocalType;
@@ -24,7 +24,7 @@ public class CurriculoAnalyzer {
 		return instance;
 	}
 
-	public CurriculoResult analyzerCurriculo(Curriculo curriculo, Map<EnumPublicationLocalType, QualisData> qualisDataMap) {
+	public CurriculoResult analyzerCurriculo(Researcher curriculo, Map<EnumPublicationLocalType, QualisData> qualisDataMap) {
 		CurriculoResult cR = null;
 		
 		if(curriculo != null){
@@ -40,7 +40,7 @@ public class CurriculoAnalyzer {
 		return cR;
 	}
 
-	private void associateAllPublicationWithQualis(Curriculo curriculo, CurriculoResult cR, Map<EnumPublicationLocalType, QualisData> qualisDataMap) {
+	private void associateAllPublicationWithQualis(Researcher curriculo, CurriculoResult cR, Map<EnumPublicationLocalType, QualisData> qualisDataMap) {
 		for (Publication publication : curriculo.getPublications()) {
 			QualisAssociatorService.getInstance().associatePublicationQualis(publication, qualisDataMap);
 			
