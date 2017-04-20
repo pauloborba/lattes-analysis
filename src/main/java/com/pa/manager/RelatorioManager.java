@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -178,16 +179,30 @@ public class RelatorioManager implements Serializable {
 	private Collection<?> obterListPeriodicos(String dataDeInicioParametter, String dataDeFimParametter,
 			Map<EnumPublicationLocalType, QualisData> qualisDataMap) {
 		List<Publication> publicationsReport = new ArrayList<Publication>();
-		List<Publication> publications = DatabaseFacade.getInstance().listAllPublications();
-		for (Publication p : publications) {
+
+		for (Publication p : DatabaseFacade.getInstance().listAllPublications()) {
+			
 			if (p.getPublicationType().getType().equals(EnumPublicationLocalType.PERIODIC)
 					&& p.getYear() >= Integer.parseInt(dataDeInicioParametter)
-					&& p.getYear() <= Integer.parseInt(dataDeInicioParametter)) {
-				p.setQualis(QualisAssociatorService.getInstance().getQualisForPublication(p, qualisDataMap));
-				publicationsReport.add(p);
+					&& p.getYear() <= Integer.parseInt(dataDeFimParametter)) {
+				
+				if (validarDuplicatas(p,publicationsReport)) {
+					p.setQualis(QualisAssociatorService.getInstance().getQualisForPublication(p, qualisDataMap));
+					publicationsReport.add(p);
+				}
 			}
 		}
+		Collections.sort(publicationsReport);
 		return publicationsReport;
+	}
+
+	private boolean validarDuplicatas(Publication p, List<Publication> publicationsReport) {
+		for (Publication publication : publicationsReport) {
+			if (publication.getTitle().toUpperCase().equalsIgnoreCase(p.getTitle().toUpperCase())) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 }

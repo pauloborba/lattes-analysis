@@ -14,7 +14,7 @@ import javax.persistence.Transient;
 import com.pa.util.EnumQualisClassification;
 
 @Entity
-public class Publication {
+public class Publication implements Comparable<Publication>{
 	
 	@Id @GeneratedValue
 	private Long id;
@@ -90,6 +90,17 @@ public class Publication {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	@Override
+	public int compareTo(Publication o) {
+		if (this.year < o.getYear()) {
+			return -1;
+		}
+		else if (this.year > o.getYear()) {
+			return 1;
+		}
+		return 0;
 	}
 
 }

@@ -8,8 +8,10 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
 import org.primefaces.model.DefaultTreeNode;
@@ -46,9 +48,13 @@ public class RelatorioBean {
 
 	private QualisData selectedQualisDataConference;
 	private QualisData selectedQualisDataPeriodic;
+	
+	private String data1;
+	private String data2;
 
 	private TreeNode root = null;
 	private RelatorioManager relatorioManager;
+	private FacesContext context;
 	
 	@PostConstruct
 	public void init() {
@@ -67,6 +73,9 @@ public class RelatorioBean {
 		groups = new DualListModel<Group>(groupsFromDatabase, groupsTarget);
 		
 		relatorioManager = new RelatorioManager();
+		
+		data1 = "";
+		data2 = "";
 	}
 
 	public void comparar(ActionEvent actionEvent) {
@@ -135,6 +144,14 @@ public class RelatorioBean {
 			putValuesFromTechinicalProduction(mapTypeByNode, groupResult);
 		}
 		
+		try {
+			context = FacesContext.getCurrentInstance();
+			relatorioManager.gerarRelatorioLattes(data1, data2, qualisDataMap);
+			System.out.println("Fim...");
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Relatório gerando com sucesso, local:" + System.getProperty("user.home") + "//", null) );
+		} catch (JRException | SQLException | IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private void putValuesFromTechinicalProduction(Map<String, TreeNode> mapTypeByNode, GroupResult gR) {
@@ -476,5 +493,22 @@ public class RelatorioBean {
 	public void setRoot(TreeNode root) {
 		this.root = root;
 	}
+	
+	public String getData1() {
+		return data1;
+	}
+
+	public void setData1(String data1) {
+		this.data1 = data1;
+	}
+
+	public String getData2() {
+		return data2;
+	}
+
+	public void setData2(String data2) {
+		this.data2 = data2;
+	}
+
 
 }

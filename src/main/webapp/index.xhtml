@@ -10,19 +10,6 @@
 			<b:container>
 				<h2>Professor Assessment!</h2>
                 Essa ferramenta tem como objetivo comparar o desempenho das pos-graduações através das publicações dos seus professores disponibilizados no Lattes. As informações são extraídas do XML Lattes e associadas classificação Qualis da Capes. O resultado da comparação é a média aritmética do número de publicações (para cada Qualis) e somatório de orientações de cada professor.               
-			<h:form>
-				<p:messages id="messages"/>
-				<p:growl id="growl" life="2000" />
-				<b:row>
-						<h4>Informe um período para gerar um relatório detalhado.</h4>
-					<h:panelGrid columns="4" cellpadding="3">
-						<p:inputMask id="date1" value="#{indexBean.data1}" mask="9999" placeholder="Data inicial ex: 2014"/>
-						<p:inputMask id="date2" value="#{indexBean.data2}" mask="9999" placeholder="Data final ex:2016"/>
-						<p:commandButton value="Gerar Relatório"
-							actionListener="#{indexBean.relatorioLattes}" />
-					</h:panelGrid>
-				</b:row>
-			</h:form>
             </b:container>
 		</b:jumbotron>
 		<b:container>

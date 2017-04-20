@@ -41,8 +41,6 @@ public class IndexBean implements Serializable{
 	private Integer booksSize;
 	private Integer chapterSize;
 	private RelatorioManager relatorioManager; 
-	private String data1;
-	private String data2;
 
 	@PostConstruct
 	public void init() {
@@ -64,8 +62,7 @@ public class IndexBean implements Serializable{
 		publicationsSize = publications.size();
 		booksSize = books.size();
 		chapterSize = chapters.size();
-		data1 = "";
-		data2 = "";
+		
 	}
 	
 	public void relatorioLattes(){
@@ -81,22 +78,6 @@ public class IndexBean implements Serializable{
 	}
 	
 	
-	public String getData1() {
-		return data1;
-	}
-
-	public void setData1(String data1) {
-		this.data1 = data1;
-	}
-
-	public String getData2() {
-		return data2;
-	}
-
-	public void setData2(String data2) {
-		this.data2 = data2;
-	}
-
 	public Integer getBooksSize() {
 		return booksSize;
 	}
