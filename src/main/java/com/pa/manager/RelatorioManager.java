@@ -18,6 +18,7 @@ import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
 import com.pa.associator.QualisAssociatorService;
 import com.pa.database.impl.DatabaseFacade;
 import com.pa.database.util.HibernateUtil;
+import com.pa.entity.Chapter;
 import com.pa.entity.Publication;
 import com.pa.entity.QualisData;
 import com.pa.util.EnumPublicationLocalType;
@@ -108,62 +109,60 @@ public class RelatorioManager implements Serializable {
 
 	public void gerarRelatorioLattes(String dataDeInicioParametter, String dataDeFimParametter,
 			Map<EnumPublicationLocalType, QualisData> qualisDataMap) throws JRException, SQLException, IOException {
-		 this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES,this.parametrizarConsulta(dataDeInicioParametter,
-		 dataDeFimParametter));
-		 this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS,
-		 NOME_DO_ARQUIVO);
-		
-		 this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_ORIENTATIONS_DOUTORADO_ANDAMENTO,this.parametrizarConsulta(dataDeInicioParametter,
-		 dataDeFimParametter));
-		 this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS,
-		 NOME_DO_ARQUIVO_ORIENTATIONS_DOUTORADO_ANDAMENTO);
-		
-		 this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_ORIENTATIONS_DOUTORADO_CONCLUIDA,this.parametrizarConsulta(dataDeInicioParametter,
-		 dataDeFimParametter));
-		 this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS,
-		 NOME_DO_ARQUIVO_ORIENTATIONS_DOUTORADO_CONCLUIDO);
-		
-		 this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_ORIENTATIONS_MESTRADO_ANDAMENTO,this.parametrizarConsulta(dataDeInicioParametter,
-		 dataDeFimParametter));
-		 this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS,
-		 NOME_DO_ARQUIVO_ORIENTATIONS_MESTRADO_ANDAMENTO);
-		
-		 this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_ORIENTATIONS_MESTRADO_CONCLUIDA,this.parametrizarConsulta(dataDeInicioParametter,
-		 dataDeFimParametter));
-		 this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS,
-		 NOME_DO_ARQUIVO_ORIENTATIONS_MESTRADO_CONCLUIDA);
-		
-		 this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_ORIENTATIONS_INICIACAO_CIENTIFICA,this.parametrizarConsulta(dataDeInicioParametter,
-		 dataDeFimParametter));
-		 this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS,
-		 NOME_DO_ARQUIVO_ORIENTATIONS_INICIACAO_CIENTIFICA);
-		
-		 this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_LIVROS,this.parametrizarConsulta(dataDeInicioParametter,
-		 dataDeFimParametter));
-		 this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS,
-		 NOME_DO_ARQUIVO_LIVROS);
-		
-		 this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_CAPITULOS,this.parametrizarConsulta(dataDeInicioParametter,
-		 dataDeFimParametter));
-		 this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS,
-		 NOME_DO_ARQUIVO_CAPITULOS);
-		
-		 this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_CONFERENCIAS,this.parametrizarConsulta(dataDeInicioParametter,
-		 dataDeFimParametter));
-		 this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS,
-		 NOME_DO_ARQUIVO_CONFERENCIAS);
+//		this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES,
+//				this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter));
+//		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO);
+//
+//		this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_ORIENTATIONS_DOUTORADO_ANDAMENTO,
+//				this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter));
+//		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO_ORIENTATIONS_DOUTORADO_ANDAMENTO);
+//
+//		this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_ORIENTATIONS_DOUTORADO_CONCLUIDA,
+//				this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter));
+//		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO_ORIENTATIONS_DOUTORADO_CONCLUIDO);
+//
+//		this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_ORIENTATIONS_MESTRADO_ANDAMENTO,
+//				this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter));
+//		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO_ORIENTATIONS_MESTRADO_ANDAMENTO);
+//
+//		this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_ORIENTATIONS_MESTRADO_CONCLUIDA,
+//				this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter));
+//		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO_ORIENTATIONS_MESTRADO_CONCLUIDA);
+//
+//		this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_ORIENTATIONS_INICIACAO_CIENTIFICA,
+//				this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter));
+//		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO_ORIENTATIONS_INICIACAO_CIENTIFICA);
+//
+//		this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_LIVROS,
+//				this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter));
+//		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO_LIVROS);
+//
+		gerarRelatorioCapitulos(dataDeInicioParametter, dataDeFimParametter);
+//
+//		this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_CONFERENCIAS,
+//				this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter));
+//		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO_CONFERENCIAS);
+//
+		gerarRelatorioPeriodicos(dataDeInicioParametter, dataDeFimParametter, qualisDataMap);
+//
+//		this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_CURRICULOS,
+//				this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter));
+//		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO_CURRICULOS);
+//
+//		this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_PATENTES,
+//				this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter));
+//		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO_PATENTES);
+	}
 
-		 gerarRelatorioPeriodicos(dataDeInicioParametter, dataDeFimParametter, qualisDataMap);
+	private void gerarRelatorioCapitulos(String dataDeInicioParametter, String dataDeFimParametter) throws JRException, IOException {
+		this.inputStream = getClass().getResourceAsStream(ENDERECO_RELATORIOS_LATTES_CAPITULOS);
+		this.designInputStream = JRXmlLoader.load(inputStream);
+		this.pathjrxml = JasperCompileManager.compileReport(designInputStream);
+		this.coll = new JRBeanCollectionDataSource(obterListCapitulos(dataDeInicioParametter, dataDeFimParametter), false);
+		this.printReport = JasperFillManager.fillReport(this.pathjrxml,
+				this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter), coll);
+		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO_CAPITULOS);
 
-		 this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_CURRICULOS,this.parametrizarConsulta(dataDeInicioParametter,
-		 dataDeFimParametter));
-		 this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS,
-		 NOME_DO_ARQUIVO_CURRICULOS);
-		
-		 this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_PATENTES,this.parametrizarConsulta(dataDeInicioParametter,
-		 dataDeFimParametter));
-		 this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS,
-		 NOME_DO_ARQUIVO_PATENTES);
 	}
 
 	private void gerarRelatorioPeriodicos(String dataDeInicioParametter, String dataDeFimParametter,
@@ -171,8 +170,10 @@ public class RelatorioManager implements Serializable {
 		this.inputStream = getClass().getResourceAsStream(ENDERECO_RELATORIOS_LATTES_PERIODICOS2);
 		this.designInputStream = JRXmlLoader.load(inputStream);
 		this.pathjrxml = JasperCompileManager.compileReport(designInputStream);
-		this.coll = new JRBeanCollectionDataSource(obterListPeriodicos(dataDeInicioParametter, dataDeFimParametter, qualisDataMap), false);
-		this.printReport = JasperFillManager.fillReport(this.pathjrxml, this.parametrizarConsulta(dataDeInicioParametter,dataDeFimParametter), coll);
+		this.coll = new JRBeanCollectionDataSource(
+				obterListPeriodicos(dataDeInicioParametter, dataDeFimParametter, qualisDataMap), false);
+		this.printReport = JasperFillManager.fillReport(this.pathjrxml,
+				this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter), coll);
 		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO_PERIODICOS);
 	}
 
@@ -181,12 +182,12 @@ public class RelatorioManager implements Serializable {
 		List<Publication> publicationsReport = new ArrayList<Publication>();
 
 		for (Publication p : DatabaseFacade.getInstance().listAllPublications()) {
-			
+
 			if (p.getPublicationType().getType().equals(EnumPublicationLocalType.PERIODIC)
 					&& p.getYear() >= Integer.parseInt(dataDeInicioParametter)
 					&& p.getYear() <= Integer.parseInt(dataDeFimParametter)) {
-				
-				if (validarDuplicatas(p,publicationsReport)) {
+
+				if (validarDuplicatasPublicacoes(p, publicationsReport)) {
 					p.setQualis(QualisAssociatorService.getInstance().getQualisForPublication(p, qualisDataMap));
 					publicationsReport.add(p);
 				}
@@ -196,9 +197,35 @@ public class RelatorioManager implements Serializable {
 		return publicationsReport;
 	}
 
-	private boolean validarDuplicatas(Publication p, List<Publication> publicationsReport) {
+	private Collection<?> obterListCapitulos(String dataDeInicioParametter, String dataDeFimParametter) {
+		List<Chapter> chapterReport = new ArrayList<Chapter>();
+		
+		for (Chapter p : DatabaseFacade.getInstance().listAllChapters()) {
+			
+			if (p.getAno() >= Integer.parseInt(dataDeInicioParametter)
+					&& p.getAno() <= Integer.parseInt(dataDeFimParametter)) {
+				
+				if (validarDuplicatasCapitulos(p, chapterReport)) {
+					chapterReport.add(p);
+				}
+			}
+		}
+		Collections.sort(chapterReport);
+		return chapterReport;
+	}
+
+	private boolean validarDuplicatasPublicacoes(Publication p, List<Publication> publicationsReport) {
 		for (Publication publication : publicationsReport) {
 			if (publication.getTitle().toUpperCase().equalsIgnoreCase(p.getTitle().toUpperCase())) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private boolean validarDuplicatasCapitulos(Chapter p, List<Chapter> publicationsReport) {
+		for (Chapter publication : publicationsReport) {
+			if (publication.getTitulo().toUpperCase().equalsIgnoreCase(p.getTitulo().toUpperCase())) {
 				return false;
 			}
 		}

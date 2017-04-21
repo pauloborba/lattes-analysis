@@ -368,7 +368,7 @@ public class XMLExtractor {
 					}
 				}
 				if (chapterTitle != null) {
-					Chapter chapter = new Chapter(chapterTitle.getNodeValue(), chapterYear.getNodeValue(),
+					Chapter chapter = new Chapter(chapterTitle.getNodeValue(), Integer.parseInt(chapterYear.getNodeValue()),
 							chapterBookTitle.getNodeValue(), authors);
 
 					chapters.add(chapter);
