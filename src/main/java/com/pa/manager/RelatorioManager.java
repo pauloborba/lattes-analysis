@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
 
 import com.pa.associator.QualisAssociatorService;
@@ -33,6 +34,7 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
+
 
 public class RelatorioManager implements Serializable {
 
@@ -176,8 +178,32 @@ public class RelatorioManager implements Serializable {
 	}
 
 	private void gerarRelatorioConferencias(String dataDeInicioParametter, String dataDeFimParametter,
-			Map<EnumPublicationLocalType, QualisData> qualisDataMap) {
+			Map<EnumPublicationLocalType, QualisData> qualisDataMap) throws JRException, IOException {
+		this.compilar(ENDERECO_RELATORIOS_LATTES_CONFERENCIAS);
+		this.coll = new JRBeanCollectionDataSource(
+				obterListConferencias(dataDeInicioParametter, dataDeFimParametter, qualisDataMap), false);
+		this.printReport = JasperFillManager.fillReport(this.pathjrxml,
+				this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter), coll);
+		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO_CONFERENCIAS);
+	}
 
+	private Collection<?> obterListConferencias(String dataDeInicioParametter, String dataDeFimParametter,
+			Map<EnumPublicationLocalType, QualisData> qualisDataMap) {
+		List<Publication> publicationsReport = new ArrayList<Publication>();
+
+		for (Publication p : DatabaseFacade.getInstance().listAllPublications()) {
+			
+			if (p.getPublicationType().getType().equals(EnumPublicationLocalType.CONFERENCE)
+					&& p.getYear() >= Integer.parseInt(dataDeInicioParametter)
+					&& p.getYear() <= Integer.parseInt(dataDeFimParametter)) {
+
+				if (validarDuplicatasPublicacoes(p, publicationsReport)) {
+					p.setQualis(QualisAssociatorService.getInstance().getQualisForPublication(p, qualisDataMap));
+					publicationsReport.add(p);
+				}
+			}
+		}
+		return publicationsReport;
 	}
 
 	private Collection<?> obterListPeriodicos(String dataDeInicioParametter, String dataDeFimParametter,
@@ -266,5 +292,7 @@ public class RelatorioManager implements Serializable {
 		this.designInputStream = JRXmlLoader.load(inputStream);
 		this.pathjrxml = JasperCompileManager.compileReport(designInputStream);
 	}
+	
+	
 
 }
