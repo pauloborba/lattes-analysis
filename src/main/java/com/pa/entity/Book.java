@@ -12,7 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 @Entity
-public class Book implements Serializable{
+public class Book implements Serializable, Comparable<Book>{
 	
 	/**
 	 * 
@@ -27,7 +27,7 @@ public class Book implements Serializable{
 	private String titulo;
 	
 	@Column 
-	private String ano;
+	private Integer ano;
 	
 	@Column
 	private String nomeDaEditora;
@@ -37,7 +37,7 @@ public class Book implements Serializable{
 
 	public Book(){}
 	
-	public Book(String titulo, String ano, String nomeDaEditora, List<Author> authors) {
+	public Book(String titulo, Integer ano, String nomeDaEditora, List<Author> authors) {
 		super();
 		this.titulo = titulo;
 		this.ano = ano;
@@ -61,11 +61,11 @@ public class Book implements Serializable{
 		this.titulo = titulo;
 	}
 
-	public String getAno() {
+	public Integer getAno() {
 		return ano;
 	}
 
-	public void setAno(String ano) {
+	public void setAno(Integer ano) {
 		this.ano = ano;
 	}
 
@@ -83,6 +83,17 @@ public class Book implements Serializable{
 
 	public void setAutores(List<Author> autores) {
 		this.autores = autores;
+	}
+
+	@Override
+	public int compareTo(Book o) {
+		if (this.ano < o.getAno()) {
+			return -1;
+		}
+		else if (this.ano > o.getAno()) {
+			return 1;
+		}
+		return 0;
 	}
 
 }

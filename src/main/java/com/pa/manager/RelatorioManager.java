@@ -18,6 +18,7 @@ import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
 import com.pa.associator.QualisAssociatorService;
 import com.pa.database.impl.DatabaseFacade;
 import com.pa.database.util.HibernateUtil;
+import com.pa.entity.Book;
 import com.pa.entity.Chapter;
 import com.pa.entity.Publication;
 import com.pa.entity.QualisData;
@@ -109,56 +110,62 @@ public class RelatorioManager implements Serializable {
 
 	public void gerarRelatorioLattes(String dataDeInicioParametter, String dataDeFimParametter,
 			Map<EnumPublicationLocalType, QualisData> qualisDataMap) throws JRException, SQLException, IOException {
-//		this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES,
-//				this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter));
-//		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO);
-//
-//		this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_ORIENTATIONS_DOUTORADO_ANDAMENTO,
-//				this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter));
-//		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO_ORIENTATIONS_DOUTORADO_ANDAMENTO);
-//
-//		this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_ORIENTATIONS_DOUTORADO_CONCLUIDA,
-//				this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter));
-//		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO_ORIENTATIONS_DOUTORADO_CONCLUIDO);
-//
-//		this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_ORIENTATIONS_MESTRADO_ANDAMENTO,
-//				this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter));
-//		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO_ORIENTATIONS_MESTRADO_ANDAMENTO);
-//
-//		this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_ORIENTATIONS_MESTRADO_CONCLUIDA,
-//				this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter));
-//		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO_ORIENTATIONS_MESTRADO_CONCLUIDA);
-//
-//		this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_ORIENTATIONS_INICIACAO_CIENTIFICA,
-//				this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter));
-//		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO_ORIENTATIONS_INICIACAO_CIENTIFICA);
-//
-//		this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_LIVROS,
-//				this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter));
-//		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO_LIVROS);
-//
+		this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES,
+				this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter));
+		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO);
+
+		this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_ORIENTATIONS_DOUTORADO_ANDAMENTO,
+				this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter));
+		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO_ORIENTATIONS_DOUTORADO_ANDAMENTO);
+
+		this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_ORIENTATIONS_DOUTORADO_CONCLUIDA,
+				this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter));
+		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO_ORIENTATIONS_DOUTORADO_CONCLUIDO);
+
+		this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_ORIENTATIONS_MESTRADO_ANDAMENTO,
+				this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter));
+		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO_ORIENTATIONS_MESTRADO_ANDAMENTO);
+
+		this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_ORIENTATIONS_MESTRADO_CONCLUIDA,
+				this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter));
+		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO_ORIENTATIONS_MESTRADO_CONCLUIDA);
+
+		this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_ORIENTATIONS_INICIACAO_CIENTIFICA,
+				this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter));
+		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO_ORIENTATIONS_INICIACAO_CIENTIFICA);
+
+		gerarRelatorioLivros(dataDeInicioParametter, dataDeFimParametter);
+
 		gerarRelatorioCapitulos(dataDeInicioParametter, dataDeFimParametter);
-//
-//		this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_CONFERENCIAS,
-//				this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter));
-//		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO_CONFERENCIAS);
-//
+
+		gerarRelatorioConferencias(dataDeInicioParametter, dataDeFimParametter, qualisDataMap);
+
 		gerarRelatorioPeriodicos(dataDeInicioParametter, dataDeFimParametter, qualisDataMap);
-//
-//		this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_CURRICULOS,
-//				this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter));
-//		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO_CURRICULOS);
-//
-//		this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_PATENTES,
-//				this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter));
-//		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO_PATENTES);
+
+		this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_CURRICULOS,
+				this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter));
+		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO_CURRICULOS);
+
+		this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_PATENTES,
+				this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter));
+		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO_PATENTES);
 	}
 
-	private void gerarRelatorioCapitulos(String dataDeInicioParametter, String dataDeFimParametter) throws JRException, IOException {
-		this.inputStream = getClass().getResourceAsStream(ENDERECO_RELATORIOS_LATTES_CAPITULOS);
-		this.designInputStream = JRXmlLoader.load(inputStream);
-		this.pathjrxml = JasperCompileManager.compileReport(designInputStream);
-		this.coll = new JRBeanCollectionDataSource(obterListCapitulos(dataDeInicioParametter, dataDeFimParametter), false);
+	private void gerarRelatorioLivros(String dataDeInicioParametter, String dataDeFimParametter)
+			throws JRException, IOException {
+		this.compilar(ENDERECO_RELATORIOS_LATTES_LIVROS);
+		this.coll = new JRBeanCollectionDataSource(obterListLivros(dataDeInicioParametter, dataDeFimParametter), false);
+		this.printReport = JasperFillManager.fillReport(this.pathjrxml,
+				this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter), coll);
+		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO_LIVROS);
+
+	}
+
+	private void gerarRelatorioCapitulos(String dataDeInicioParametter, String dataDeFimParametter)
+			throws JRException, IOException {
+		this.compilar(ENDERECO_RELATORIOS_LATTES_CAPITULOS);
+		this.coll = new JRBeanCollectionDataSource(obterListCapitulos(dataDeInicioParametter, dataDeFimParametter),
+				false);
 		this.printReport = JasperFillManager.fillReport(this.pathjrxml,
 				this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter), coll);
 		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO_CAPITULOS);
@@ -167,14 +174,23 @@ public class RelatorioManager implements Serializable {
 
 	private void gerarRelatorioPeriodicos(String dataDeInicioParametter, String dataDeFimParametter,
 			Map<EnumPublicationLocalType, QualisData> qualisDataMap) throws JRException, SQLException, IOException {
-		this.inputStream = getClass().getResourceAsStream(ENDERECO_RELATORIOS_LATTES_PERIODICOS2);
-		this.designInputStream = JRXmlLoader.load(inputStream);
-		this.pathjrxml = JasperCompileManager.compileReport(designInputStream);
+		this.compilar(ENDERECO_RELATORIOS_LATTES_PERIODICOS2);
 		this.coll = new JRBeanCollectionDataSource(
 				obterListPeriodicos(dataDeInicioParametter, dataDeFimParametter, qualisDataMap), false);
 		this.printReport = JasperFillManager.fillReport(this.pathjrxml,
 				this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter), coll);
 		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO_PERIODICOS);
+	}
+
+	private void gerarRelatorioConferencias(String dataDeInicioParametter, String dataDeFimParametter,
+			Map<EnumPublicationLocalType, QualisData> qualisDataMap) {
+		//
+		// this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_CONFERENCIAS,
+		// this.parametrizarConsulta(dataDeInicioParametter,
+		// dataDeFimParametter));
+		// this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS,
+		// NOME_DO_ARQUIVO_CONFERENCIAS);
+
 	}
 
 	private Collection<?> obterListPeriodicos(String dataDeInicioParametter, String dataDeFimParametter,
@@ -199,12 +215,12 @@ public class RelatorioManager implements Serializable {
 
 	private Collection<?> obterListCapitulos(String dataDeInicioParametter, String dataDeFimParametter) {
 		List<Chapter> chapterReport = new ArrayList<Chapter>();
-		
+
 		for (Chapter p : DatabaseFacade.getInstance().listAllChapters()) {
-			
+
 			if (p.getAno() >= Integer.parseInt(dataDeInicioParametter)
 					&& p.getAno() <= Integer.parseInt(dataDeFimParametter)) {
-				
+
 				if (validarDuplicatasCapitulos(p, chapterReport)) {
 					chapterReport.add(p);
 				}
@@ -212,6 +228,23 @@ public class RelatorioManager implements Serializable {
 		}
 		Collections.sort(chapterReport);
 		return chapterReport;
+	}
+
+	private Collection<?> obterListLivros(String dataDeInicioParametter, String dataDeFimParametter) {
+		List<Book> booksReport = new ArrayList<Book>();
+
+		for (Book b : DatabaseFacade.getInstance().listAllBooks()) {
+
+			if (b.getAno() >= Integer.parseInt(dataDeInicioParametter)
+					&& b.getAno() <= Integer.parseInt(dataDeFimParametter)) {
+
+				if (validarDuplicatasLivros(b, booksReport)) {
+					booksReport.add(b);
+				}
+			}
+		}
+		Collections.sort(booksReport);
+		return booksReport;
 	}
 
 	private boolean validarDuplicatasPublicacoes(Publication p, List<Publication> publicationsReport) {
@@ -223,13 +256,28 @@ public class RelatorioManager implements Serializable {
 		return true;
 	}
 
-	private boolean validarDuplicatasCapitulos(Chapter p, List<Chapter> publicationsReport) {
-		for (Chapter publication : publicationsReport) {
+	private boolean validarDuplicatasCapitulos(Chapter p, List<Chapter> chaptersReport) {
+		for (Chapter publication : chaptersReport) {
 			if (publication.getTitulo().toUpperCase().equalsIgnoreCase(p.getTitulo().toUpperCase())) {
 				return false;
 			}
 		}
 		return true;
+	}
+
+	private boolean validarDuplicatasLivros(Book p, List<Book> booksReport) {
+		for (Book book : booksReport) {
+			if (book.getTitulo().toUpperCase().equalsIgnoreCase(p.getTitulo().toUpperCase())) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private void compilar(String enderecoRelatorio) throws JRException {
+		this.inputStream = getClass().getResourceAsStream(enderecoRelatorio);
+		this.designInputStream = JRXmlLoader.load(inputStream);
+		this.pathjrxml = JasperCompileManager.compileReport(designInputStream);
 	}
 
 }

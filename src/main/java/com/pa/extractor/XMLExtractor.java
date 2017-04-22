@@ -409,7 +409,7 @@ public class XMLExtractor {
 						}
 					}
 					if (bookTitle != null) {
-						Book book = new Book(bookTitle.getNodeValue(), bookYear.getNodeValue(),
+						Book book = new Book(bookTitle.getNodeValue(), Integer.parseInt(bookYear.getNodeValue()),
 								bookPublishingCompany.getNodeValue(), authors);
 						books.add(book);
 					}

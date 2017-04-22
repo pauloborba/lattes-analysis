@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="listagemGeralDeFuncionarios" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="BlankPage" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9bf9ac34-3740-4469-b2b9-30191fadda97">
-	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<subDataset name="Table Dataset 1" uuid="868925df-c1c6-4a33-af80-76c1b374329c"/>
@@ -14,43 +14,15 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[SELECT
-    GROUP_CONCAT(ba.autores) AS 'authors',
-    b.titulo,
-    b.ano,
-    b.nomeDaEditora,
-(SELECT
-            COUNT(distinct b.titulo)
-        FROM
-            lattes.book b
-        INNER JOIN
-    lattes.book_autores ba ON b.id = ba.Book_id
-        WHERE
-                (CASE WHEN $P{parametroDataInicio} IS NOT NULL AND $P{parametroDataFim} IS NOT NULL
-		THEN b.ano BETWEEN $P{parametroDataInicio} and $P{parametroDataFim} ELSE 1=1 END)) AS 'total'
-FROM
-    lattes.book b
-        INNER JOIN
-    lattes.book_autores ba ON b.id = ba.Book_id
-WHERE
-   (CASE WHEN $P{parametroDataInicio} IS NOT NULL AND $P{parametroDataFim} IS NOT NULL
-		THEN b.ano BETWEEN $P{parametroDataInicio} and $P{parametroDataFim} ELSE 1=1 END)
-group by b.titulo
-ORDER BY b.titulo ASC;]]>
+		<![CDATA[]]>
 	</queryString>
-	<field name="authors" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="titulo" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="ano" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="nomeDaEditora" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="total" class="java.lang.Long"/>
+	<field name="titulo" class="java.lang.String"/>
+	<field name="nomeDaEditora" class="java.lang.String"/>
+	<field name="ano" class="java.lang.Object"/>
+	<field name="autores" class="java.util.List"/>
+	<variable name="titulo_1" class="java.lang.Integer" calculation="DistinctCount">
+		<variableExpression><![CDATA[$F{titulo}]]></variableExpression>
+	</variable>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -98,12 +70,12 @@ ORDER BY b.titulo ASC;]]>
 				</textElement>
 				<text><![CDATA[Total:]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="283" y="61" width="51" height="28" uuid="73db83b8-00ca-44cc-83ee-426ea909ae85"/>
+			<textField evaluationTime="Report">
+				<reportElement x="283" y="61" width="51" height="28" uuid="7421b0db-a848-4ccc-a78e-dca783f04817"/>
 				<textElement verticalAlignment="Middle">
-					<font size="20"/>
+					<font size="15"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{titulo_1}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
@@ -113,7 +85,7 @@ ORDER BY b.titulo ASC;]]>
 	<columnHeader>
 		<band height="20" splitType="Stretch">
 			<staticText>
-				<reportElement x="231" y="0" width="316" height="20" uuid="32677cfc-96e9-47a1-ba1d-e1a924991542"/>
+				<reportElement x="242" y="0" width="305" height="20" uuid="32677cfc-96e9-47a1-ba1d-e1a924991542"/>
 				<textElement verticalAlignment="Middle">
 					<font size="15" isBold="true"/>
 				</textElement>
@@ -140,29 +112,35 @@ ORDER BY b.titulo ASC;]]>
 				</textElement>
 				<text><![CDATA[Autores]]></text>
 			</staticText>
+			<line>
+				<reportElement x="0" y="19" width="802" height="1" uuid="50e28a62-6079-44c7-8a9f-b1001fe9980f"/>
+			</line>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="20" splitType="Stretch">
+		<band height="28" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="27" width="802" height="1" uuid="3e4fed63-6f38-42f9-a45c-af3a3e8cede7"/>
+			</line>
 			<textField>
-				<reportElement x="231" y="0" width="316" height="20" uuid="492ccc50-da17-46e2-9e88-0530d8f85e58"/>
+				<reportElement x="242" y="0" width="305" height="27" uuid="dc312e03-03a7-4524-99cc-0bb54b4c1389"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{titulo} != null ? $F{titulo} : "----"]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="744" y="0" width="58" height="20" uuid="4e1de852-3fb2-4dd3-81cb-a51f455679d8"/>
+				<reportElement x="547" y="1" width="197" height="27" uuid="b5028716-1450-40ac-a0ec-032395cbef14"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{ano} != null ? $F{ano} : "----"]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{nomeDaEditora}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="547" y="0" width="197" height="20" uuid="57203c18-4eb0-41ee-9d4b-f22f56c8054f"/>
+				<reportElement x="744" y="0" width="58" height="27" uuid="172504f6-e5a1-476b-a7da-38a36a6ac855"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{nomeDaEditora} != null ? $F{nomeDaEditora} : "----"]]></textFieldExpression>
+				<textFieldExpression><![CDATA[""+$F{ano}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="0" width="231" height="20" uuid="7d553aab-343d-4fcb-a883-1250691ae3de"/>
+				<reportElement x="0" y="0" width="231" height="27" uuid="84984680-138d-4932-a6d0-6f1ffeb286b2"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{authors} != null ? $F{authors} : "----"]]></textFieldExpression>
+				<textFieldExpression><![CDATA[""+$F{autores}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
