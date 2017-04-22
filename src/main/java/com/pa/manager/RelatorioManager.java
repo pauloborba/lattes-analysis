@@ -142,13 +142,6 @@ public class RelatorioManager implements Serializable {
 
 		gerarRelatorioPeriodicos(dataDeInicioParametter, dataDeFimParametter, qualisDataMap);
 
-		this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_CURRICULOS,
-				this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter));
-		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO_CURRICULOS);
-
-		this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_PATENTES,
-				this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter));
-		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO_PATENTES);
 	}
 
 	private void gerarRelatorioLivros(String dataDeInicioParametter, String dataDeFimParametter)
@@ -184,12 +177,6 @@ public class RelatorioManager implements Serializable {
 
 	private void gerarRelatorioConferencias(String dataDeInicioParametter, String dataDeFimParametter,
 			Map<EnumPublicationLocalType, QualisData> qualisDataMap) {
-		//
-		// this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_CONFERENCIAS,
-		// this.parametrizarConsulta(dataDeInicioParametter,
-		// dataDeFimParametter));
-		// this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS,
-		// NOME_DO_ARQUIVO_CONFERENCIAS);
 
 	}
 

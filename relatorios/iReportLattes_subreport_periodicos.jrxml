@@ -52,6 +52,9 @@ GROUP BY q.classification;]]>
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="total" class="java.lang.Long"/>
+	<variable name="COUNT(distinct p.title)_1" class="java.lang.Long" resetType="Page" calculation="Sum">
+		<variableExpression><![CDATA[$F{COUNT(distinct p.title)}]]></variableExpression>
+	</variable>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -67,12 +70,12 @@ GROUP BY q.classification;]]>
 				</textElement>
 				<text><![CDATA[Artigos em periódicos]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="170" y="0" width="46" height="32" uuid="65498011-1319-4d18-a1d2-b87b452d670e"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+			<textField evaluationTime="Page">
+				<reportElement x="170" y="0" width="46" height="32" uuid="0450465b-e6e7-450a-8cc4-5f10df8c8703"/>
+				<textElement verticalAlignment="Middle">
 					<font size="15"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{COUNT(distinct p.title)_1}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
