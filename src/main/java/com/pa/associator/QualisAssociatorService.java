@@ -8,10 +8,12 @@ import com.pa.entity.Qualis;
 import com.pa.entity.QualisData;
 import com.pa.util.EnumPublicationLocalType;
 import com.pa.util.EnumQualisClassification;
+import com.pa.util.LattesAnalysisUtil;
 
 public class QualisAssociatorService {
 
 	private static QualisAssociatorService _instance = null;
+	private static final Double PERCENTAGE_SIMILARITY_CONFERENCE_NAME = 0.60;
 	
 	private QualisAssociatorService() {}
 	
@@ -29,7 +31,7 @@ public class QualisAssociatorService {
 		publication.setQualis(qualisClassification);
 	}
 
-	private EnumQualisClassification getQualisForPublication(Publication publication, Map<EnumPublicationLocalType, QualisData> qualisDataMap) {
+	public EnumQualisClassification getQualisForPublication(Publication publication, Map<EnumPublicationLocalType, QualisData> qualisDataMap) {
 		EnumQualisClassification qualisClassification = EnumQualisClassification.NONE;
 		
 		PublicationType publicationType = publication.getPublicationType();
@@ -43,6 +45,10 @@ public class QualisAssociatorService {
 				if(qualisData != null && qualisData.getQualis() != null && !qualisData.getQualis().isEmpty()) {
 					for (Qualis qualis : qualisData.getQualis()) {
 						if(qualis.getName().equals(publication.getPublicationType().getName())) {
+							qualisClassification = qualis.getClassification();
+							break;
+						}
+						else if (LattesAnalysisUtil.computeStringSimilarity(qualis.getName(),publication.getPublicationType().getName()) >= PERCENTAGE_SIMILARITY_CONFERENCE_NAME) {
 							qualisClassification = qualis.getClassification();
 							break;
 						}

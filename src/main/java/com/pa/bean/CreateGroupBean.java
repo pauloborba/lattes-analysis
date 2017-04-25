@@ -20,7 +20,7 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DualListModel;
 
 import com.pa.database.impl.DatabaseFacade;
-import com.pa.entity.Curriculo;
+import com.pa.entity.Researcher;
 import com.pa.entity.Group;
 import com.pa.exception.InvalidPatternFileException;
 import com.pa.extractor.MultipleXMLExtractor;
@@ -90,8 +90,8 @@ public class CreateGroupBean implements Serializable{
 
 	private void createGroupFromSelectedGroups(FacesContext context,
 			List<Group> selectedGroups) {
-		List<Curriculo> allCurriculos = new ArrayList<Curriculo>();
-		Set<Curriculo> duplicatedCurriculos = new HashSet<Curriculo>();
+		List<Researcher> allCurriculos = new ArrayList<Researcher>();
+		Set<Researcher> duplicatedCurriculos = new HashSet<Researcher>();
 		fillCurriculumLists(selectedGroups, duplicatedCurriculos, allCurriculos);
 		
 		if(!duplicatedCurriculos.isEmpty()) {
@@ -128,7 +128,7 @@ public class CreateGroupBean implements Serializable{
 	}
 
 	private void createGroupFromAnotherGroups(FacesContext context,
-			List<Curriculo> allCurriculos) {
+			List<Researcher> allCurriculos) {
 		Group group = new Group(groupName);
 		group.getCurriculos().addAll(allCurriculos);
 		
@@ -144,7 +144,7 @@ public class CreateGroupBean implements Serializable{
 	}
 
 	private String buildMessageForDuplications(
-			Set<Curriculo> duplicatedCurriculos) {
+			Set<Researcher> duplicatedCurriculos) {
 		String msg = "";
 
 		if(duplicatedCurriculos.size() == 1) {
@@ -154,7 +154,7 @@ public class CreateGroupBean implements Serializable{
 			msg = "Os currículos de ";
 			String names = "";
 			
-			Iterator<Curriculo> duplicatedCurriculosIterator = duplicatedCurriculos.iterator();
+			Iterator<Researcher> duplicatedCurriculosIterator = duplicatedCurriculos.iterator();
 			
 			while(duplicatedCurriculosIterator.hasNext()) {
 				names += "\"" + duplicatedCurriculosIterator.next().getName() + "\"";
@@ -169,13 +169,13 @@ public class CreateGroupBean implements Serializable{
 		return msg;
 	}
 
-	private void fillCurriculumLists(List<Group> selectedGroups, Set<Curriculo> duplicatedCurriculos, List<Curriculo> allCurriculos) {
+	private void fillCurriculumLists(List<Group> selectedGroups, Set<Researcher> duplicatedCurriculos, List<Researcher> allCurriculos) {
 		Iterator<Group> groupIterator = (Iterator<Group>) selectedGroups.iterator();		
 		
 		while (groupIterator.hasNext()) {
 			Group group = groupIterator.next();
 			
-			for (Curriculo curriculo : group.getCurriculos()) {
+			for (Researcher curriculo : group.getCurriculos()) {
 				if(allCurriculos.contains(curriculo)) {
 					duplicatedCurriculos.add(curriculo);
 				}

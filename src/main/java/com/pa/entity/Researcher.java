@@ -12,7 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 @Entity
-public class Curriculo {
+public class Researcher {
 	@Id
 	private Long id;
 	
@@ -43,9 +43,9 @@ public class Curriculo {
 	@Column
 	private Date lastUpdate;
 	
-	public Curriculo() {}
+	public Researcher() {}
 	
-	public Curriculo(String name, Date lastUpdate) {
+	public Researcher(String name, Date lastUpdate) {
 		this.name = name;
 		this.lastUpdate = lastUpdate;
 		this.publications = new HashSet<Publication>();

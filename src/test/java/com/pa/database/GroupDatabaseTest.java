@@ -14,7 +14,7 @@ import org.junit.Test;
 
 import com.pa.database.impl.DatabaseFacade;
 import com.pa.database.util.HibernateUtil;
-import com.pa.entity.Curriculo;
+import com.pa.entity.Researcher;
 import com.pa.entity.Group;
 import com.pa.entity.Publication;
 import com.pa.entity.PublicationType;
@@ -44,7 +44,7 @@ public class GroupDatabaseTest {
 	@Test
 	public void saveCurriculoTest() {
 		Group group = new Group("UFPE");
-		Curriculo curriculo = new Curriculo("Curriculo1", new Date());
+		Researcher curriculo = new Researcher("Curriculo1", new Date());
 		curriculo.setId(10256l);
 		
 		group.getCurriculos().add(curriculo);
@@ -55,13 +55,13 @@ public class GroupDatabaseTest {
 	@Test
 	public void saveCurriculoWithPublicationTest() {
 		Group group = new Group("UFPE");
-		Curriculo curriculo = new Curriculo("Curriculo1", new Date());
+		Researcher curriculo = new Researcher("Curriculo1", new Date());
 		curriculo.setId(10256l);
 		
 		group.getCurriculos().add(curriculo);
 		DatabaseFacade.getInstance().saveGroup(group);
 		
-		List<Curriculo> publications = DatabaseFacade.getInstance().listAllCurriculos();
+		List<Researcher> publications = DatabaseFacade.getInstance().listAllCurriculos();
 		
 		assertEquals(publications.size(), 1);
 	}
@@ -69,7 +69,7 @@ public class GroupDatabaseTest {
 	@Test
 	public void deleteGroupTest() {
 		Group group = new Group("UFPE");
-		Curriculo curriculo = new Curriculo("Curriculo1", new Date());
+		Researcher curriculo = new Researcher("Curriculo1", new Date());
 		curriculo.setId(10256l);
 		
 		group.getCurriculos().add(curriculo);
@@ -84,14 +84,14 @@ public class GroupDatabaseTest {
 	@Test
 	public void deleteGroupAndCheckCurriculoTest() {
 		Group group = new Group("UFPE");
-		Curriculo curriculo = new Curriculo("Curriculo1", new Date());
+		Researcher curriculo = new Researcher("Curriculo1", new Date());
 		curriculo.setId(10256l);
 		
 		group.getCurriculos().add(curriculo);
 		DatabaseFacade.getInstance().saveGroup(group);
 		DatabaseFacade.getInstance().deleteGroup(group);
 		
-		Curriculo curriculoBD = DatabaseFacade.getInstance().getCurriculoByName("Curriculo1");
+		Researcher curriculoBD = DatabaseFacade.getInstance().getCurriculoByName("Curriculo1");
 		
 		assertNotNull(curriculoBD);
 	}
@@ -99,7 +99,7 @@ public class GroupDatabaseTest {
 	@Test
 	public void updateGroupTest() {
 		Group group = new Group("UFPE");
-		Curriculo curriculo = new Curriculo("Curriculo1", new Date());
+		Researcher curriculo = new Researcher("Curriculo1", new Date());
 		curriculo.setId(10256l);
 		curriculo.getPublications().add(new Publication("Publication1", 2015, new PublicationType("TipoDePublicacao1", EnumPublicationLocalType.CONFERENCE), null));
 		group.getCurriculos().add(curriculo);
@@ -114,13 +114,13 @@ public class GroupDatabaseTest {
 	@Test
 	public void listAllGroupTest() {
 		Group group = new Group("UFPE");
-		Curriculo curriculo = new Curriculo("Curriculo1", new Date());
+		Researcher curriculo = new Researcher("Curriculo1", new Date());
 		curriculo.setId(10256l);
 		curriculo.getPublications().add(new Publication("Publication1", 2015, new PublicationType("TipoDePublicacao1", EnumPublicationLocalType.CONFERENCE), null));
 		group.getCurriculos().add(curriculo);
 		
 		Group group2 = new Group("UFPB");
-		Curriculo curriculo2 = new Curriculo("Curriculo2", new Date());
+		Researcher curriculo2 = new Researcher("Curriculo2", new Date());
 		curriculo2.setId(10257l);
 		curriculo2.getPublications().add(new Publication("Publication2", 2015, new PublicationType("TipoDePublicacao2", EnumPublicationLocalType.CONFERENCE), null));
 		group2.getCurriculos().add(curriculo2);
@@ -136,13 +136,13 @@ public class GroupDatabaseTest {
 	@Test
 	public void listAllGroupByObjectTest() {
 		Group group = new Group("UFPE");
-		Curriculo curriculo = new Curriculo("Curriculo1", new Date());
+		Researcher curriculo = new Researcher("Curriculo1", new Date());
 		curriculo.setId(10256l);
 		curriculo.getPublications().add(new Publication("Publication1", 2015, new PublicationType("TipoDePublicacao1", EnumPublicationLocalType.CONFERENCE), null));
 		group.getCurriculos().add(curriculo);
 		
 		Group group2 = new Group("UFPB");
-		Curriculo curriculo2 = new Curriculo("Curriculo2", new Date());
+		Researcher curriculo2 = new Researcher("Curriculo2", new Date());
 		curriculo2.setId(10257l);
 		curriculo2.getPublications().add(new Publication("Publication2", 2015, new PublicationType("TipoDePublicacao1", EnumPublicationLocalType.CONFERENCE), null));
 		group2.getCurriculos().add(curriculo2);
@@ -158,13 +158,13 @@ public class GroupDatabaseTest {
 	@Test
 	public void listAllGroupByQueryTest() {
 		Group group = new Group("UFPE");
-		Curriculo curriculo = new Curriculo("Curriculo1", new Date());
+		Researcher curriculo = new Researcher("Curriculo1", new Date());
 		curriculo.setId(10256l);
 		curriculo.getPublications().add(new Publication("Publication1", 2015, new PublicationType("TipoDePublicacao1", EnumPublicationLocalType.CONFERENCE), null));
 		group.getCurriculos().add(curriculo);
 		
 		Group group2 = new Group("UFPB");
-		Curriculo curriculo2 = new Curriculo("Curriculo2", new Date());
+		Researcher curriculo2 = new Researcher("Curriculo2", new Date());
 		curriculo2.setId(10257l);
 		curriculo2.getPublications().add(new Publication("Publication2", 2015, new PublicationType("TipoDePublicacao1", EnumPublicationLocalType.CONFERENCE), null));
 		group2.getCurriculos().add(curriculo2);

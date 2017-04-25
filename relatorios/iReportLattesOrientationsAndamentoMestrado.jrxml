@@ -21,17 +21,17 @@
 FROM
     lattes.orientation b
         INNER JOIN
-    lattes.curriculo_orientation co ON b.id = co.orientations_id
+    lattes.researcher_orientation co ON b.id = co.orientations_id
         INNER JOIN
-    lattes.curriculo c ON c.id = co.Curriculo_id
+    lattes.researcher c ON c.id = co.researcher_id
 WHERE
 	b.TipoOrientacao = 'ORIENTACAO_EM_ANDAMENTO_DE_MESTRADO'  and b.tipoOrientador = 'ORIENTADOR_PRINCIPAL') as 'total'
 FROM
     lattes.orientation b
         INNER JOIN
-    lattes.curriculo_orientation co ON b.id = co.orientations_id
+    lattes.researcher_orientation co ON b.id = co.orientations_id
         INNER JOIN
-    lattes.curriculo c ON c.id = co.Curriculo_id
+    lattes.researcher c ON c.id = co.researcher_id
 WHERE
 	b.TipoOrientacao = 'ORIENTACAO_EM_ANDAMENTO_DE_MESTRADO'  and b.tipoOrientador = 'ORIENTADOR_PRINCIPAL'
 ORDER BY b.ano ASC;]]>

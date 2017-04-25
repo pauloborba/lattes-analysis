@@ -14,38 +14,9 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[SELECT
-    COUNT(p.title),
-    q.classification,
-(SELECT
-            COUNT(p.title)
-        FROM
-            lattes.publication p
-                INNER JOIN
-            lattes.publicationtype pt ON pt.identifier = p.publicationType_identifier
-                INNER JOIN
-            lattes.qualis q ON pt.name LIKE CONCAT('%', q.name, '%')
-        WHERE
-            pt.type = 0
-                AND (CASE WHEN $P{parametroDataInicio} IS NOT NULL AND $P{parametroDataFim} IS NOT NULL
-		THEN p.year BETWEEN $P{parametroDataInicio} and $P{parametroDataFim} ELSE 1=1 END)) AS 'total'
-FROM
-    lattes.publication p
-        INNER JOIN
-    lattes.publicationtype pt ON pt.identifier = p.publicationType_identifier
-        INNER JOIN
-    lattes.qualis q ON pt.name LIKE CONCAT('%', q.name, '%')
-WHERE
-    pt.type = 0
-       AND (CASE WHEN $P{parametroDataInicio} IS NOT NULL AND $P{parametroDataFim} IS NOT NULL
-		THEN p.year BETWEEN $P{parametroDataInicio} and $P{parametroDataFim} ELSE 1=1 END)
-GROUP BY q.classification;]]>
+		<![CDATA[]]>
 	</queryString>
-	<field name="COUNT(p.title)" class="java.lang.Long"/>
-	<field name="classification" class="java.lang.Integer">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="total" class="java.lang.Long"/>
+	<field name="qualis" class="java.lang.Object"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -89,9 +60,9 @@ GROUP BY q.classification;]]>
 		</band>
 	</title>
 	<pageHeader>
-		<band height="304" splitType="Stretch">
+		<band height="403" splitType="Stretch">
 			<subreport>
-				<reportElement x="437" y="34" width="237" height="30" uuid="d7134078-950e-4c6d-acb8-4e44771eaed2"/>
+				<reportElement x="164" y="227" width="237" height="30" uuid="d7134078-950e-4c6d-acb8-4e44771eaed2"/>
 				<subreportParameter name="parametroDataInicio">
 					<subreportParameterExpression><![CDATA[$P{parametroDataInicio}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -102,7 +73,7 @@ GROUP BY q.classification;]]>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "iReportLattes_subreport_livros.jasper"]]></subreportExpression>
 			</subreport>
 			<subreport>
-				<reportElement x="437" y="64" width="237" height="30" uuid="bd16ceb3-d53a-4f72-9837-dc5b6c036ac6"/>
+				<reportElement x="164" y="272" width="237" height="30" uuid="bd16ceb3-d53a-4f72-9837-dc5b6c036ac6"/>
 				<subreportParameter name="parametroDataInicio">
 					<subreportParameterExpression><![CDATA[$P{parametroDataInicio}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -113,7 +84,7 @@ GROUP BY q.classification;]]>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "iReportLattes_subreport_capituloslivros.jasper"]]></subreportExpression>
 			</subreport>
 			<subreport>
-				<reportElement x="437" y="94" width="237" height="198" uuid="b2a4ab09-63cb-4c6e-b687-0a80bb851e47"/>
+				<reportElement x="421" y="228" width="237" height="175" uuid="b2a4ab09-63cb-4c6e-b687-0a80bb851e47"/>
 				<subreportParameter name="parametroDataInicio">
 					<subreportParameterExpression><![CDATA[$P{parametroDataInicio}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -124,18 +95,18 @@ GROUP BY q.classification;]]>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "iReportLattes_subreport_orientacoes.jasper"]]></subreportExpression>
 			</subreport>
 			<subreport>
-				<reportElement x="437" y="4" width="237" height="30" uuid="ea586d56-0cc3-4dba-ad6e-bbe58bd99b14"/>
+				<reportElement x="421" y="4" width="237" height="202" uuid="ea586d56-0cc3-4dba-ad6e-bbe58bd99b14"/>
 				<subreportParameter name="parametroDataInicio">
 					<subreportParameterExpression><![CDATA[$P{parametroDataInicio}]]></subreportParameterExpression>
 				</subreportParameter>
 				<subreportParameter name="parametroDataFim">
 					<subreportParameterExpression><![CDATA[$P{parametroDataFim}]]></subreportParameterExpression>
 				</subreportParameter>
-				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JRBeanCollectionDataSource(""+$F{qualis})]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "iReportLattes_subreport_conferencias.jasper"]]></subreportExpression>
 			</subreport>
 			<subreport>
-				<reportElement x="164" y="4" width="230" height="288" uuid="2cc35a9f-1115-4b29-b3f7-55bd39660bc4"/>
+				<reportElement x="164" y="4" width="237" height="202" uuid="2cc35a9f-1115-4b29-b3f7-55bd39660bc4"/>
 				<subreportParameter name="parametroDataInicio">
 					<subreportParameterExpression><![CDATA[$P{parametroDataInicio}]]></subreportParameterExpression>
 				</subreportParameter>

@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,7 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 @Entity
-public class Book implements Serializable{
+public class Book implements Serializable, Comparable<Book>{
 	
 	/**
 	 * 
@@ -28,18 +27,17 @@ public class Book implements Serializable{
 	private String titulo;
 	
 	@Column 
-	private String ano;
+	private Integer ano;
 	
 	@Column
 	private String nomeDaEditora;
 	
-	@Column
-    @ElementCollection(targetClass=String.class)
-	private List<String> autores;
+	@OneToMany(cascade=CascadeType.ALL)
+	private List<Author> autores;
 
 	public Book(){}
 	
-	public Book(String titulo, String ano, String nomeDaEditora, List<String> authors) {
+	public Book(String titulo, Integer ano, String nomeDaEditora, List<Author> authors) {
 		super();
 		this.titulo = titulo;
 		this.ano = ano;
@@ -63,11 +61,11 @@ public class Book implements Serializable{
 		this.titulo = titulo;
 	}
 
-	public String getAno() {
+	public Integer getAno() {
 		return ano;
 	}
 
-	public void setAno(String ano) {
+	public void setAno(Integer ano) {
 		this.ano = ano;
 	}
 
@@ -79,12 +77,23 @@ public class Book implements Serializable{
 		this.nomeDaEditora = nomeDaEditora;
 	}
 
-	public List<String> getAutores() {
+	public List<Author> getAutores() {
 		return autores;
 	}
 
-	public void setAutores(List<String> autores) {
+	public void setAutores(List<Author> autores) {
 		this.autores = autores;
+	}
+
+	@Override
+	public int compareTo(Book o) {
+		if (this.ano < o.getAno()) {
+			return -1;
+		}
+		else if (this.ano > o.getAno()) {
+			return 1;
+		}
+		return 0;
 	}
 
 }

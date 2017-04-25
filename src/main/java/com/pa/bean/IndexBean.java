@@ -15,7 +15,7 @@ import javax.faces.event.ActionEvent;
 import com.pa.database.impl.DatabaseFacade;
 import com.pa.entity.Book;
 import com.pa.entity.Chapter;
-import com.pa.entity.Curriculo;
+import com.pa.entity.Researcher;
 import com.pa.entity.Group;
 import com.pa.entity.Orientation;
 import com.pa.entity.Publication;
@@ -41,14 +41,12 @@ public class IndexBean implements Serializable{
 	private Integer booksSize;
 	private Integer chapterSize;
 	private RelatorioManager relatorioManager; 
-	private String data1;
-	private String data2;
 
 	@PostConstruct
 	public void init() {
 		relatorioManager = new RelatorioManager();
 		List<Group> groups = DatabaseFacade.getInstance().listAllGroups();
-		List<Curriculo> curriculum = DatabaseFacade.getInstance().listAllCurriculos();
+		List<Researcher> curriculum = DatabaseFacade.getInstance().listAllCurriculos();
 		List<Qualis> qualis = DatabaseFacade.getInstance().listAllQualis();
 		List<TechnicalProduction> technicalProductions = DatabaseFacade.getInstance().listAllTechnicalProductions();
 		List<Orientation> orientations = DatabaseFacade.getInstance().listAllOrientations();
@@ -64,38 +62,22 @@ public class IndexBean implements Serializable{
 		publicationsSize = publications.size();
 		booksSize = books.size();
 		chapterSize = chapters.size();
-		data1 = "";
-		data2 = "";
+		
 	}
 	
 	public void relatorioLattes(){
 		FacesContext context = FacesContext.getCurrentInstance();
-		try {
-			relatorioManager.gerarRelatorioLattes(data1, data2);
-			System.out.println("Fim...");
-			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Relatório gerando com sucesso, local:" + System.getProperty("user.home") + "//", null) );
-		} catch (JRException | SQLException | IOException e) {
-			e.printStackTrace();
-		}
+//		try {
+//		//	relatorioManager.gerarRelatorioLattes(data1, data2);
+//			relatorioManager.gerarRelatorioLattes("2015","2015");
+//			System.out.println("Fim...");
+//			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Relatório gerando com sucesso, local:" + System.getProperty("user.home") + "//", null) );
+//		} catch (JRException | SQLException | IOException e) {
+//			e.printStackTrace();
+//		}
 	}
 	
 	
-	public String getData1() {
-		return data1;
-	}
-
-	public void setData1(String data1) {
-		this.data1 = data1;
-	}
-
-	public String getData2() {
-		return data2;
-	}
-
-	public void setData2(String data2) {
-		this.data2 = data2;
-	}
-
 	public Integer getBooksSize() {
 		return booksSize;
 	}

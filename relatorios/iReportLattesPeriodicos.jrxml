@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="listagemGeralDeFuncionarios" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="BlankPage" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9bf9ac34-3740-4469-b2b9-30191fadda97">
 	<property name="ireport.zoom" value="2.0"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.x" value="403"/>
 	<property name="ireport.y" value="70"/>
 	<subDataset name="Table Dataset 1" uuid="868925df-c1c6-4a33-af80-76c1b374329c"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
@@ -37,7 +37,8 @@
                 AND (CASE WHEN $P{parametroDataInicio} IS NOT NULL AND $P{parametroDataFim} IS NOT NULL
 		THEN p.year BETWEEN $P{parametroDataInicio} and $P{parametroDataFim} ELSE 1=1 END)) AS 'total'
 FROM
-lattes.publication_authors pa inner join
+    lattes.publication_authors pa
+        inner join
     lattes.publication p  ON p.id = pa.Publication_id
         INNER JOIN
     lattes.publicationtype pt ON pt.identifier = p.publicationType_identifier
@@ -170,40 +171,40 @@ order by p.year asc;]]>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="31" splitType="Stretch">
+		<band height="38" splitType="Stretch">
 			<textField>
-				<reportElement x="242" y="2" width="280" height="25" uuid="eda47605-2137-46ec-8972-01980e340d0c"/>
+				<reportElement x="242" y="2" width="280" height="34" uuid="eda47605-2137-46ec-8972-01980e340d0c"/>
 				<textElement verticalAlignment="Middle">
 					<font size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{title}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="2" width="238" height="25" uuid="179dcbcd-938c-47a0-b789-9d5eb8e3aec2"/>
+				<reportElement x="0" y="2" width="238" height="34" uuid="179dcbcd-938c-47a0-b789-9d5eb8e3aec2"/>
 				<textElement verticalAlignment="Middle">
 					<font size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{authors}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="524" y="2" width="220" height="25" uuid="976ec24e-9e62-43c7-9186-438604d6fd60"/>
+				<reportElement x="524" y="2" width="220" height="34" uuid="976ec24e-9e62-43c7-9186-438604d6fd60"/>
 				<textElement verticalAlignment="Middle">
 					<font size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="744" y="2" width="26" height="25" uuid="89541ac3-a5c9-4c30-a408-7a44100d880e"/>
+				<reportElement x="744" y="2" width="26" height="34" uuid="89541ac3-a5c9-4c30-a408-7a44100d880e"/>
 				<textElement verticalAlignment="Middle">
 					<font size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{year}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement x="0" y="30" width="802" height="1" uuid="4fcd92f9-0500-4c90-b17a-180c5af2a5a3"/>
+				<reportElement x="0" y="36" width="802" height="1" uuid="4fcd92f9-0500-4c90-b17a-180c5af2a5a3"/>
 			</line>
 			<textField>
-				<reportElement x="770" y="2" width="32" height="25" uuid="6280ab56-d3ca-4fe6-a817-327375536596"/>
+				<reportElement x="770" y="2" width="32" height="34" uuid="6280ab56-d3ca-4fe6-a817-327375536596"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{ifnull(q.classification, 9)}.intValue() == 0?"A1": $F{ifnull(q.classification, 9)}.intValue() == 1?"A2": $F{ifnull(q.classification, 9)}.intValue() == 2?"B1":$F{ifnull(q.classification, 9)}.intValue() == 3?"B2":$F{ifnull(q.classification, 9)}.intValue() == 4?"B3":$F{ifnull(q.classification, 9)}.intValue() == 5?"B4":$F{ifnull(q.classification, 9)}.intValue() == 6?"B5":$F{ifnull(q.classification, 9)}.intValue() == 7?"C":$F{ifnull(q.classification, 9)}.intValue() == 8?"C":$F{ifnull(q.classification, 9)}.intValue() == 9?"NONE":""]]></textFieldExpression>
 			</textField>

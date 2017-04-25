@@ -14,7 +14,7 @@ import org.junit.Test;
 
 import com.pa.database.impl.DatabaseFacade;
 import com.pa.database.util.HibernateUtil;
-import com.pa.entity.Curriculo;
+import com.pa.entity.Researcher;
 import com.pa.entity.Publication;
 import com.pa.entity.PublicationType;
 import com.pa.util.EnumPublicationLocalType;
@@ -42,7 +42,7 @@ public class CurriculoDatabaseTest {
 	
 	@Test
 	public void saveCurriculoTest() {
-		Curriculo curriculo = new Curriculo("Curriculo1", new Date());
+		Researcher curriculo = new Researcher("Curriculo1", new Date());
 		curriculo.setId(10256l);
 		DatabaseFacade.getInstance().saveCurriculo(curriculo);
 		assertNotNull(curriculo.getId());
@@ -50,7 +50,7 @@ public class CurriculoDatabaseTest {
 	
 	@Test
 	public void saveCurriculoWithPublicationTest() {
-		Curriculo curriculo = new Curriculo("Curriculo1", new Date());
+		Researcher curriculo = new Researcher("Curriculo1", new Date());
 		curriculo.setId(10256l);
 		curriculo.getPublications().add(new Publication("Publication1", 2015, new PublicationType("TipoDePublicacao1", EnumPublicationLocalType.CONFERENCE), null));
 		DatabaseFacade.getInstance().saveCurriculo(curriculo);
@@ -62,19 +62,19 @@ public class CurriculoDatabaseTest {
 	
 	@Test
 	public void deleteCurriculoTest() {
-		Curriculo curriculo = new Curriculo("Curriculo1", new Date());
+		Researcher curriculo = new Researcher("Curriculo1", new Date());
 		curriculo.setId(10256l);
 		DatabaseFacade.getInstance().saveCurriculo(curriculo);
 		DatabaseFacade.getInstance().deleteCurriculo(curriculo);
 		
-		Curriculo curriculoBD = DatabaseFacade.getInstance().getCurriculoById(curriculo.getId());
+		Researcher curriculoBD = DatabaseFacade.getInstance().getCurriculoById(curriculo.getId());
 		
 		assertNull(curriculoBD);
 	}
 	
 	@Test
 	public void updatePublicationTest() {
-		Curriculo curriculo = new Curriculo("Curriculo1", new Date());
+		Researcher curriculo = new Researcher("Curriculo1", new Date());
 		curriculo.setId(10256l);
 		curriculo.getPublications().add(new Publication("Publication1", 2015, new PublicationType("TipoDePublicacao1", EnumPublicationLocalType.CONFERENCE), null));
 		DatabaseFacade.getInstance().saveCurriculo(curriculo);
@@ -87,51 +87,51 @@ public class CurriculoDatabaseTest {
 	
 	@Test
 	public void listAllPublicationTest() {
-		Curriculo curriculo = new Curriculo("Curriculo1", new Date());
+		Researcher curriculo = new Researcher("Curriculo1", new Date());
 		curriculo.setId(10256l);
 		curriculo.getPublications().add(new Publication("Publication1", 2015, new PublicationType("TipoDePublicacao1", EnumPublicationLocalType.CONFERENCE), null));
 		
-		Curriculo curriculo2 = new Curriculo("Curriculo2", new Date());
+		Researcher curriculo2 = new Researcher("Curriculo2", new Date());
 		curriculo2.setId(10257l);
 		curriculo2.getPublications().add(new Publication("Publication2", 2015, new PublicationType("TipoDePublicacao2", EnumPublicationLocalType.CONFERENCE), null));
 		DatabaseFacade.getInstance().saveCurriculo(curriculo);
 		DatabaseFacade.getInstance().saveCurriculo(curriculo2);
 		
-		List<Curriculo> qualisList = DatabaseFacade.getInstance().listAllCurriculos();
+		List<Researcher> qualisList = DatabaseFacade.getInstance().listAllCurriculos();
 		
 		assertEquals(qualisList.size(), 2);
 	}
 	
 	@Test
 	public void listAllPublicationByObjectTest() {
-		Curriculo curriculo = new Curriculo("Curriculo1", new Date());
+		Researcher curriculo = new Researcher("Curriculo1", new Date());
 		curriculo.setId(10256l);
 		curriculo.getPublications().add(new Publication("Publication1", 2015, new PublicationType("TipoDePublicacao1", EnumPublicationLocalType.CONFERENCE), null));
 		
-		Curriculo curriculo2 = new Curriculo("Curriculo2", new Date());
+		Researcher curriculo2 = new Researcher("Curriculo2", new Date());
 		curriculo2.setId(10257l);
 		curriculo2.getPublications().add(new Publication("Publication2", 2015, new PublicationType("TipoDePublicacao2", EnumPublicationLocalType.CONFERENCE), null));
 		DatabaseFacade.getInstance().saveCurriculo(curriculo);
 		DatabaseFacade.getInstance().saveCurriculo(curriculo2);
 		
-		List<Curriculo> list = DatabaseFacade.getInstance().listAllCurriculos(curriculo);
+		List<Researcher> list = DatabaseFacade.getInstance().listAllCurriculos(curriculo);
 		
 		assertEquals(list.size(), 1);
 	}
 	
 	@Test
 	public void listAllCurriculosByQueryTest() {
-		Curriculo curriculo = new Curriculo("Curriculo1", new Date());
+		Researcher curriculo = new Researcher("Curriculo1", new Date());
 		curriculo.setId(10256l);
 		curriculo.getPublications().add(new Publication("Publication1", 2015, new PublicationType("TipoDePublicacao1", EnumPublicationLocalType.CONFERENCE), null));
 		
-		Curriculo curriculo2 = new Curriculo("Curriculo2", new Date());
+		Researcher curriculo2 = new Researcher("Curriculo2", new Date());
 		curriculo2.setId(10257l);
 		curriculo2.getPublications().add(new Publication("Publication2", 2015, new PublicationType("TipoDePublicacao2", EnumPublicationLocalType.CONFERENCE), null));
 		DatabaseFacade.getInstance().saveCurriculo(curriculo);
 		DatabaseFacade.getInstance().saveCurriculo(curriculo2);
 		
-		List<Curriculo> cList = DatabaseFacade.getInstance().listAllCurriculosByQuery("from Curriculo");
+		List<Researcher> cList = DatabaseFacade.getInstance().listAllCurriculosByQuery("from Curriculo");
 		
 		assertEquals(cList.size(), 2);
 	}
@@ -140,11 +140,11 @@ public class CurriculoDatabaseTest {
 	public void getCurriculoByNameTest() {
 		String name = "Curriculo1";
 		
-		Curriculo curriculo = new Curriculo(name, new Date());
+		Researcher curriculo = new Researcher(name, new Date());
 		curriculo.setId(10256l);
 		
 		DatabaseFacade.getInstance().saveCurriculo(curriculo);
-		Curriculo cAux = DatabaseFacade.getInstance().getCurriculoByName(name);
+		Researcher cAux = DatabaseFacade.getInstance().getCurriculoByName(name);
 		
 		assertNotNull(cAux);
 	}

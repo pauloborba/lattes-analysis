@@ -6,7 +6,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Date;
 
-import com.pa.entity.Curriculo;
+import com.pa.entity.Researcher;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,11 +17,11 @@ public class CurriculoTest {
 	 * When create Curriculo
 	 * */
 	
-	Curriculo curriculo;
+	Researcher curriculo;
 	
 	@Before
 	public void createCurriculo() {
-		curriculo = new Curriculo("Paulo", new Date());
+		curriculo = new Researcher("Paulo", new Date());
 	}
 	
 	@Test

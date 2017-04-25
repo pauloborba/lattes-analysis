@@ -21,9 +21,9 @@
 FROM
     lattes.orientation b
         INNER JOIN
-    lattes.curriculo_orientation co ON b.id = co.orientations_id
+    lattes.researcher_orientation co ON b.id = co.orientations_id
         INNER JOIN
-    lattes.curriculo c ON c.id = co.Curriculo_id
+    lattes.researcher c ON c.id = co.researcher_id
 WHERE
 	b.TipoOrientacao = 'ORIENTACAO_INICIACAO_CIENTIFICA' and
     (CASE WHEN $P{parametroDataInicio} IS NOT NULL AND $P{parametroDataFim} IS NOT NULL
@@ -31,9 +31,9 @@ WHERE
 FROM
     lattes.orientation b
         INNER JOIN
-    lattes.curriculo_orientation co ON b.id = co.orientations_id
+    lattes.researcher_orientation co ON b.id = co.orientations_id
         INNER JOIN
-    lattes.curriculo c ON c.id = co.Curriculo_id
+    lattes.researcher c ON c.id = co.researcher_id
 WHERE
 	b.TipoOrientacao = 'ORIENTACAO_INICIACAO_CIENTIFICA' and
     (CASE WHEN $P{parametroDataInicio} IS NOT NULL AND $P{parametroDataFim} IS NOT NULL

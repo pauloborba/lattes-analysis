@@ -1,13 +1,17 @@
 package com.pa.bean;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
 import org.primefaces.model.DefaultTreeNode;
@@ -17,15 +21,18 @@ import org.primefaces.model.TreeNode;
 import com.pa.analyzer.GroupAnalyzer;
 import com.pa.analyzer.GroupResult;
 import com.pa.comparator.ComparationVO;
-import com.pa.comparator.SetCurriculoResult;
+import com.pa.comparator.SetResearcherResult;
 import com.pa.database.impl.DatabaseFacade;
 import com.pa.entity.Group;
 import com.pa.entity.Orientation;
 import com.pa.entity.Publication;
 import com.pa.entity.QualisData;
 import com.pa.entity.TechnicalProduction;
+import com.pa.manager.RelatorioManager;
 import com.pa.util.EnumPublicationLocalType;
 import com.pa.util.EnumQualisClassification;
+
+import net.sf.jasperreports.engine.JRException;
 
 @ManagedBean(name = "relatorioBean")
 @ViewScoped
@@ -41,8 +48,13 @@ public class RelatorioBean {
 
 	private QualisData selectedQualisDataConference;
 	private QualisData selectedQualisDataPeriodic;
+	
+	private String data1;
+	private String data2;
 
 	private TreeNode root = null;
+	private RelatorioManager relatorioManager;
+	private FacesContext context;
 	
 	@PostConstruct
 	public void init() {
@@ -59,6 +71,11 @@ public class RelatorioBean {
 		qualisDataPeriodic = DatabaseFacade.getInstance().listAllQualisData(examplePeriodic);
 
 		groups = new DualListModel<Group>(groupsFromDatabase, groupsTarget);
+		
+		relatorioManager = new RelatorioManager();
+		
+		data1 = "";
+		data2 = "";
 	}
 
 	public void comparar(ActionEvent actionEvent) {
@@ -88,7 +105,7 @@ public class RelatorioBean {
 		qualisDataMap.put(EnumPublicationLocalType.PERIODIC, selectedQualisDataPeriodic);
 		qualisDataMap.put(EnumPublicationLocalType.CONFERENCE, selectedQualisDataConference);
 
-		SetCurriculoResult gR = GroupAnalyzer.getInstance().analyzerGroup(group, qualisDataMap);
+		SetResearcherResult gR = GroupAnalyzer.getInstance().analyzerGroup(group, qualisDataMap);
 
 		// conferencias
 		if (checkQualisDataConference) {
@@ -112,6 +129,7 @@ public class RelatorioBean {
 		qualisDataMap.put(EnumPublicationLocalType.CONFERENCE, selectedQualisDataConference);
 
 		GroupResult groupResult = GroupAnalyzer.getInstance().groupResult(group, qualisDataMap);
+		
 
 		if (checkQualisDataConference) {
 			putPublicationsFromConference(mapTypeByNode, groupResult);
@@ -126,6 +144,14 @@ public class RelatorioBean {
 			putValuesFromTechinicalProduction(mapTypeByNode, groupResult);
 		}
 		
+		try {
+			context = FacesContext.getCurrentInstance();
+			relatorioManager.gerarRelatorioLattes(data1, data2, qualisDataMap);
+			System.out.println("Fim...");
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Relatório gerando com sucesso, local:" + System.getProperty("user.home") + "//", null) );
+		} catch (JRException | SQLException | IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private void putValuesFromTechinicalProduction(Map<String, TreeNode> mapTypeByNode, GroupResult gR) {
@@ -281,7 +307,7 @@ public class RelatorioBean {
 
 	}
 
-	private void putValuesFromOrientations(Map<String, TreeNode> mapTypeByNode, SetCurriculoResult gR) {
+	private void putValuesFromOrientations(Map<String, TreeNode> mapTypeByNode, SetResearcherResult gR) {
 		TreeNode orientations = null;
 
 		if (!mapTypeByNode.containsKey("orientations")) {
@@ -326,7 +352,7 @@ public class RelatorioBean {
 		}
 	}
 
-	private void putValuesFromPeriodics(Map<String, TreeNode> mapTypeByNode, SetCurriculoResult gR) {
+	private void putValuesFromPeriodics(Map<String, TreeNode> mapTypeByNode, SetResearcherResult gR) {
 		TreeNode periodics = null;
 
 		if (!mapTypeByNode.containsKey("periodics")) {
@@ -361,7 +387,7 @@ public class RelatorioBean {
 		}
 	}
 
-	private void putValuesFromConference(Map<String, TreeNode> mapTypeByNode, SetCurriculoResult gR) {
+	private void putValuesFromConference(Map<String, TreeNode> mapTypeByNode, SetResearcherResult gR) {
 		TreeNode conferences = null;
 
 		if (!mapTypeByNode.containsKey("conferences")) {
@@ -467,5 +493,22 @@ public class RelatorioBean {
 	public void setRoot(TreeNode root) {
 		this.root = root;
 	}
+	
+	public String getData1() {
+		return data1;
+	}
+
+	public void setData1(String data1) {
+		this.data1 = data1;
+	}
+
+	public String getData2() {
+		return data2;
+	}
+
+	public void setData2(String data2) {
+		this.data2 = data2;
+	}
+
 
 }

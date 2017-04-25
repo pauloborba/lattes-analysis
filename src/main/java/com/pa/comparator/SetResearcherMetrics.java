@@ -9,33 +9,33 @@ import org.hibernate.boot.model.relational.Database;
 import com.pa.analyzer.CurriculoAnalyzer;
 import com.pa.analyzer.CurriculoResult;
 import com.pa.database.impl.DatabaseFacade;
-import com.pa.entity.Curriculo;
+import com.pa.entity.Researcher;
 import com.pa.entity.Group;
 import com.pa.entity.Publication;
 import com.pa.entity.QualisData;
 import com.pa.util.EnumPublicationLocalType;
 import com.pa.util.EnumQualisClassification;
 
-public class SetCurriculoMetrics {
+public class SetResearcherMetrics {
 
-	private static SetCurriculoMetrics instance = null;
+	private static SetResearcherMetrics instance = null;
 	
-	private SetCurriculoMetrics() {}
+	private SetResearcherMetrics() {}
 	
-	public static SetCurriculoMetrics getInstance() {
+	public static SetResearcherMetrics getInstance() {
 		if(instance == null) {
-			instance = new SetCurriculoMetrics();
+			instance = new SetResearcherMetrics();
 		}
 		
 		return instance;
 	}
 	
-	public SetCurriculoResult calculateMetrics(Group group, Map<EnumPublicationLocalType, QualisData> qualisDataMap) {
+	public SetResearcherResult calculateMetrics(Group group, Map<EnumPublicationLocalType, QualisData> qualisDataMap) {
 		Map<EnumPublicationLocalType, Map<EnumQualisClassification, Double>> mapQualis = this.initiMapQualis();
 		Double concludedOrientations = 0.0;
 		Double onGoingOrientations = 0.0;
 		
-		for (Curriculo curriculo : group.getCurriculos()) {
+		for (Researcher curriculo : group.getCurriculos()) {
 			
 			CurriculoResult result = CurriculoAnalyzer.getInstance().analyzerCurriculo(curriculo, qualisDataMap);
 			
@@ -50,7 +50,7 @@ public class SetCurriculoMetrics {
 		concludedOrientations = concludedOrientations/size;
 		onGoingOrientations = onGoingOrientations/size;
 		
-		SetCurriculoResult setResult = new SetCurriculoResult();
+		SetResearcherResult setResult = new SetResearcherResult();
 		setResult.setAverageConferencesByQualis(mapQualis.get(EnumPublicationLocalType.CONFERENCE));
 		setResult.setAveragePeriodicsByQualis(mapQualis.get(EnumPublicationLocalType.PERIODIC));
 		setResult.setConcludedOrientations(concludedOrientations);

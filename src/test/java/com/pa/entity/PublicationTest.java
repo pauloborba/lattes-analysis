@@ -31,7 +31,7 @@ public class PublicationTest {
 	
 	@Test
 	public void whenCreatePublicationThenYearShouldNotBeZero() {
-		assertNotEquals(0, publication.getYear());
+		assertNotEquals("0", publication.getYear());
 	}
 	
 	@Test

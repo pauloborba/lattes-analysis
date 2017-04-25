@@ -5,18 +5,19 @@ import org.hibernate.HibernateException;
 import org.hibernate.criterion.Restrictions;
 
 import com.pa.database.GenericDAO;
-import com.pa.entity.Curriculo;
+import com.pa.entity.Author;
+import com.pa.entity.Researcher;
 import com.pa.entity.Publication;
 
-class CurriculoDAO extends GenericDAO<Curriculo, Long> {
+class ResearcherDAO extends GenericDAO<Researcher, Long> {
 
-	public CurriculoDAO(Class<Curriculo> objectClass) {
+	public ResearcherDAO(Class<Researcher> objectClass) {
 		super(objectClass);
 	}
 	
 
 	@Override
-	public Curriculo save(Curriculo x) throws HibernateException {
+	public Researcher save(Researcher x) throws HibernateException {
 		PublicationDAO pDAO = new PublicationDAO(Publication.class);
 		
 		if(x.getPublications()!=null && !x.getPublications().isEmpty()) {
@@ -28,20 +29,20 @@ class CurriculoDAO extends GenericDAO<Curriculo, Long> {
 		return super.save(x);
 	}
 	
-	public Curriculo getCurriculoByName(String name) throws HibernateException {
+	public Researcher getCurriculoByName(String name) throws HibernateException {
 
-		Criteria criteria = createCriteria(Curriculo.class);
+		Criteria criteria = createCriteria(Researcher.class);
 
 		criteria.add(Restrictions.eq("name", name));
 
-		Curriculo curriculo = (Curriculo) criteria.uniqueResult();
+		Researcher curriculo = (Researcher) criteria.uniqueResult();
 		
 		return curriculo;
 	}
 	
 	@Override
-	protected Class<Curriculo> getEntityKlass() {
-		return Curriculo.class;
+	protected Class<Researcher> getEntityKlass() {
+		return Researcher.class;
 	}
 
 }

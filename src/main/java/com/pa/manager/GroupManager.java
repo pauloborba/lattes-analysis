@@ -5,12 +5,12 @@ import java.util.List;
 import java.util.Set;
 
 import com.pa.database.impl.DatabaseFacade;
-import com.pa.entity.Curriculo;
+import com.pa.entity.Researcher;
 import com.pa.entity.Group;
 
 public class GroupManager {
 	public Group createGroups(String groupName, List<Group> groups) {
-		Set<Curriculo> curriculos = new HashSet<Curriculo>(); 
+		Set<Researcher> curriculos = new HashSet<Researcher>(); 
 		
 		// Avoid duplicate curriculos inside same group
 		for (Group group : groups) {

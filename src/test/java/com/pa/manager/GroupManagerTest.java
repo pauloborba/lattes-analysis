@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.pa.database.util.HibernateUtil;
-import com.pa.entity.Curriculo;
+import com.pa.entity.Researcher;
 import com.pa.entity.Group;
 import com.pa.manager.GroupManager;
 
@@ -29,19 +29,19 @@ public class GroupManagerTest {
 	static public void createGroups() {
 		HibernateUtil.createSessionFactory("hibernateTest.cfg.xml");
 		
-		Curriculo nielson = new Curriculo("Nielson", new Date());
+		Researcher nielson = new Researcher("Nielson", new Date());
 		nielson.setId((long) 123456);
-		Curriculo fernando = new Curriculo("Fernando", new Date());
+		Researcher fernando = new Researcher("Fernando", new Date());
 		fernando.setId((long) 456789);
-		Curriculo jessica = new Curriculo("Jéssica", new Date());
+		Researcher jessica = new Researcher("Jéssica", new Date());
 		jessica.setId((long) 456123);
-		Curriculo tiago = new Curriculo("Tiago", new Date());
+		Researcher tiago = new Researcher("Tiago", new Date());
 		tiago.setId((long) 456123);
-		Curriculo juana = new Curriculo("Juana", new Date());
+		Researcher juana = new Researcher("Juana", new Date());
 		juana.setId((long) 951236);
-		Curriculo marcio = new Curriculo("Márcio", new Date());
+		Researcher marcio = new Researcher("Márcio", new Date());
 		marcio.setId((long) 456896);
-		Curriculo alexandre = new Curriculo("Alexandre", new Date());
+		Researcher alexandre = new Researcher("Alexandre", new Date());
 		alexandre.setId((long) 985623);
 		
 		factoryFloor.getCurriculos().add(nielson);

@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.pa.database.impl.DatabaseFacade;
-import com.pa.entity.Curriculo;
+import com.pa.entity.Researcher;
 import com.pa.entity.Group;
 import com.pa.entity.Publication;
 import com.pa.entity.PublicationType;
@@ -30,7 +30,7 @@ public class PersistTest {
 		Group grupo1 = new Group("Grupo 3");
 		
 		
-		Curriculo lattes = new Curriculo();
+		Researcher lattes = new Researcher();
 		lattes.setLastUpdate(new Date());
 		lattes.setCountConcludedOrientations(5);
 		lattes.setCountOnGoingOrientations(5);

@@ -5,13 +5,13 @@ import java.util.Map;
 
 import com.pa.util.EnumQualisClassification;
 
-public class SetCurriculoResult {
+public class SetResearcherResult {
 	private Map<EnumQualisClassification, Double> averageConferencesByQualis;
 	private Map<EnumQualisClassification, Double> averagePeriodicsByQualis;
 	private Double concludedOrientations;
 	private Double onGoingOrientations;
 	
-	public SetCurriculoResult() {
+	public SetResearcherResult() {
 		this.averageConferencesByQualis = new HashMap<EnumQualisClassification, Double>();
 		this.averagePeriodicsByQualis = new HashMap<EnumQualisClassification, Double>();
 		this.concludedOrientations = 0.0;
