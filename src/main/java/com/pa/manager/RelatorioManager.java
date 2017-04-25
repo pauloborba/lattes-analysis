@@ -24,6 +24,7 @@ import com.pa.entity.Chapter;
 import com.pa.entity.Publication;
 import com.pa.entity.QualisData;
 import com.pa.util.EnumPublicationLocalType;
+import com.pa.util.LattesAnalysisUtil;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -42,6 +43,8 @@ public class RelatorioManager implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	private static final Double PERCENTAGE_SIMILARITY_TITLE = 0.90;
 
 	private final String ENDERECO_RELATORIOS_LATTES = "/iReportLattes.jrxml";
 	private final String ENDERECO_RELATORIOS_LATTES_ORIENTATIONS_MESTRADO_ANDAMENTO = "/iReportLattesOrientationsAndamentoMestrado.jrxml";
@@ -112,38 +115,48 @@ public class RelatorioManager implements Serializable {
 
 	public void gerarRelatorioLattes(String dataDeInicioParametter, String dataDeFimParametter,
 			Map<EnumPublicationLocalType, QualisData> qualisDataMap) throws JRException, SQLException, IOException {
-		this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES,
-				this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter));
-		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO);
+		
+//		gerarRelatoriolattes(dataDeInicioParametter, dataDeFimParametter, qualisDataMap);
 
-		this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_ORIENTATIONS_DOUTORADO_ANDAMENTO,
-				this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter));
-		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO_ORIENTATIONS_DOUTORADO_ANDAMENTO);
-
-		this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_ORIENTATIONS_DOUTORADO_CONCLUIDA,
-				this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter));
-		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO_ORIENTATIONS_DOUTORADO_CONCLUIDO);
-
-		this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_ORIENTATIONS_MESTRADO_ANDAMENTO,
-				this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter));
-		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO_ORIENTATIONS_MESTRADO_ANDAMENTO);
-
-		this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_ORIENTATIONS_MESTRADO_CONCLUIDA,
-				this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter));
-		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO_ORIENTATIONS_MESTRADO_CONCLUIDA);
-
-		this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_ORIENTATIONS_INICIACAO_CIENTIFICA,
-				this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter));
-		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO_ORIENTATIONS_INICIACAO_CIENTIFICA);
-
-		gerarRelatorioLivros(dataDeInicioParametter, dataDeFimParametter);
-
-		gerarRelatorioCapitulos(dataDeInicioParametter, dataDeFimParametter);
-
+//		this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_ORIENTATIONS_DOUTORADO_ANDAMENTO,
+//				this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter));
+//		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO_ORIENTATIONS_DOUTORADO_ANDAMENTO);
+//
+//		this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_ORIENTATIONS_DOUTORADO_CONCLUIDA,
+//				this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter));
+//		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO_ORIENTATIONS_DOUTORADO_CONCLUIDO);
+//
+//		this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_ORIENTATIONS_MESTRADO_ANDAMENTO,
+//				this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter));
+//		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO_ORIENTATIONS_MESTRADO_ANDAMENTO);
+//
+//		this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_ORIENTATIONS_MESTRADO_CONCLUIDA,
+//				this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter));
+//		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO_ORIENTATIONS_MESTRADO_CONCLUIDA);
+//
+//		this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES_ORIENTATIONS_INICIACAO_CIENTIFICA,
+//				this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter));
+//		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO_ORIENTATIONS_INICIACAO_CIENTIFICA);
+//
+//		gerarRelatorioLivros(dataDeInicioParametter, dataDeFimParametter);
+//
+//		gerarRelatorioCapitulos(dataDeInicioParametter, dataDeFimParametter);
+//
 		gerarRelatorioConferencias(dataDeInicioParametter, dataDeFimParametter, qualisDataMap);
 
 		gerarRelatorioPeriodicos(dataDeInicioParametter, dataDeFimParametter, qualisDataMap);
 
+	}
+
+	private void gerarRelatoriolattes(String dataDeInicioParametter, String dataDeFimParametter,
+			Map<EnumPublicationLocalType, QualisData> qualisDataMap) throws JRException, IOException, SQLException {
+		this.compilar(ENDERECO_RELATORIOS_LATTES);
+		this.coll = new JRBeanCollectionDataSource(obterListConferencias(dataDeInicioParametter, dataDeFimParametter, qualisDataMap), false);
+		this.printReport = JasperFillManager.fillReport(this.pathjrxml, this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter), coll);
+		
+		//this.compilarRelatorio(ENDERECO_RELATORIOS_LATTES, this.parametrizarConsulta(dataDeInicioParametter, dataDeFimParametter));
+		this.gerarHtmlDoRelatorio(ENDERECO_DIRETORIO_RELATORIOS, NOME_DO_ARQUIVO);
+		
 	}
 
 	private void gerarRelatorioLivros(String dataDeInicioParametter, String dataDeFimParametter)
@@ -262,7 +275,7 @@ public class RelatorioManager implements Serializable {
 
 	private boolean validarDuplicatasPublicacoes(Publication p, List<Publication> publicationsReport) {
 		for (Publication publication : publicationsReport) {
-			if (publication.getTitle().toUpperCase().equalsIgnoreCase(p.getTitle().toUpperCase())) {
+			if (LattesAnalysisUtil.computeStringSimilarity(publication.getTitle().toUpperCase(), p.getTitle().toUpperCase()) >= PERCENTAGE_SIMILARITY_TITLE) {
 				return false;
 			}
 		}

@@ -2,19 +2,18 @@ package com.pa.associator;
 
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.pa.entity.Publication;
 import com.pa.entity.PublicationType;
 import com.pa.entity.Qualis;
 import com.pa.entity.QualisData;
 import com.pa.util.EnumPublicationLocalType;
 import com.pa.util.EnumQualisClassification;
+import com.pa.util.LattesAnalysisUtil;
 
 public class QualisAssociatorService {
 
 	private static QualisAssociatorService _instance = null;
-	private static final Double PERCENTAGE_SIMILARITY = 0.75;
+	private static final Double PERCENTAGE_SIMILARITY_CONFERENCE_NAME = 0.60;
 	
 	private QualisAssociatorService() {}
 	
@@ -49,7 +48,7 @@ public class QualisAssociatorService {
 							qualisClassification = qualis.getClassification();
 							break;
 						}
-						else if (computeStringSimilarity(qualis.getName(),publication.getPublicationType().getName()) >= PERCENTAGE_SIMILARITY) {
+						else if (LattesAnalysisUtil.computeStringSimilarity(qualis.getName(),publication.getPublicationType().getName()) >= PERCENTAGE_SIMILARITY_CONFERENCE_NAME) {
 							qualisClassification = qualis.getClassification();
 							break;
 						}
@@ -59,22 +58,6 @@ public class QualisAssociatorService {
 		}
 		
 		return qualisClassification;
-	}
-	
-	public static double computeStringSimilarity(String first,String second) {
-		@SuppressWarnings("unused")
-		String longer = first, shorter = second;
-		if (first.length() < second.length()) { // longer should always have greater length
-			longer = second; 
-			shorter= first;
-		}
-		int longerLength = longer.length();
-		if (longerLength == 0) {
-			return 1.0; /* both strings are zero length */ 
-		}
-
-		int levenshteinDistance = StringUtils.getLevenshteinDistance(first, second);
-		return ((longerLength - levenshteinDistance)/(double) longerLength);
 	}
 	
 }
